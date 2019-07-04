@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +20,7 @@ public class UserAccessServiceImpl implements UserAccessService {
 
 
     EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Users");
+    @PersistenceContext
     EntityManager em = entityManagerFactory.createEntityManager();
 
     private static final Logger LOG = LoggerFactory.getLogger(UserAccessServiceImpl.class);
@@ -38,6 +40,7 @@ public class UserAccessServiceImpl implements UserAccessService {
     }
 
     @Override
+    @Transactional
     public boolean registrationUser(String login, String password, String address) {
 
         em.persist(new User(login, password, address));

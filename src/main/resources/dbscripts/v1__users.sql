@@ -9,5 +9,4 @@ create table USERS(
     wallet_score number(10,2),
     discount number(3,0)
 );
-insert into "USERS"(login ,password, address) values ('user','1234','mail');
-
+insert into "USERS"(login ,password, address) values ('user', '1234', 'mail');

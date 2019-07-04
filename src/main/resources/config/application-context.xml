@@ -45,37 +45,19 @@
         <property name="username" value="sa" />
         <property name="password" value="1234" />
     </bean>
-    <!--
+
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
 	depends-on="flyway">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan">
-            <list>
-                <value>com.accenture.flowershop.be.entity.*</value>
-            </list>
-        </property>
-        <property name="jpaVendorAdapter">
-        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-            <property name="database" value="ORACLE" />
-             <property name="generateDdl" value="false"/>
-             <property name="showSql" value="true"/>
-        </bean>
-        </property>
-        <property name="jpaDialect">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
-        </property>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
-	            <prop key="hibernate.show_sql">true</prop>
-            </props>
-        </property>
+
     </bean>
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
+
+    <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>-->
+    </bean>
 
     <tx:annotation-driven/>
+
+
 
 </beans>
 

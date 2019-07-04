@@ -26,9 +26,9 @@ public class User implements Serializable {
     @Column (name = "PHONE")
     private String phone;
     @Column (name = "WALLET_SCORE")
-    private double wallet_score;
+    private Double wallet_score;
     @Column (name = "DISCOUNT")
-    private int discount;
+    private Integer discount;
 
     public User(){
 
@@ -96,19 +96,19 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public double getWallet_score() {
+    public Double getWallet_score() {
         return wallet_score;
     }
 
-    public void setWallet_score(double wallet_score) {
+    public void setWallet_score(Double wallet_score) {
         this.wallet_score = wallet_score;
     }
 
-    public int getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 }
