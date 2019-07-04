@@ -4,22 +4,26 @@ import be.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-
+@Service
 @Component
 public class UserAccessServiceImpl implements UserAccessService {
 
-    Map<String, User> userStorage;
+    //Map<String, User> userStorage;
+
+    @PersistenceContext
+    EntityManager em;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserAccessServiceImpl.class);
 
     public UserAccessServiceImpl() {
 
-        userStorage = new HashMap<>();
-        userStorage.put("user", new User("user", "1234", "user@mail.com"));
+        /*userStorage = new HashMap<>();
+        userStorage.put("user", new User("user", "1234", "user@mail.com"));*/
         LOG.info("NOTIFICATION::"+this.getClass()+" IS CREATED.");
     }
 
@@ -36,7 +40,10 @@ public class UserAccessServiceImpl implements UserAccessService {
     @Override
     public boolean registrationUser(String login, String password, String address) {
 
-        if(userStorage.get(login) == null){
+        em.persist(new User(login, password, address));
+        em.flush();
+        return true;
+        /*if(userStorage.get(login) == null){
             User newUser = new User(login, password, address);
             newUser.setWallet_score(2000);
             newUser.setDiscount(0);
@@ -44,5 +51,7 @@ public class UserAccessServiceImpl implements UserAccessService {
             return true;
         }
         return false;
+         */
+
     }
 }

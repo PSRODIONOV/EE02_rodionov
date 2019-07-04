@@ -1,17 +1,36 @@
 package be.entity;
 
+import javax.persistence.Column;
+import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "USERS")
 public class User {
 
+    @Id
     private String login;
+    @Column(name = "PASSWORD")
     private String password;
+    @Column (name = "LAST_NAME")
     private String last_name;
+    @Column (name = "FIRST_NAME")
     private String first_name;
+    @Column (name = "SECOND_NAME")
     private String second_name;
+    @Column (name = "ADDRESS")
     private String address;
+    @Column (name = "PHONE")
     private String phone;
+    @Column (name = "WALLET_SCORE")
     private double wallet_score;
+    @Column (name = "DISCOUNT")
     private int discount;
+
+    public User(){
+
+    };
 
     public User(String login, String password, String address){
         this.login = login;

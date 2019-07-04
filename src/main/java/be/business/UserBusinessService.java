@@ -1,6 +1,5 @@
 package be.business;
 
-import be.entity.User;
 
 public interface UserBusinessService {
 

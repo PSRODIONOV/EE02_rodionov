@@ -11,9 +11,7 @@ public class Application /*extends SpringBootServletInitializer */{
         //SpringApplication.run(Application.class, args);
         ApplicationContext context = new ClassPathXmlApplicationContext("config/application-context.xml");
         UserBusinessService ubs = (UserBusinessService)context.getBean("UserBusinessService");
-        while(true){
 
-        }
     }
 
 }
