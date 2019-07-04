@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 @Service
@@ -15,8 +17,9 @@ public class UserAccessServiceImpl implements UserAccessService {
 
     //Map<String, User> userStorage;
 
-    @PersistenceContext
-    EntityManager em;
+
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Users");
+    EntityManager em = entityManagerFactory.createEntityManager();
 
     private static final Logger LOG = LoggerFactory.getLogger(UserAccessServiceImpl.class);
 
@@ -30,11 +33,8 @@ public class UserAccessServiceImpl implements UserAccessService {
     @Override
     public User getUserByLogin(String login) {
 
-        User findUser;
-        if((findUser = userStorage.get(login)) != null){
-            return findUser;
-        }
-        return null;
+        User findUser = em.find(User.class, login);
+        return findUser;
     }
 
     @Override

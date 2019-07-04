@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="com.accenture.flowershop flowershop.be.entity"/>
+    <context:component-scan base-package="com.accenture.flowershop com.accenture.flowershop.be.entity"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
 
     <bean name = "UserAccessService" class = "be.access.UserAccessServiceImpl"/>
@@ -45,12 +45,13 @@
         <property name="username" value="sa" />
         <property name="password" value="1234" />
     </bean>
+    <!--
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
 	depends-on="flyway">
-        <property name="dataSource" ref="dataSource"/> <!-- reference to datasource bean-->
+        <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>flowershop.be.entity.*</value>
+                <value>com.accenture.flowershop.be.entity.*</value>
             </list>
         </property>
         <property name="jpaVendorAdapter">
@@ -72,7 +73,8 @@
     </bean>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
         <property name="entityManagerFactory" ref="entityManagerFactory" />
-    </bean>
+    </bean>-->
+
     <tx:annotation-driven/>
 
 </beans>

@@ -1,15 +1,17 @@
 package be.entity;
 
 import javax.persistence.Column;
-import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User implements Serializable {
 
     @Id
+    @Column(name = "LOGIN")
     private String login;
     @Column(name = "PASSWORD")
     private String password;
