@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface OrderBusinessService {
 
-    public void addOrder(Flower flower);
-    public void updateOrder(Flower flower);
-    public void searchOrder(String key, String value);
-    public void removeOrder(long id);
-    public List<Flower> getAllMyOrders();
+   void addOrder(Flower flower);
+   void updateOrder(Flower flower);
+   void searchOrder(String key, String value);
+   void removeOrder(long id);
+   List<Flower> getAllMyOrders();
 }

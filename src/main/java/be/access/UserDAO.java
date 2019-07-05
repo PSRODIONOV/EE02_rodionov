@@ -2,7 +2,7 @@ package be.access;
 
 import be.entity.User;
 
-public interface UserAccessService {
+public interface UserDAO {
 
     User getUserByLogin(String login);
     boolean registrationUser(String login, String password, String address);

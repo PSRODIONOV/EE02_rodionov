@@ -1,19 +1,19 @@
 package be.business;
 
-import be.access.OrderAccessService;
+import be.access.OrderDAO;
 import be.entity.Flower;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Autowired
-    public OrderAccessService oas;
+    public OrderDAO oas;
 
     private static final Logger LOG = LoggerFactory.getLogger(OrderBusinessServiceImpl.class);
 

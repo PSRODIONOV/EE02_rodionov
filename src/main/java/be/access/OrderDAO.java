@@ -5,7 +5,7 @@ import be.entity.User;
 
 import java.util.List;
 
-public interface OrderAccessService {
+public interface OrderDAO {
 
     void addFlower(Flower flower);
     void updateFlower(Flower flower);

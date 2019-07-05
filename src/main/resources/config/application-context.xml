@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans
+       xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jee="http://www.springframework.org/schema/jee"
@@ -18,8 +19,9 @@
     <context:component-scan base-package="com.accenture.flowershop com.accenture.flowershop.be.entity"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
 
-    <bean name = "UserAccessService" class = "be.access.UserAccessServiceImpl"/>
-    <bean name = "OrderAccessService" class = "be.access.OrderAccessServiceImpl"/>
+
+    <bean name = "UserDAO" class = "be.access.UserDAOImpl"/>
+    <bean name = "OrderDAO" class = "be.access.OrderDAOImpl"/>
     <bean name = "UserBusinessService" class = "be.business.UserBusinessServiceImpl"/>
     <bean name = "OrderBusinessService" class = "be.business.OrderBusinessServiceImpl"/>
 
@@ -38,6 +40,7 @@
         <property name="placeholderPrefix" value="@{"/>
         <property name="placeholderSuffix" value="}"/>
     </bean>
+
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver" />
@@ -47,8 +50,17 @@
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-	depends-on="flyway">
-
+          depends-on="flyway">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+            </props>
+        </property>
     </bean>
 
     <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
@@ -56,8 +68,6 @@
     </bean>
 
     <tx:annotation-driven/>
-
-
 
 </beans>
 

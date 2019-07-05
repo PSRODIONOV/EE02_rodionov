@@ -4,17 +4,17 @@ import be.entity.Flower;
 import be.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
-@Component
-public class OrderAccessServiceImpl implements OrderAccessService {
+@Repository
+public class OrderDAOImpl implements OrderDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OrderAccessServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OrderDAOImpl.class);
 
-    public OrderAccessServiceImpl() {
+    public OrderDAOImpl() {
 
         LOG.info("NOTIFICATION::"+this.getClass()+" IS CREATED");
     }

@@ -1,18 +1,38 @@
 package be.entity;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "FLOWERS")
 public class Flower {
 
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
+    @SequenceGenerator(name = "cust", sequenceName = "flower_seq")
+    private String id_flower;
+    @Column(name = "NAME_FLOWER")
+    private String name_flower;
+    @Column(name = "PRICE")
     private double price;
-    private int number;
+    @Column(name = "QUANTITY")
+    private int quantity;
 
-    public String getName() {
-        return name;
+    public Flower(){};
+
+    public String getId_flower() {
+        return id_flower;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId_flower(String id_flower) {
+        this.id_flower = id_flower;
+    }
+
+    public String getName_flower() {
+        return name_flower;
+    }
+
+    public void setName_flower(String name_flower) {
+        this.name_flower = name_flower;
     }
 
     public double getPrice() {
@@ -23,11 +43,11 @@ public class Flower {
         this.price = price;
     }
 
-    public int getNumber() {
-        return number;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

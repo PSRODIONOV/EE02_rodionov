@@ -1,5 +1,6 @@
-package be.business;
+package fe;
 
+import be.business.UserBusinessServiceImpl;
 import be.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -40,30 +41,19 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
-        if(ubs.login(login, password)) {
-            User currentUser = (User) session.getAttribute("user");
-            try {
-                if (currentUser == null) {
-                    currentUser = ubs.getCurrentUser();
-                    session.setAttribute("user", currentUser);
-                }
-                else {
-                    session.removeAttribute("user");
-                    throw new ServletException("You shall not pass!");
-                }
-
-            }
-            finally {
-
-            }
+        User currentUser;
+        if((currentUser = ubs.login(login, password)) != null) {
+            session.setAttribute("user", currentUser);
         }
-        else
-            pw.println("<h1> Invalid login or password.</h1>");
-        LOG.info("USER "+ session.getAttribute("user")+" LOGGED IN.");
-        req.setAttribute("name", ubs.getCurrentUser().getLogin());
-        req.setAttribute("address", ubs.getCurrentUser().getAddress());
-        req.setAttribute("wallet_score", ubs.getCurrentUser().getWallet_score());
-        req.setAttribute("discount", ubs.getCurrentUser().getDiscount());
+        else {
+            throw new ServletException("You shall not pass!");
+        }
+
+        LOG.info("USER "+ session.getAttribute("user") + " LOGGED IN.");
+        req.setAttribute("name", currentUser.getLogin());
+        req.setAttribute("address", currentUser.getAddress());
+        req.setAttribute("wallet_score", currentUser.getWallet_score());
+        req.setAttribute("discount", currentUser.getDiscount());
         req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
 
     }
