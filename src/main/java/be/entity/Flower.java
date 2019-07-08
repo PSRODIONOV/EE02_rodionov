@@ -1,6 +1,7 @@
 package be.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "FLOWERS")
@@ -8,22 +9,25 @@ public class Flower {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
-    @SequenceGenerator(name = "cust", sequenceName = "flower_seq")
-    private String id_flower;
+    @SequenceGenerator(name = "cust", sequenceName = "seq_flower")
+    private Long id_flower;
     @Column(name = "NAME_FLOWER")
     private String name_flower;
     @Column(name = "PRICE")
     private double price;
     @Column(name = "QUANTITY")
-    private int quantity;
+    private Long quantity;
+    @Embedded
+    @ManyToMany(mappedBy = "ORDER")
+    private Set<Order> orders;
 
     public Flower(){};
 
-    public String getId_flower() {
+    public Long getId_flower() {
         return id_flower;
     }
 
-    public void setId_flower(String id_flower) {
+    public void setId_flower(Long id_flower) {
         this.id_flower = id_flower;
     }
 
@@ -43,11 +47,11 @@ public class Flower {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 }

@@ -1,16 +1,17 @@
 package be.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
+    @SequenceGenerator(name = "cust", sequenceName = "seq_user")
+    private String id_user;
     @Column(name = "LOGIN")
     private String login;
     @Column(name = "PASSWORD")
@@ -29,15 +30,24 @@ public class User implements Serializable {
     private Double wallet_score;
     @Column (name = "DISCOUNT")
     private Integer discount;
-
-    public User(){
-
-    };
+    @Embedded
+    @OneToMany
+    @JoinTable(name = "orders", joinColumns = @JoinColumn(name = "id_user"))
+    private Set<Order> orders;
+    public User(){};
 
     public User(String login, String password, String address){
         this.login = login;
         this.password = password;
         this.address = address;
+    }
+
+    public String getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
     }
 
     public String getLogin() {

@@ -8,6 +8,8 @@
         <!-- Entity classes -->
         <class>com.accenture.flowershop.be.entity.User</class>
         <class>com.accenture.flowershop.be.entity.Flower</class>
+        <class>com.accenture.flowershop.be.entity.Order</class>
+        <class>com.accenture.flowershop.be.entity.OrderPosition</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
             <property name="javax.persistence.jdbc.url"    value="jdbc:h2:~/flowershop" />

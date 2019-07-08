@@ -1,23 +1,37 @@
 package be.entity;
 
 import javax.persistence.*;
-import java.util.HashMap;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "ORDERS")
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
-    @SequenceGenerator(name = "cust", sequenceName = "order_seq")
-    private String id_order;
-    @OneToMany(fetch=FetchType.LAZY)
-    @JoinColumn(name = "id_user")
-    private User user;
+    @SequenceGenerator(name = "cust", sequenceName = "seq_order")
+    private Long id_order;
     @Embedded
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ORDER_X_FLOWER", joinColumns = {@JoinColumn(name = "id_order")},inverseJoinColumns = {@JoinColumn(name = "id_flower")})
-    private HashMap<Flower, Integer>  listItems;
-    @Column(name = "TOTAL_PRICE")
-    private double total_price;
+    @ManyToMany
+    @JoinTable(name = "ORDERPOSITION")
+    @JoinColumns({@JoinColumn(name = "id_order"), @JoinColumn(name = "id_flower")})
+    private Set<OrderPosition> orderPositions;
+
+    public Order(){};
+
+    public Long getId_order() {
+        return id_order;
+    }
+
+    public void setId_order(Long id_order) {
+        this.id_order = id_order;
+    }
+
+    public Set<OrderPosition> getOrderPositions() {
+        return orderPositions;
+    }
+
+    public void setOrderPositions(Set<OrderPosition> orderPositions) {
+        this.orderPositions = orderPositions;
+    }
 }
