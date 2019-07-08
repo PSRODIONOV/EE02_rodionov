@@ -16,15 +16,15 @@
         http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="com.accenture.flowershop com.accenture.flowershop.be.entity"/>
+    <context:component-scan base-package="be.business be.access be.entity"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
 
-
+<!--
     <bean name = "UserDAO" class = "be.access.UserDAOImpl"/>
     <bean name = "OrderDAO" class = "be.access.OrderDAOImpl"/>
     <bean name = "UserBusinessService" class = "be.business.UserBusinessServiceImpl"/>
     <bean name = "OrderBusinessService" class = "be.business.OrderBusinessServiceImpl"/>
-
+-->
 
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
         <property name="dataSource" ref="dataSource"/>     <!-- reference to datasource bean-->

@@ -16,7 +16,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     public OrderDAOImpl() {
 
-        LOG.info("NOTIFICATION::"+this.getClass()+" IS CREATED");
+        LOG.info(":::::::::"+this.getClass()+" IS CREATED::::::::: ");
     }
 
     @Override

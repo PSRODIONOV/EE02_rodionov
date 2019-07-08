@@ -19,7 +19,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     public OrderBusinessServiceImpl() {
 
-        LOG.info("NOTIFICATION::"+this.getClass()+" IS CREATED.");
+        LOG.info(":::::::::"+this.getClass()+" IS CREATED:::::::::");
     }
 
     @Override
