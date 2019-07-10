@@ -14,9 +14,9 @@ import javax.persistence.PersistenceContext;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Users");
+    //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Users");
     @PersistenceContext
-    EntityManager em = entityManagerFactory.createEntityManager();
+    EntityManager em;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
 
@@ -28,19 +28,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByLogin(String login) {
 
-        User findUser = em.find(User.class, login);
-        return findUser;
+        return em.find(User.class, login);
     }
 
     @Override
     @Transactional
-    public boolean registrationUser(String login, String password, String address) {
-
-        User newUser = new User(login, password, address);
-        newUser.setDiscount(0);
-        newUser.setWallet_score(2000.0);
+    public void registrationUser(User newUser) {
         em.persist(newUser);
         em.flush();
-        return true;
     }
 }

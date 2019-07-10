@@ -1,33 +1,40 @@
 package be.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
+
 
 @Embeddable
 public class KeyPos implements Serializable {
-    @Column(name = "id_order", nullable = false)
-    private Long id_order;
-    @Column (name = "id_flower", nullable = false)
-    private Long id_flower;
+
+    @ManyToOne
+    @JoinColumn(name = "id_order", nullable = false)
+    private Order order;
+    @OneToOne
+    @JoinColumn(name = "id_flower", nullable = false)
+    private Flower flower;
 
     public KeyPos(){};
 
-    public Long getId_order() {
-        return id_order;
+    public KeyPos(Order order, Flower flower){
+        this.order = order;
+        this.flower = flower;
     }
 
-    public void setId_order(Long id_order) {
-        this.id_order = id_order;
+    public Order getOrder() {
+        return order;
     }
 
-    public Long getId_flower() {
-        return id_flower;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public void setId_flower(Long id_flower) {
-        this.id_flower = id_flower;
+    public Flower getFlower() {
+        return flower;
     }
 
+    public void setFlower(Flower flower) {
+        this.flower = flower;
+    }
 
 }

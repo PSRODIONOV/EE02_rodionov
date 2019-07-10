@@ -2,24 +2,30 @@ package be.entity;
 
 import javax.persistence.*;
 
-@Embeddable
 @Entity
 @Table(name = "ORDERPOSITION")
+@IdClass(KeyPos.class)
 public class OrderPosition {
 
-    @EmbeddedId
-    private KeyPos key;
+    @Id
+    @AttributeOverrides({
+            @AttributeOverride(name = "order",
+                    column = @Column(name="id_order")),
+            @AttributeOverride(name = "flower",
+                    column = @Column(name="id_flower"))
+    })
+    private Order order;
+    private Flower flower;
+
     @Column(name = "quantity")
     private Long quantity;
 
+
     public OrderPosition(){};
 
-    public KeyPos getKey() {
-        return key;
-    }
-
-    public void setKey(KeyPos key) {
-        this.key = key;
+    public OrderPosition(KeyPos key){
+        order = key.getOrder();
+        flower = key.getFlower();
     }
 
     public Long getQuantity() {

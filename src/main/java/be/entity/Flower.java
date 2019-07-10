@@ -14,12 +14,9 @@ public class Flower {
     @Column(name = "NAME_FLOWER")
     private String name_flower;
     @Column(name = "PRICE")
-    private double price;
+    private Double price;
     @Column(name = "QUANTITY")
     private Long quantity;
-    @Embedded
-    @ManyToMany(mappedBy = "ORDER")
-    private Set<Order> orders;
 
     public Flower(){};
 
@@ -39,11 +36,11 @@ public class Flower {
         this.name_flower = name_flower;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

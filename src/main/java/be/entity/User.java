@@ -30,11 +30,9 @@ public class User implements Serializable {
     private Double wallet_score;
     @Column (name = "DISCOUNT")
     private Integer discount;
-    @Embedded
-    @OneToMany
-    @JoinTable(name = "orders", joinColumns = @JoinColumn(name = "id_user"))
+    @OneToMany(mappedBy = "user")
     private Set<Order> orders;
-    public User(){};
+    public User(){}
 
     public User(String login, String password, String address){
         this.login = login;

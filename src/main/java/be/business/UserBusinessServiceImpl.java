@@ -32,9 +32,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    public boolean registration(String login, String password, String address) {
+    public void registration(String login, String password, String address) {
 
-        return userDAO.registrationUser(login, password, address);
+        User user = new User(login, password, address);
+        user.setDiscount(0);
+        user.setWallet_score(2000.0);
+        userDAO.registrationUser(user);
     }
 
     @Override

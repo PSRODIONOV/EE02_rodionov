@@ -35,12 +35,13 @@ insert into "FLOWERS"(id_flower, name_flower, price, quantity) values (seq_flowe
 create table ORDERS(
 id_order number(10, 0),
 id_user number(10, 0),
+total_price number(10,0),
 primary key (id_order),
 foreign key (id_user) references users(id_user)
 );
 
-insert into "ORDERS" values(seq_order.nextval, 1);
-insert into "ORDERS" values(seq_order.nextval, 1);
+insert into "ORDERS" values(seq_order.nextval, 1, null);
+insert into "ORDERS" values(seq_order.nextval, 1, null);
 
 create table ORDERPOSITION(
 id_order number(10, 0),

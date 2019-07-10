@@ -6,6 +6,6 @@ import be.entity.User;
 public interface UserBusinessService {
 
     User login(String user, String password);
-    boolean registration(String user, String password, String address);
+    void registration(String user, String password, String address);
     void logout();
 }

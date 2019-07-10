@@ -16,7 +16,7 @@
         http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="be.business be.access be.entity"/>
+    <context:component-scan base-package="be.business be.access be.entity fe.servlet"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
 
 <!--

@@ -5,5 +5,5 @@ import be.entity.User;
 public interface UserDAO {
 
     User getUserByLogin(String login);
-    boolean registrationUser(String login, String password, String address);
+    void registrationUser(User newUser);
 }
