@@ -2,7 +2,7 @@ package be.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
@@ -31,7 +31,8 @@ public class User implements Serializable {
     @Column (name = "DISCOUNT")
     private Integer discount;
     @OneToMany(mappedBy = "user")
-    private Set<Order> orders;
+    private List<Order> orders;
+
     public User(){}
 
     public User(String login, String password, String address){
@@ -119,4 +120,9 @@ public class User implements Serializable {
     public void setDiscount(Integer discount) {
         this.discount = discount;
     }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
 }

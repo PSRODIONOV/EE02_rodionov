@@ -1,15 +1,14 @@
 package be.access;
 
-import be.entity.Flower;
-import be.entity.User;
-
+import be.entity.Order;
 import java.util.List;
 
 public interface OrderDAO {
 
-    void addFlower(Flower flower);
-    void updateFlower(Flower flower);
-    List<Flower> searchFlower(String key, String value);
-    void removeFlower(long id, User user);
-    List<Flower> getAllFlowers();
+    void addOrder(Order order);
+    void updateOrder(Order order);
+    Order getOrderById(Long id);
+    void delOrder(Order order);
+    void delOrderById(Long id);
+    List<Order> getAllOrders();
 }

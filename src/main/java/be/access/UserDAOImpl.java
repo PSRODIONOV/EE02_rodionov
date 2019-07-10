@@ -13,7 +13,7 @@ public class UserDAOImpl implements UserDAO {
 
     //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Users");
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
 

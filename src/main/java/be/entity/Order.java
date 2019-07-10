@@ -1,7 +1,5 @@
 package be.entity;
 
-import org.springframework.context.annotation.Lazy;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -18,12 +16,10 @@ public class Order {
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    //@OneToMany(fetch = FetchType.EAGER)
-    //@JoinTable(name = "ORDERPOSITION", joinColumns = {@JoinColumn(name = "id_order")}, inverseJoinColumns = {@JoinColumn(name = "id_order"), @JoinColumn(name = "id_flower")})
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<OrderPosition> orderPositions;
 
-    public Order(){};
+    public Order(){}
 
     public User getUser() {
         return user;

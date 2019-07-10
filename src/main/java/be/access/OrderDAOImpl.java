@@ -1,16 +1,22 @@
 package be.access;
 
-import be.entity.Flower;
-import be.entity.User;
+import be.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {
+
+    @PersistenceContext
+    EntityManager em;
 
     private static final Logger LOG = LoggerFactory.getLogger(OrderDAOImpl.class);
 
@@ -20,27 +26,43 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void addFlower(Flower flower) {
-
+    @Transactional
+    public void addOrder(Order order) {
+        em.persist(order);
+        em.flush();
     }
 
     @Override
-    public void updateFlower(Flower flower) {
-
+    public void updateOrder(Order order) {
+        em.merge(order);
+        em.flush();
     }
 
     @Override
-    public List<Flower> searchFlower(String key, String value) {
-        return null;
+    public Order getOrderById(Long id)
+    {
+        return em.find(Order.class, id);
     }
 
     @Override
-    public void removeFlower(long id, User user) {
+    public void delOrder(Order order) {
 
+        em.remove(order);
+        em.flush();
     }
 
     @Override
-    public List<Flower> getAllFlowers() {
-        return null;
+    public void delOrderById(Long id) {
+
+        em.remove(em.find(Order.class, id));
+        em.flush();
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+
+        TypedQuery<Order> q;
+        q = em.createQuery("select o from Order o", Order.class);
+        return q.getResultList();
     }
 }

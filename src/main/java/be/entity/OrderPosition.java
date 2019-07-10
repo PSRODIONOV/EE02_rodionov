@@ -23,9 +23,20 @@ public class OrderPosition {
 
     public OrderPosition(){};
 
-    public OrderPosition(KeyPos key){
-        order = key.getOrder();
-        flower = key.getFlower();
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Flower getFlower() {
+        return flower;
+    }
+
+    public void setFlower(Flower flower) {
+        this.flower = flower;
     }
 
     public Long getQuantity() {
