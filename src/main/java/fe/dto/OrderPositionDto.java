@@ -1,17 +1,12 @@
 package fe.dto;
 
-import be.entity.OrderPosition;
-
 public class OrderPositionDto {
 
     private Long id_flower;
     private Long quantity;
     private Double price; //For unit
 
-    public OrderPositionDto(OrderPosition order){
-        this.id_flower = order.getFlower().getId_flower();
-        this.quantity = order.getQuantity();
-        this.price = order.getFlower().getPrice();
+    public OrderPositionDto(){
     }
 
     public Long getId_flower() {

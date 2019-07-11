@@ -20,5 +20,16 @@
         <% session.removeAttribute ("user"); %>
          </button>
     </form>
+    <form>
+        <table>
+            <c:forEach items = "<c:out value ="<%= request.getAttribute("flowers") %>" />" var="iterator" varStatus="rowStatus">)
+                <tr>
+                    <td>${iterator.id_flower}</td>
+                    <td>${iterator.name_flower}</td>
+                    <td>${iterator.price}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
 </body>
 </html>

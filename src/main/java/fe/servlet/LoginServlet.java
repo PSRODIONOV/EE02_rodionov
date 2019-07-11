@@ -1,5 +1,6 @@
 package fe.servlet;
 
+import be.business.FlowerBusinessService;
 import be.business.UserBusinessService;
 import fe.dto.Mapper;
 import fe.dto.UserDto;
@@ -22,6 +23,8 @@ public class LoginServlet extends HttpServlet {
 
     @Autowired
     private UserBusinessService ubs;
+    @Autowired
+    private FlowerBusinessService fbs;
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginServlet.class);
 
@@ -49,13 +52,12 @@ public class LoginServlet extends HttpServlet {
         else {
             throw new ServletException("You shall not pass!");
         }
-
         LOG.info("USER "+ session.getAttribute("user") + " LOGGED IN.");
         req.setAttribute("name", currentUser.getLogin());
         req.setAttribute("address", currentUser.getAddress());
         req.setAttribute("wallet_score", currentUser.getWallet_score());
         req.setAttribute("discount", currentUser.getDiscount());
+        req.setAttribute("flowers", fbs.getAllFlowers());
         req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
-
     }
 }

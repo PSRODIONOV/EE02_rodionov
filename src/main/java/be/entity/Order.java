@@ -1,7 +1,7 @@
 package be.entity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 
 @Entity
@@ -17,9 +17,10 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<OrderPosition> orderPositions;
+    private List<OrderPosition> orderPositions;
 
-    public Order(){}
+    public Order() {
+    }
 
     public User getUser() {
         return user;
@@ -37,11 +38,11 @@ public class Order {
         this.id_order = id_order;
     }
 
-    public Set<OrderPosition> getOrderPositions() {
+    public List<OrderPosition> getOrderPositions() {
         return orderPositions;
     }
 
-    public void setOrderPositions(Set<OrderPosition> orderPositions) {
+    public void setOrderPositions(List<OrderPosition> orderPositions) {
         this.orderPositions = orderPositions;
     }
 }

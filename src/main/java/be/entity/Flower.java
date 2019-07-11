@@ -1,7 +1,6 @@
 package be.entity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "FLOWERS")
@@ -18,7 +17,10 @@ public class Flower {
     @Column(name = "QUANTITY")
     private Long quantity;
 
-    public Flower(){};
+    public Flower() {
+    }
+
+    ;
 
     public Long getId_flower() {
         return id_flower;

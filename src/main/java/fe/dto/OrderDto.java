@@ -1,27 +1,20 @@
 package fe.dto;
 
-import be.entity.Order;
 import be.entity.OrderPosition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class OrderDto {
 
     private Long id_order;
     private Long id_user;
-    private List<OrderPositionDto> orderPosition;
-    private Double total_price= 0.0;
+    private List<OrderPositionDto> orderPositions;
+    private Double total_price;
 
-    public OrderDto(Order order){
-        this.id_order = order.getId_order();
-        this.id_user = order.getUser().getId_user();
-        this.orderPosition = new ArrayList<>();
-        for (OrderPosition op: order.getOrderPositions()) {
-            this.orderPosition.add(new OrderPositionDto(op));
-            this.total_price += op.getFlower().getPrice() * op.getQuantity();
-        }
+    public OrderDto() {
+        orderPositions = new ArrayList<>();
+        total_price = 0.0;
     }
 
     public Long getId_order() {
@@ -40,12 +33,18 @@ public class OrderDto {
         this.id_user = id_user;
     }
 
-    public List<OrderPositionDto> getOrderPosition() {
-        return orderPosition;
+    public List<OrderPositionDto> getOrderPositions() {
+        return orderPositions;
     }
 
-    public void setOrderPosition(List<OrderPositionDto> orderPosition) {
-        this.orderPosition = orderPosition;
+    public void setOrderPositions(List<OrderPositionDto> orderPositions) {
+        this.orderPositions = orderPositions;
+    }
+
+    public void setMapOrderPositions(List<OrderPosition> ordersPositions) {
+        for(OrderPosition orderPosition: ordersPositions){
+            this.orderPositions.add(Mapper.map(orderPosition));
+        }
     }
 
     public Double getTotal_price() {

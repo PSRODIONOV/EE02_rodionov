@@ -9,11 +9,7 @@ public class FlowerDto {
     private Double price;
     private Long quantity;
 
-    public FlowerDto(Flower flower){
-        this.id_flower = flower.getId_flower();
-        this.name_flower = flower.getName_flower();
-        this.price = flower.getPrice();
-        this.quantity = flower.getQuantity();
+    public FlowerDto(){
     }
 
     public Long getId_flower() {

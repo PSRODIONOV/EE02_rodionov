@@ -61,8 +61,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public List<Order> getAllOrders() {
 
-        TypedQuery<Order> q;
-        q = em.createQuery("select o from Order o", Order.class);
+        TypedQuery<Order> q = em.createQuery("select o from Order o", Order.class);
         return q.getResultList();
     }
 }

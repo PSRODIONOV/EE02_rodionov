@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -18,15 +20,14 @@ public class UserDAOImpl implements UserDAO {
 
     public UserDAOImpl() {
 
-        LOG.info(":::::::::"+this.getClass()+" IS CREATED:::::::::");
+        LOG.info(":::::::::" + this.getClass() + " IS CREATED:::::::::");
     }
 
     @Override
     @Transactional
     public User getUserByLogin(String login) {
 
-        TypedQuery<User> q;
-        q = em.createQuery("Select u from User u where u.login = :login", User.class);
+        TypedQuery<User> q = em.createQuery("Select u from User u where u.login = :login", User.class);
         q.setParameter("login", login);
         return q.getSingleResult();
     }

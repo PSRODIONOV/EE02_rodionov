@@ -1,7 +1,6 @@
 package fe.dto;
 
 import be.entity.Order;
-import be.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,22 +18,7 @@ public class UserDto {
     private List<OrderDto> orders;
 
     public UserDto(){
-
-    }
-
-    public UserDto(User user){
-        this.login = user.getLogin();
-        this.last_name = user.getLast_name();
-        this.first_name = user.getFirst_name();
-        this.second_name = user.getSecond_name();
-        this.address = user.getAddress();
-        this.phone = user.getPhone();
-        this.wallet_score = user.getWallet_score();
-        this.discount = user.getDiscount();
-        this.orders = new ArrayList<>();
-        for(Order o: user.getOrders()){
-            orders.add(new OrderDto(o));
-        }
+        orders = new ArrayList<>();
     }
 
     public String getLogin() {
@@ -108,4 +92,11 @@ public class UserDto {
     public void setOrders(List<OrderDto> orders) {
         this.orders = orders;
     }
+
+    public void setMapOrders(List<Order> orders) {
+        for(Order order: orders){
+            this.orders.add(Mapper.map(order));
+        }
+    }
+
 }

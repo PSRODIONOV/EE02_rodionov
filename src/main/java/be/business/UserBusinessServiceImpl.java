@@ -34,10 +34,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Override
     public void registration(String login, String password, String address) {
 
-        User user = new User(login, password, address);
-        user.setDiscount(0);
-        user.setWallet_score(2000.0);
-        userDAO.registrationUser(user);
+            User user = new User(login, password, address);
+            user.setDiscount(0);
+            user.setWallet_score(2000.0);
+            userDAO.registrationUser(user);
     }
 
     @Override
