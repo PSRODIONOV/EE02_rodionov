@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Users");
     @PersistenceContext
     private EntityManager em;
 
@@ -23,6 +22,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    @Transactional
     public User getUserByLogin(String login) {
 
         TypedQuery<User> q;

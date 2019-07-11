@@ -12,11 +12,11 @@ public class Order {
     @SequenceGenerator(name = "cust", sequenceName = "seq_order")
     private Long id_order;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<OrderPosition> orderPositions;
 
     public Order(){}

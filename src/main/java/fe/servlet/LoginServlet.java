@@ -1,7 +1,8 @@
 package fe.servlet;
 
 import be.business.UserBusinessService;
-import be.entity.User;
+import fe.dto.Mapper;
+import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import javax.servlet.ServletConfig;
@@ -41,8 +42,8 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
-        User currentUser;
-        if((currentUser = ubs.login(login, password)) != null) {
+        UserDto currentUser;
+        if((currentUser = Mapper.map(ubs.login(login, password))) != null) {
             session.setAttribute("user", currentUser);
         }
         else {

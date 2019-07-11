@@ -30,7 +30,7 @@ public class User implements Serializable {
     private Double wallet_score;
     @Column (name = "DISCOUNT")
     private Integer discount;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Order> orders;
 
     public User(){}
