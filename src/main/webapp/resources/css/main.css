@@ -1,0 +1,10 @@
+table{
+    text-align:center;
+    color:blue;
+    border:2px solid gray;
+    border-collapse:collapse;
+}
+td{
+    background-color:gray;
+    border:2px solid white;
+}
