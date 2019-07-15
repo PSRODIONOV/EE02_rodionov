@@ -11,8 +11,8 @@
 <body>
 <h2>LOGIN PAGE</h2>
 <form method = "post" action = "user/login">
-    <input type = "text" name = "login"></input>
-    <input type = "password" name = "password"></input>
+    <input type = "text" name = "login" placeholder="login"></input>
+    <input type = "password" name = "password" placeholder="password"></input>
     <button type = "submit">Login</button>
 </form>
 <form method = "link" action = "/flowershop/registerPage.jsp">

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = "/service/addToBasket")
@@ -32,12 +33,15 @@ public class AddToBasket extends HttpServlet {
         OrderPositionDto orderPositionDto = new OrderPositionDto();
         orderPositionDto.setQuantity(Long.parseLong(quantity));
         orderPositionDto.setId_flower(Long.parseLong(id_flower));
-        OrderDto orderDto = (OrderDto)req.getAttribute("order");
+        HttpSession session = req.getSession(true);
+        //OrderDto orderDto = (OrderDto)req.getAttribute("order");
+        OrderDto orderDto = (OrderDto)session.getAttribute("order");
         if(orderDto == null) {
             orderDto = new OrderDto();
         }
         orderDto.getOrderPositions().add(orderPositionDto);
-        req.setAttribute("order", orderDto);
-        //req.getRequestDispatcher("").forward(req, resp);
+        //req.setAttribute("order", orderDto);
+        session.setAttribute("order", orderDto);
+        //req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
     }
 }
