@@ -1,11 +1,12 @@
 table{
     text-align:center;
-    color:blue;
-    border:2px solid white;
+    color:black;
+    border:2px solid grey;
     border-collapse:collapse;
+    border-bottom-style:dotted;
 }
 td{
-    background-color:gray;
+    background-color:LightGrey;
     border:2px solid white;
     height:50px;
     width:100px;

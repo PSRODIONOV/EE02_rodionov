@@ -1,15 +1,13 @@
 package fe.dto;
 
-import be.entity.Flower;
-
 public class FlowerDto {
 
     private Long id_flower;
     private String name_flower;
     private Double price;
-    private Long quantity;
 
     public FlowerDto(){
+        this.price = 0.0;
     }
 
     public Long getId_flower() {
@@ -36,11 +34,4 @@ public class FlowerDto {
         this.price = price;
     }
 
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
 }

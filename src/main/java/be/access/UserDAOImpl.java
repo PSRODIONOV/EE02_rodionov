@@ -34,6 +34,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
+    public User getUserById(Long id) {
+        return em.find(User.class, id);
+    }
+
+    @Override
+    @Transactional
     public void registrationUser(User newUser) {
         em.persist(newUser);
         em.flush();

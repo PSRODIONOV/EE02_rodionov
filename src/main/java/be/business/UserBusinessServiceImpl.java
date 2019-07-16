@@ -41,6 +41,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
+    public User getUserById(Long id) {
+
+        return userDAO.getUserById(id);
+    }
+
+    @Override
     public void logout() {
 
     }

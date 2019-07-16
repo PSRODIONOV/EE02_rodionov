@@ -3,6 +3,7 @@ package be.business;
 import be.access.OrderDAO;
 import be.entity.Order;
 import be.entity.OrderPosition;
+import be.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,10 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     public void delOrderById(Long id) {
         orderDAO.delOrderById(id);
+    }
+
+    @Override
+    public List<Order> getAllMyOrders(User user) {
+        return orderDAO.getAllMyOrders(user);
     }
 }

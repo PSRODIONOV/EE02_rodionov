@@ -1,20 +1,18 @@
 package fe.dto;
 
-import be.entity.OrderPosition;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDto {
 
     private Long id_order;
-    private Long id_user;
+    private UserDto userDto;
     private List<OrderPositionDto> orderPositions;
-    private Double total_price;
+    private Double totalPrice;
 
     public OrderDto() {
         orderPositions = new ArrayList<>();
-        total_price = 0.0;
+        totalPrice = 0.0;
     }
 
     public Long getId_order() {
@@ -25,12 +23,12 @@ public class OrderDto {
         this.id_order = id_order;
     }
 
-    public Long getId_user() {
-        return id_user;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 
     public List<OrderPositionDto> getOrderPositions() {
@@ -41,17 +39,31 @@ public class OrderDto {
         this.orderPositions = orderPositions;
     }
 
-    public void setMapOrderPositions(List<OrderPosition> ordersPositions) {
-        for(OrderPosition orderPosition: ordersPositions){
-            this.orderPositions.add(Mapper.map(orderPosition));
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void addOrderPosition(OrderPositionDto newOrderPositionDto){
+        for (OrderPositionDto orderPositionDto: orderPositions) {
+            if(orderPositionDto.getFlowerDto().getId_flower() == newOrderPositionDto.getFlowerDto().getId_flower()){
+                orderPositionDto.setQuantity(orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity());
+                return;
+            }
         }
+        this.orderPositions.add(newOrderPositionDto);
     }
 
-    public Double getTotal_price() {
-        return total_price;
-    }
+    public void removeOrderPosition(Long id){
 
-    public void setTotal_price(Double total_price) {
-        this.total_price = total_price;
+        for (OrderPositionDto orderPositionDto: this.orderPositions) {
+            if(orderPositionDto.getFlowerDto().getId_flower() == id){
+                this.orderPositions.remove(orderPositionDto);
+                return;
+            }
+        }
     }
 }

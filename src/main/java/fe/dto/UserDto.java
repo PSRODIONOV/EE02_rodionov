@@ -7,6 +7,7 @@ import java.util.List;
 
 public class UserDto {
 
+    private Long id;
     private String login;
     private String last_name;
     private String first_name;
@@ -15,10 +16,17 @@ public class UserDto {
     private String phone;
     private Double wallet_score;
     private Integer discount;
-    private List<OrderDto> orders;
 
     public UserDto(){
-        orders = new ArrayList<>();
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -83,20 +91,6 @@ public class UserDto {
 
     public void setDiscount(Integer discount) {
         this.discount = discount;
-    }
-
-    public List<OrderDto> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderDto> orders) {
-        this.orders = orders;
-    }
-
-    public void setMapOrders(List<Order> orders) {
-        for(Order order: orders){
-            this.orders.add(Mapper.map(order));
-        }
     }
 
 }

@@ -1,6 +1,7 @@
 package be.access;
 
 import be.entity.Order;
+import be.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -62,6 +63,14 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Order> getAllOrders() {
 
         TypedQuery<Order> q = em.createQuery("select o from Order o", Order.class);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Order> getAllMyOrders(User user) {
+
+        TypedQuery<Order> q = em.createQuery("select o from Order o where o.user.id_user = :id", Order.class);
+        q.setParameter("id", user.getId_user());
         return q.getResultList();
     }
 }

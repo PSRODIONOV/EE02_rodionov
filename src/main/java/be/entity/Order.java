@@ -19,7 +19,11 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderPosition> orderPositions;
 
+    @Column(name = "total_price")
+    private Double totalPrice;
+
     public Order() {
+        totalPrice = 0.0;
     }
 
     public User getUser() {
@@ -44,5 +48,13 @@ public class Order {
 
     public void setOrderPositions(List<OrderPosition> orderPositions) {
         this.orderPositions = orderPositions;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

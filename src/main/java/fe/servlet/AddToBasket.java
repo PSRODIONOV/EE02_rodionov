@@ -1,7 +1,9 @@
 package fe.servlet;
 
-import fe.dto.OrderDto;
-import fe.dto.OrderPositionDto;
+import be.access.FlowerDAO;
+import be.business.FlowerBusinessService;
+import fe.dto.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletConfig;
@@ -17,6 +19,9 @@ import java.io.IOException;
 public class AddToBasket extends HttpServlet {
 
 
+    @Autowired
+    private FlowerBusinessService flowerBusinessService;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -28,20 +33,20 @@ public class AddToBasket extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String id_flower = req.getParameter("button");
-        String quantity = req.getParameter("quantity"+id_flower);
+        Long idFlower = Long.parseLong(req.getParameter("id_flower"));
+        String quantity = req.getParameter("quantity");
         OrderPositionDto orderPositionDto = new OrderPositionDto();
         orderPositionDto.setQuantity(Long.parseLong(quantity));
-        orderPositionDto.setId_flower(Long.parseLong(id_flower));
-        HttpSession session = req.getSession(true);
-        //OrderDto orderDto = (OrderDto)req.getAttribute("order");
+        orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
+
+        HttpSession session = req.getSession(false);
         OrderDto orderDto = (OrderDto)session.getAttribute("order");
+        UserDto userDto = (UserDto)session.getAttribute("user");
         if(orderDto == null) {
             orderDto = new OrderDto();
         }
-        orderDto.getOrderPositions().add(orderPositionDto);
-        //req.setAttribute("order", orderDto);
+        orderDto.setUserDto(userDto);
+        orderDto.addOrderPosition(orderPositionDto);
         session.setAttribute("order", orderDto);
-        //req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
     }
 }

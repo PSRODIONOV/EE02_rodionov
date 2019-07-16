@@ -2,19 +2,19 @@ package fe.dto;
 
 public class OrderPositionDto {
 
-    private Long id_flower;
+    private OrderDto orderDto;
+    private FlowerDto flowerDto;
     private Long quantity;
-    private Double price; //For unit
 
     public OrderPositionDto(){
     }
 
-    public Long getId_flower() {
-        return id_flower;
+    public FlowerDto getFlowerDto() {
+        return flowerDto;
     }
 
-    public void setId_flower(Long id_flower) {
-        this.id_flower = id_flower;
+    public void setFlowerDto(FlowerDto flowerDto) {
+        this.flowerDto = flowerDto;
     }
 
     public Long getQuantity() {
@@ -25,11 +25,11 @@ public class OrderPositionDto {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
-        return price;
+    public OrderDto getOrderDto() {
+        return orderDto;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setOrderDto(OrderDto orderDto) {
+        this.orderDto = orderDto;
     }
 }

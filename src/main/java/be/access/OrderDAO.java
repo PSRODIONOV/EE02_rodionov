@@ -1,6 +1,8 @@
 package be.access;
 
 import be.entity.Order;
+import be.entity.User;
+
 import java.util.List;
 
 public interface OrderDAO {
@@ -11,4 +13,6 @@ public interface OrderDAO {
     void delOrder(Order order);
     void delOrderById(Long id);
     List<Order> getAllOrders();
+    List<Order> getAllMyOrders(User user);
+
 }

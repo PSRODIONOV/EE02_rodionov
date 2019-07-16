@@ -7,5 +7,6 @@ public interface UserBusinessService {
 
     User login(String user, String password);
     void registration(String user, String password, String address);
+    User getUserById(Long id);
     void logout();
 }
