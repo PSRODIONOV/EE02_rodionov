@@ -20,8 +20,6 @@ public class Flower {
     public Flower() {
     }
 
-    ;
-
     public Long getId_flower() {
         return id_flower;
     }

@@ -7,6 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "ORDERS")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
     @SequenceGenerator(name = "cust", sequenceName = "seq_order")
@@ -16,7 +17,7 @@ public class Order {
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<OrderPosition> orderPositions;
 
     @Column(name = "total_price")

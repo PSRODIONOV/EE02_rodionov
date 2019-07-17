@@ -41,10 +41,14 @@ public class AddToBasket extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         OrderDto orderDto = (OrderDto)session.getAttribute("order");
+
         UserDto userDto = (UserDto)session.getAttribute("user");
         if(orderDto == null) {
             orderDto = new OrderDto();
         }
+
+        orderPositionDto.setOrderDto(orderDto);
+
         orderDto.setUserDto(userDto);
         orderDto.addOrderPosition(orderPositionDto);
         session.setAttribute("order", orderDto);

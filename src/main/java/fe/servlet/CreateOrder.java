@@ -2,6 +2,7 @@ package fe.servlet;
 
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
+import be.entity.Order;
 import fe.dto.Mapper;
 import fe.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,19 @@ public class CreateOrder extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         OrderDto orderDto = (OrderDto) session.getAttribute("order");
+
         List<OrderDto> myOrders = (List<OrderDto>) session.getAttribute("orders");
         if(myOrders == null){
             myOrders = new ArrayList<>();
         }
         session.setAttribute("orders", myOrders);
+
+
+        Order order = new Order();
+
         orderBusinessService.addOrder(Mapper.map(orderDto));
+        /*
+        orderBusinessService.addOrder(Mapper.map(orderDto));
+        */
     }
 }

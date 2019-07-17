@@ -39,6 +39,7 @@ public class OrderDto {
         this.orderPositions = orderPositions;
     }
 
+
     public Double getTotalPrice() {
         return totalPrice;
     }

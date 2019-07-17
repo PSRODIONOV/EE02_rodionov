@@ -52,7 +52,7 @@ public class Mapper {
     public static OrderPositionDto map(OrderPosition orderPosition){
         if(orderPosition != null) {
             OrderPositionDto orderPositionDto = new OrderPositionDto();
-            //orderPositionDto.setOrderDto();
+            orderPositionDto.setIdOrder(orderPosition.getIdOrder());
             orderPositionDto.setFlowerDto(map(orderPosition.getFlower()));
             orderPositionDto.setQuantity(orderPosition.getQuantity());
             return orderPositionDto;
@@ -90,7 +90,7 @@ public class Mapper {
     public static Order map(OrderDto orderDto){
         if(orderDto != null){
             Order order = new Order();
-            order.setId_order(orderDto.getId_order());//передается null
+            order.setId_order(orderDto.getId_order());
             order.setOrderPositions(mapOrderPositions(orderDto.getOrderPositions()));
             order.setUser(map(orderDto.getUserDto()));
             return order;
@@ -103,7 +103,7 @@ public class Mapper {
             OrderPosition orderPosition = new OrderPosition();
             orderPosition.setFlower(map(orderPositionDto.getFlowerDto()));
             orderPosition.setQuantity(orderPositionDto.getQuantity());
-            orderPosition.setOrder(map(orderPositionDto.getOrderDto()));
+            orderPosition.setIdOrder(orderPositionDto.getIdOrder());
             return orderPosition;
         }
         return null;

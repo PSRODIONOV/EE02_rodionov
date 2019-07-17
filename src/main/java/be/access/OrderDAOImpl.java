@@ -1,6 +1,7 @@
 package be.access;
 
 import be.entity.Order;
+import be.entity.OrderPosition;
 import be.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -30,6 +32,24 @@ public class OrderDAOImpl implements OrderDAO {
     @Transactional
     public void addOrder(Order order) {
         em.persist(order);
+       /* Query q = em.createNativeQuery("insert into Orders values (seq_order.nextval, ?, ?)");
+        //q.setParameter(1, order.getId_order());
+        q.setParameter(1, order.getUser().getId_user());
+        q.setParameter(2, order.getTotalPrice());
+        q.executeUpdate();
+        Long id;
+        q = em.createNativeQuery("select * from Orders order by id_order desc limit(1)");
+        id = (Long)q.getSingleResult();
+        for(OrderPosition op: order.getOrderPositions()) {
+            OrderPosition orderPosition = new OrderPosition();
+            orderPosition.setOrder(getOrderById(id));
+            orderPosition.setQuantity(op.getQuantity());
+            orderPosition.setFlower(op.getFlower());
+            q = em.createQuery("insert into ORDERPOSITION values (:orderPosition)");
+            q.setParameter("orderposition", orderPosition);
+        }
+
+        */
         em.flush();
     }
 
