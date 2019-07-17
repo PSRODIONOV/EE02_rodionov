@@ -1,6 +1,7 @@
 package be.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,15 +11,17 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
-    @SequenceGenerator(name = "cust", sequenceName = "seq_order")
+    @SequenceGenerator(name = "cust", sequenceName = "seq_order", allocationSize = 1, initialValue = 1)
     private Long id_order;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<OrderPosition> orderPositions;
+    @OneToMany(mappedBy = "order",
+            orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL
+    )
+    private List<OrderPosition> orderPositions = new ArrayList<>();
 
     @Column(name = "total_price")
     private Double totalPrice;
@@ -48,7 +51,10 @@ public class Order {
     }
 
     public void setOrderPositions(List<OrderPosition> orderPositions) {
-        this.orderPositions = orderPositions;
+
+        for(OrderPosition orderPosition: orderPositions) {
+            addOrderPosition(orderPosition);
+        }
     }
 
     public Double getTotalPrice() {
@@ -57,5 +63,10 @@ public class Order {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public void addOrderPosition(OrderPosition orderPosition){
+        this.orderPositions.add(orderPosition);
+        orderPosition.setOrder(this);
     }
 }

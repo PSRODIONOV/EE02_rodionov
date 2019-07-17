@@ -9,12 +9,12 @@ public class OrderPosition {
 
     @Id
     @AttributeOverrides({
-            @AttributeOverride(name = "idOrder",
+            @AttributeOverride(name = "order",
                     column = @Column(name="id_order")),
             @AttributeOverride(name = "flower",
                     column = @Column(name="id_flower"))
     })
-    private Long idOrder;
+    private Order order;
     private Flower flower;
 
     @Column(name = "quantity")
@@ -25,13 +25,14 @@ public class OrderPosition {
 
     }
 
-    public Long getIdOrder() {
-        return idOrder;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setIdOrder(Long idOrder) {
-        this.idOrder = idOrder;
+    public void setOrder(Order order) {
+        this.order = order;
     }
+
 
     public Flower getFlower() {
         return flower;

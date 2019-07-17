@@ -1,7 +1,5 @@
 package be.entity;
 
-import org.hibernate.engine.internal.Cascade;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -9,25 +7,24 @@ import java.io.Serializable;
 @Embeddable
 public class KeyPos implements Serializable {
 
-
-    @Column(name = "id_order", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
-    @SequenceGenerator(name = "cust", sequenceName = "seq_order")
-    private Long idOrder;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="id_order", nullable = false)
+    private Order order;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_flower", nullable = false)
     private Flower flower;
+
 
     public KeyPos(){
 
     }
 
-    public Long getIdOrder() {
-        return idOrder;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setIdOrder(Long idOrder) {
-        this.idOrder = idOrder;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Flower getFlower() {

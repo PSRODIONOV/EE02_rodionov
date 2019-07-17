@@ -56,6 +56,7 @@ public class OrderDto {
             }
         }
         this.orderPositions.add(newOrderPositionDto);
+        this.totalPrice += newOrderPositionDto.getFlowerDto().getPrice()*newOrderPositionDto.getQuantity();
     }
 
     public void removeOrderPosition(Long id){
@@ -63,6 +64,7 @@ public class OrderDto {
         for (OrderPositionDto orderPositionDto: this.orderPositions) {
             if(orderPositionDto.getFlowerDto().getId_flower() == id){
                 this.orderPositions.remove(orderPositionDto);
+                this.totalPrice -= orderPositionDto.getFlowerDto().getPrice()*orderPositionDto.getQuantity();
                 return;
             }
         }

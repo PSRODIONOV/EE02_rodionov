@@ -45,14 +45,9 @@ public class CreateOrder extends HttpServlet {
         if(myOrders == null){
             myOrders = new ArrayList<>();
         }
+        orderBusinessService.addOrder(Mapper.map(orderDto));
+        myOrders.add(orderDto);
         session.setAttribute("orders", myOrders);
-
-
-        Order order = new Order();
-
-        orderBusinessService.addOrder(Mapper.map(orderDto));
-        /*
-        orderBusinessService.addOrder(Mapper.map(orderDto));
-        */
+        session.removeAttribute("order");
     }
 }
