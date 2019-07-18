@@ -33,6 +33,8 @@ public class Mapper {
             orderDto.setId_order(order.getId_order());
             orderDto.setUserDto(map(order.getUser()));
             orderDto.setOrderPositions(mapOrderPositionsDto(order.getOrderPositions()));
+            orderDto.setTotalPrice(order.getTotalPrice());
+            orderDto.setStatus(order.getStatus());
             return orderDto;
         }
         return null;
@@ -93,6 +95,7 @@ public class Mapper {
             order.setOrderPositions(mapOrderPositions(orderDto.getOrderPositions()));
             order.setUser(map(orderDto.getUserDto()));
             order.setTotalPrice(orderDto.getTotalPrice());
+            order.setStatus(orderDto.getStatus());
             return order;
         }
         return null;

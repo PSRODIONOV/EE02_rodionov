@@ -51,4 +51,13 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     public List<Order> getAllMyOrders(User user) {
         return orderDAO.getAllMyOrders(user);
     }
+
+    @Override
+    public void payOrder(Order order){
+        if(order.getStatus().equals("not paid")){
+            order.setStatus("paid");
+            orderDAO.updateOrder(order);
+        }
+
+    }
 }

@@ -26,6 +26,9 @@ public class Order {
     @Column(name = "total_price")
     private Double totalPrice;
 
+    @Column(name ="status")
+    private String status;
+
     public Order() {
         totalPrice = 0.0;
     }
@@ -48,6 +51,14 @@ public class Order {
 
     public List<OrderPosition> getOrderPositions() {
         return orderPositions;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setOrderPositions(List<OrderPosition> orderPositions) {

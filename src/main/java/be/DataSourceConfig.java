@@ -34,8 +34,8 @@ public class DataSourceConfig {
     public DataSourceConfig() {
         super();
     }
-
-    /*@Primary
+/*
+    @Primary
     @Bean(name = "entityManagerFactory")
     @DependsOn("flyway")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -104,6 +104,5 @@ public class DataSourceConfig {
 
         return properties;
     }
-
-     */
+*/
 }

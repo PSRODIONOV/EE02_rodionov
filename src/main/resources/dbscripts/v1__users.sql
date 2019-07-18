@@ -36,12 +36,13 @@ create table ORDERS(
 id_order number(10, 0),
 id_user number(10, 0),
 total_price number(10,0),
+status varchar2 check(status in ('not paid', 'paid', 'canceled')),
 primary key (id_order),
 foreign key (id_user) references users(id_user)
 );
 
-insert into "ORDERS" values(seq_order.nextval, 1, null);
-insert into "ORDERS" values(seq_order.nextval, 1, null);
+insert into "ORDERS" values(seq_order.nextval, 1, null, 'paid');
+insert into "ORDERS" values(seq_order.nextval, 1, null, 'not paid');
 
 create table ORDERPOSITION(
 id_order number(10, 0),

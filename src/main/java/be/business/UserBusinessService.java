@@ -9,4 +9,5 @@ public interface UserBusinessService {
     void registration(String user, String password, String address);
     User getUserById(Long id);
     void logout();
+    void pay(Long id, Double priceOrder);
 }

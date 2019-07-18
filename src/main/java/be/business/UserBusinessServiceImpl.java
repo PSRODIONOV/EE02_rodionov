@@ -50,4 +50,11 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     public void logout() {
 
     }
+
+    @Override
+    public void pay(Long id, Double priceOrder){
+
+        Double balance = userDAO.getUserById(id).getWallet_score() - priceOrder;
+        userDAO.setBalance(id, balance);
+    }
 }

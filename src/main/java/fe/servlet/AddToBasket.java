@@ -49,7 +49,6 @@ public class AddToBasket extends HttpServlet {
             orderDto = new OrderDto();
         }
 
-        orderPositionDto.setOrderDto(orderDto);
 
         orderDto.setUserDto(userDto);
         orderDto.addOrderPosition(orderPositionDto);

@@ -9,6 +9,7 @@ public class OrderDto {
     private UserDto userDto;
     private List<OrderPositionDto> orderPositions;
     private Double totalPrice;
+    private String status;
 
     public OrderDto() {
         orderPositions = new ArrayList<>();
@@ -46,6 +47,14 @@ public class OrderDto {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void addOrderPosition(OrderPositionDto newOrderPositionDto){

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 @Repository
@@ -44,4 +45,14 @@ public class UserDAOImpl implements UserDAO {
         em.persist(newUser);
         em.flush();
     }
+
+    @Override
+    @Transactional
+    public void setBalance(Long id, Double balance){
+        Query q = em.createQuery("update User u set u.wallet_score = :balance where u.id = :id");
+        q.setParameter("id", id);
+        q.setParameter("balance", balance);
+        em.flush();
+    }
+
 }

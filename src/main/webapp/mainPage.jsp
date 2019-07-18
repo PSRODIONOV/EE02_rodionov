@@ -10,11 +10,11 @@
 </head>
 <body>
     <form>
-        <h1>MAIN PAGE1</h1>
-        <p>Name: ${user.login}  </p>
-        <p>Address: ${user.address}</p>
-        <p>Wallet_Score: ${user.wallet_score}</p>
-        <p>Discount: ${user.discount}</p>
+        <h1>MAIN PAGE</h1>
+        <p id="useraccount">Name: ${user.login}  </p>
+        <p id="useraccount">Address: ${user.address}</p>
+        <p id="useraccount">Wallet_Score: ${user.wallet_score}</p>
+        <p id="useraccount">Discount: ${user.discount}</p>
     </form>
 
     <form method = "get" action = "/flowershop/user/logout">
@@ -68,11 +68,13 @@
     </form>
 
     <h2>MY ORDERS</h2>
-    <form>
+    <form method="post" action="/flowershop//service/payorder">
         <table>
             <tr>
                 <td>Id</td>
+                <td>Description</td>
                 <td>Total Price</td>
+                <td>Status</td>
             </tr>
             <c:forEach items = "${orders}" var="iterator" varStatus="rowStatus">
                 <tr>
@@ -83,7 +85,13 @@
                     </c:forEach>
                     </td>
                     <td>${iterator.totalPrice}</td>
-                    <td><button type="submit" name="id_order" value="${iterator.id_order}"  onClick="window.location.reload()"> To pay </button>
+                    <td>${iterator.status}</td>
+                    <td>
+                    <button type="submit"
+                            name="id_order"
+                            value="${iterator.id_order}"
+                            onClick="window.location.reload()"
+                            > To pay </button>
                     </td>
                 </tr>
             </c:forEach>
