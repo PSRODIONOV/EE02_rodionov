@@ -2,8 +2,8 @@ package fe.dto;
 
 public class FlowerDto {
 
-    private Long id_flower;
-    private String name_flower;
+    private Long idFlower;
+    private String nameFlower;
     private Double price;
     private Long quantity;
 
@@ -11,20 +11,20 @@ public class FlowerDto {
         this.price = 0.0;
     }
 
-    public Long getId_flower() {
-        return id_flower;
+    public Long getIdFlower() {
+        return idFlower;
     }
 
-    public void setId_flower(Long id_flower) {
-        this.id_flower = id_flower;
+    public void setIdFlower(Long idFlower) {
+        this.idFlower = idFlower;
     }
 
-    public String getName_flower() {
-        return name_flower;
+    public String getNameFlower() {
+        return nameFlower;
     }
 
-    public void setName_flower(String name_flower) {
-        this.name_flower = name_flower;
+    public void setNameFlower(String nameFlower) {
+        this.nameFlower = nameFlower;
     }
 
     public Double getPrice() {

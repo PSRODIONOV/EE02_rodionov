@@ -68,7 +68,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
                 orderDAO.updateOrder(order);    //**на оплачено
                 for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
                     Flower flower = orderPosition.getFlower();
-                    flowerBusinessService.setQuantity(flower.getId_flower(), flower.getQuantity() - orderPosition.getQuantity());
+                    flowerBusinessService.setQuantity(flower.getIdFlower(), flower.getQuantity() - orderPosition.getQuantity());
                 }
             }
         }

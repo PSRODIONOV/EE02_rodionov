@@ -39,7 +39,7 @@ public class PayOrder extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        String idOrder = req.getParameter("id_order");
+        String idOrder = req.getParameter("idOrder");
         UserDto userDto = (UserDto)session.getAttribute("user");
 
         orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());

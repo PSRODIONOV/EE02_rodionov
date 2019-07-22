@@ -5,7 +5,7 @@ import java.util.List;
 
 public class OrderDto {
 
-    private Long id_order;
+    private Long idOrder;
     private UserDto userDto;
     private List<OrderPositionDto> orderPositions;
     private Double totalPrice;
@@ -17,12 +17,12 @@ public class OrderDto {
         this.status = "not paid";
     }
 
-    public Long getId_order() {
-        return id_order;
+    public Long getIdOrder() {
+        return idOrder;
     }
 
-    public void setId_order(Long id_order) {
-        this.id_order = id_order;
+    public void setIdOrder(Long idOrder) {
+        this.idOrder = idOrder;
     }
 
     public UserDto getUserDto() {
@@ -60,7 +60,7 @@ public class OrderDto {
 
     public void addOrderPosition(OrderPositionDto newOrderPositionDto){
         for (OrderPositionDto orderPositionDto: orderPositions) {
-            if(orderPositionDto.getFlowerDto().getId_flower() == newOrderPositionDto.getFlowerDto().getId_flower()){
+            if(orderPositionDto.getFlowerDto().getIdFlower() == newOrderPositionDto.getFlowerDto().getIdFlower()){
                 orderPositionDto.setQuantity(orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity());
                 return;
             }
@@ -72,7 +72,7 @@ public class OrderDto {
     public void removeOrderPosition(Long id){
 
         for (OrderPositionDto orderPositionDto: this.orderPositions) {
-            if(orderPositionDto.getFlowerDto().getId_flower() == id){
+            if(orderPositionDto.getFlowerDto().getIdFlower() == id){
                 this.orderPositions.remove(orderPositionDto);
                 this.totalPrice -= orderPositionDto.getFlowerDto().getPrice()*orderPositionDto.getQuantity();
                 return;

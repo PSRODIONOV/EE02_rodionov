@@ -37,31 +37,31 @@ public class AddToBasket extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
 
-        Long idFlower = Long.parseLong(req.getParameter("id_flower"));
+        Long idFlower = Long.parseLong(req.getParameter("idFlower"));
         Long quantity = Long.parseLong(req.getParameter("quantity"));
         if(quantity > flowerBusinessService.getFlowerById(idFlower).getQuantity()){
-            PrintWriter pw = resp.getWriter();
-            pw.println("<p> Invalid value for 'quantity'! </p>");
-            return;
+            req.setAttribute("err", "Invalid value for 'quantity'.");
         }
-        OrderPositionDto orderPositionDto = new OrderPositionDto();
-        orderPositionDto.setQuantity(quantity);
-        orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
-        orderPositionDto.setPrice(orderPositionDto.getFlowerDto().getPrice()*orderPositionDto.getQuantity());
+        else {
+            OrderPositionDto orderPositionDto = new OrderPositionDto();
+            orderPositionDto.setQuantity(quantity);
+            orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
+            orderPositionDto.setPrice(orderPositionDto.getFlowerDto().getPrice() * orderPositionDto.getQuantity());
 
-        HttpSession session = req.getSession(false);
-        OrderDto orderDto = (OrderDto)session.getAttribute("order");
+            HttpSession session = req.getSession(false);
+            OrderDto orderDto = (OrderDto) session.getAttribute("order");
 
-        UserDto userDto = (UserDto)session.getAttribute("user");
-        if(orderDto == null) {
-            orderDto = new OrderDto();
+            UserDto userDto = (UserDto) session.getAttribute("user");
+            if (orderDto == null) {
+                orderDto = new OrderDto();
+            }
+
+            orderDto.setUserDto(userDto);
+            orderDto.addOrderPosition(orderPositionDto);
+            Double totalPrice = ((100.0 - orderDto.getUserDto().getDiscount()) / 100.0) * orderDto.getTotalPrice();
+            orderDto.setTotalPrice(totalPrice);
+            session.setAttribute("order", orderDto);
         }
-
-        orderDto.setUserDto(userDto);
-        orderDto.addOrderPosition(orderPositionDto);
-        Double totalPrice = ((100.0 - orderDto.getUserDto().getDiscount())/100.0)*orderDto.getTotalPrice();
-        orderDto.setTotalPrice(totalPrice);
-        session.setAttribute("order", orderDto);
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

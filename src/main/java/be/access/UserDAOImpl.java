@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Transactional
     public void setBalance(Long id, Double balance){
-        Query q = em.createQuery("update User u set u.wallet_score = :balance where u.id = :id");
+        Query q = em.createQuery("update User u set u.walletScore = :balance where u.id = :id");
         q.setParameter("id", id);
         q.setParameter("balance", balance);
         q.executeUpdate();

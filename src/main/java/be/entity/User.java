@@ -11,23 +11,24 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
     @SequenceGenerator(name = "cust", sequenceName = "seq_user")
-    private Long id_user;
+    @Column(name = "ID_USER")
+    private Long idUser;
     @Column(name = "LOGIN")
     private String login;
     @Column(name = "PASSWORD")
     private String password;
     @Column (name = "LAST_NAME")
-    private String last_name;
+    private String lastName;
     @Column (name = "FIRST_NAME")
-    private String first_name;
+    private String firstName;
     @Column (name = "SECOND_NAME")
-    private String second_name;
+    private String secondName;
     @Column (name = "ADDRESS")
     private String address;
     @Column (name = "PHONE")
     private String phone;
     @Column (name = "WALLET_SCORE")
-    private Double wallet_score;
+    private Double walletScore;
     @Column (name = "DISCOUNT")
     private Integer discount;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -41,12 +42,12 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public Long getId_user() {
-        return id_user;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public String getLogin() {
@@ -65,28 +66,28 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSecond_name() {
-        return second_name;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getAddress() {
@@ -105,12 +106,12 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Double getWallet_score() {
-        return wallet_score;
+    public Double getWalletScore() {
+        return walletScore;
     }
 
-    public void setWallet_score(Double wallet_score) {
-        this.wallet_score = wallet_score;
+    public void setWalletScore(Double walletScore) {
+        this.walletScore = walletScore;
     }
 
     public Integer getDiscount() {

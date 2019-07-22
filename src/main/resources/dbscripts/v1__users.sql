@@ -41,8 +41,8 @@ primary key (id_order),
 foreign key (id_user) references users(id_user)
 );
 
-insert into "ORDERS" values(seq_order.nextval, 1, null, 'paid');
-insert into "ORDERS" values(seq_order.nextval, 1, null, 'not paid');
+insert into "ORDERS" values(seq_order.nextval, 1, 100, 'paid');
+insert into "ORDERS" values(seq_order.nextval, 1, 100, 'not paid');
 
 create table ORDERPOSITION(
 id_order number(10, 0),

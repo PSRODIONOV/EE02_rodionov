@@ -33,7 +33,7 @@ public class FlowerDAOImpl implements FlowerDAO {
 
     @Override
     public Flower getFlowerByName(String name) {
-        TypedQuery<Flower> q = em.createQuery("select f from Flower where f.name_flower = :name", Flower.class);
+        TypedQuery<Flower> q = em.createQuery("select f from Flower where f.nameFlower = :name", Flower.class);
         q.setParameter("name", name);
         return q.getSingleResult();
     }
@@ -54,7 +54,7 @@ public class FlowerDAOImpl implements FlowerDAO {
     @Override
     @Transactional
     public void setQuantity(Long idFlower, Long quantity){
-        Query q = em.createQuery("update Flower f set f.quantity = :quantity where f.id_flower = :idFlower");
+        Query q = em.createQuery("update Flower f set f.quantity = :quantity where f.idFlower = :idFlower");
         q.setParameter("quantity", quantity);
         q.setParameter("idFlower", idFlower);
         q.executeUpdate();
@@ -65,7 +65,6 @@ public class FlowerDAOImpl implements FlowerDAO {
     public List<Flower> searchFilter(FlowerFilter filter) {
         String temp = filter.toString();
         TypedQuery<Flower> q = em.createQuery("select f from Flower f " + temp, Flower.class);
-        //q.setParameter("criteria", filter.toString());
         return q.getResultList();
     }
 }

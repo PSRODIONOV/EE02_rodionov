@@ -29,7 +29,7 @@ public class RemoveFromBasket extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        String id_flower = req.getParameter("id_flower");
+        String id_flower = req.getParameter("idFlower");
         OrderDto orderDto = (OrderDto) session.getAttribute("order");
         orderDto.removeOrderPosition(Long.parseLong(id_flower));
         session.setAttribute("order", orderDto);

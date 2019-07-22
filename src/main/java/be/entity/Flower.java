@@ -9,9 +9,10 @@ public class Flower {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
     @SequenceGenerator(name = "cust", sequenceName = "seq_flower")
-    private Long id_flower;
+    @Column(name = "ID_FLOWER")
+    private Long idFlower;
     @Column(name = "NAME_FLOWER")
-    private String name_flower;
+    private String nameFlower;
     @Column(name = "PRICE")
     private Double price;
     @Column(name = "QUANTITY")
@@ -20,20 +21,20 @@ public class Flower {
     public Flower() {
     }
 
-    public Long getId_flower() {
-        return id_flower;
+    public Long getIdFlower() {
+        return idFlower;
     }
 
-    public void setId_flower(Long id_flower) {
-        this.id_flower = id_flower;
+    public void setIdFlower(Long idFlower) {
+        this.idFlower = idFlower;
     }
 
-    public String getName_flower() {
-        return name_flower;
+    public String getNameFlower() {
+        return nameFlower;
     }
 
-    public void setName_flower(String name_flower) {
-        this.name_flower = name_flower;
+    public void setNameFlower(String nameFlower) {
+        this.nameFlower = nameFlower;
     }
 
     public Double getPrice() {

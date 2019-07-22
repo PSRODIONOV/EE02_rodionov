@@ -1,20 +1,15 @@
 package fe.dto;
 
-import be.entity.Order;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class UserDto {
 
     private Long id;
     private String login;
-    private String last_name;
-    private String first_name;
-    private String second_name;
+    private String lastName;
+    private String firstName;
+    private String secondName;
     private String address;
     private String phone;
-    private Double wallet_score;
+    private Double walletScore;
     private Integer discount;
 
     public UserDto(){
@@ -37,28 +32,28 @@ public class UserDto {
         this.login = login;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSecond_name() {
-        return second_name;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getAddress() {
@@ -77,12 +72,12 @@ public class UserDto {
         this.phone = phone;
     }
 
-    public Double getWallet_score() {
-        return wallet_score;
+    public Double getWalletScore() {
+        return walletScore;
     }
 
-    public void setWallet_score(Double wallet_score) {
-        this.wallet_score = wallet_score;
+    public void setWalletScore(Double walletScore) {
+        this.walletScore = walletScore;
     }
 
     public Integer getDiscount() {

@@ -38,7 +38,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
             User user = new User(login, password, address);
             user.setDiscount(0);
-            user.setWallet_score(2000.0);
+            user.setWalletScore(2000.0);
             userDAO.registrationUser(user);
     }
 
@@ -53,7 +53,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     public void pay(Long idUser, Double priceOrder) throws ServiceException{
 
         Double balance;
-        if((balance = userDAO.getUserById(idUser).getWallet_score() - priceOrder) > 0.0) {
+        if((balance = userDAO.getUserById(idUser).getWalletScore() - priceOrder) > 0.0) {
             userDAO.setBalance(idUser, balance);
         }
         else{
