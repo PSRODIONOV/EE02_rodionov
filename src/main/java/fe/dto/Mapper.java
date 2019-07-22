@@ -46,6 +46,7 @@ public class Mapper {
             flowerDto.setId_flower(flower.getId_flower());
             flowerDto.setName_flower(flower.getName_flower());
             flowerDto.setPrice(flower.getPrice());
+            flowerDto.setQuantity(flower.getQuantity());
             return flowerDto;
         }
         return null;

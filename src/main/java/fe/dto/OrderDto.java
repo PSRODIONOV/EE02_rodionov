@@ -12,8 +12,9 @@ public class OrderDto {
     private String status;
 
     public OrderDto() {
-        orderPositions = new ArrayList<>();
-        totalPrice = 0.0;
+        this.orderPositions = new ArrayList<>();
+        this.totalPrice = 0.0;
+        this.status = "not paid";
     }
 
     public Long getId_order() {

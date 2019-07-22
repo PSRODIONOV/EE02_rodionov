@@ -1,23 +1,28 @@
 package be.business;
 
 import be.access.OrderDAO;
+import be.entity.Flower;
 import be.entity.Order;
 import be.entity.OrderPosition;
 import be.entity.User;
+import be.utils.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
 public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Autowired
-    public OrderDAO orderDAO;
+    private OrderDAO orderDAO;
+    @Autowired
+    private UserBusinessService userBusinessService;
+    @Autowired
+    private FlowerBusinessService flowerBusinessService;
 
     private static final Logger LOG = LoggerFactory.getLogger(OrderBusinessServiceImpl.class);
 
@@ -53,11 +58,23 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    public void payOrder(Order order){
-        if(order.getStatus().equals("not paid")){
-            order.setStatus("paid");
-            orderDAO.updateOrder(order);
+    @Transactional
+    public void payOrder(Long idOrder, Long idUser){
+        Order order = orderDAO.getOrderById(idOrder);
+        try {
+            if (order.getStatus().equals("not paid")) {
+                userBusinessService.pay(idUser, order.getTotalPrice());//**изменение баланса юзера
+                order.setStatus("paid");        //**изменение статуса заказа
+                orderDAO.updateOrder(order);    //**на оплачено
+                for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
+                    Flower flower = orderPosition.getFlower();
+                    flowerBusinessService.setQuantity(flower.getId_flower(), flower.getQuantity() - orderPosition.getQuantity());
+                }
+            }
         }
+        catch (ServiceException se){
 
+        }
     }
+
 }

@@ -1,8 +1,10 @@
 package fe.servlet;
 
+import be.business.FlowerBusinessService;
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
-import be.entity.Order;
+import be.utils.FlowerFilter;
+import fe.dto.FlowerDto;
 import fe.dto.Mapper;
 import fe.dto.OrderDto;
 import fe.dto.UserDto;
@@ -19,13 +21,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/service/payorder")
-public class PayOrder extends HttpServlet {
+@WebServlet(urlPatterns = "/mainpage")
+public class MainPageServlet extends HttpServlet {
 
     @Autowired
-    private OrderBusinessService orderBusinessService;
-    @Autowired
     private UserBusinessService userBusinessService;
+    @Autowired
+    private FlowerBusinessService flowerBusinessService;
+    @Autowired
+    private OrderBusinessService orderBusinessService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -38,11 +42,26 @@ public class PayOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession session = req.getSession(false);
-        String idOrder = req.getParameter("id_order");
+        HttpSession session = req.getSession();
+
         UserDto userDto = (UserDto)session.getAttribute("user");
 
-        orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());
-        req.getRequestDispatcher("/mainpage").forward(req, resp);
+        userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
+        session.setAttribute("user", userDto);
+
+        List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllMyOrders(Mapper.map(userDto)));
+        req.setAttribute("orders", ordersDto);
+
+        FlowerFilter filter = (FlowerFilter) req.getAttribute("filter");
+        List<FlowerDto> flowersDto;
+        if(filter != null){
+            flowersDto = Mapper.mapFlowers(flowerBusinessService.searchFilter(filter));
+        }
+        else {
+            flowersDto = Mapper.mapFlowers(flowerBusinessService.getAllFlowers());
+        }
+        req.setAttribute("flowers", flowersDto);
+
+        req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
     }
 }

@@ -23,11 +23,11 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     @Autowired
-    private UserBusinessService ubs;
+    private UserBusinessService userBusinessService;
     @Autowired
-    private FlowerBusinessService fbs;
+    private FlowerBusinessService flowerBusinessService;
     @Autowired
-    private OrderBusinessService obs;
+    private OrderBusinessService orderBusinessService;
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginServlet.class);
 
@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
         UserDto currentUser;
-        if((currentUser = Mapper.map(ubs.login(login, password))) != null) {
+        if((currentUser = Mapper.map(userBusinessService.login(login, password))) != null) {
             session.setAttribute("user", currentUser);
         }
         else {
@@ -56,8 +56,6 @@ public class LoginServlet extends HttpServlet {
         }
         LOG.info("USER "+ session.getAttribute("user") + " LOGGED IN.");
 
-        req.setAttribute("flowers", Mapper.mapFlowers(fbs.getAllFlowers()));
-        req.setAttribute("orders", Mapper.mapOrders(obs.getAllMyOrders(Mapper.map(currentUser))));
-        req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

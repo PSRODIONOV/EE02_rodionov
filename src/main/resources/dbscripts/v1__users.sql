@@ -17,7 +17,7 @@ primary key (id_user),
 unique(login)
 );
 
-insert into "USERS"(id_user, login, password, address) values (seq_user.nextval, 'user', '1234', 'mypochta@mail.ru');
+insert into "USERS"(id_user, login, password, address, wallet_score, discount) values (seq_user.nextval, 'user', '1234', 'mypochta@mail.ru', 0, 0);
 
 create table FLOWERS(
 id_flower number(10, 0),
@@ -36,7 +36,7 @@ create table ORDERS(
 id_order number(10, 0),
 id_user number(10, 0),
 total_price number(10,0),
-status varchar2 check(status in ('not paid', 'paid', 'canceled')),
+status varchar2 default 'not paid' check(status in ('not paid', 'paid', 'canceled')),
 primary key (id_order),
 foreign key (id_user) references users(id_user)
 );

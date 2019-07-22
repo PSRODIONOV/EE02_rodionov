@@ -1,12 +1,15 @@
 package be.access;
 
 import be.entity.Flower;
+import be.utils.FlowerFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -38,6 +41,31 @@ public class FlowerDAOImpl implements FlowerDAO {
     @Override
     public List<Flower> getAllFlowers() {
         TypedQuery<Flower> q = em.createQuery("select f from Flower f", Flower.class);
+        return q.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void update(Flower flower){
+        em.merge(flower);
+        em.flush();
+    }
+
+    @Override
+    @Transactional
+    public void setQuantity(Long idFlower, Long quantity){
+        Query q = em.createQuery("update Flower f set f.quantity = :quantity where f.id_flower = :idFlower");
+        q.setParameter("quantity", quantity);
+        q.setParameter("idFlower", idFlower);
+        q.executeUpdate();
+        em.flush();
+    }
+
+    @Override
+    public List<Flower> searchFilter(FlowerFilter filter) {
+        String temp = filter.toString();
+        TypedQuery<Flower> q = em.createQuery("select f from Flower f " + temp, Flower.class);
+        //q.setParameter("criteria", filter.toString());
         return q.getResultList();
     }
 }

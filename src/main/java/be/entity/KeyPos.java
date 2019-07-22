@@ -7,11 +7,11 @@ import java.io.Serializable;
 @Embeddable
 public class KeyPos implements Serializable {
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id_order", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name="id_order")
     private Order order;
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_flower", nullable = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_flower")
     private Flower flower;
 
 

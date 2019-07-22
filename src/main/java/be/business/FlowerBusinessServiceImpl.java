@@ -2,6 +2,7 @@ package be.business;
 
 import be.access.FlowerDAO;
 import be.entity.Flower;
+import be.utils.FlowerFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 public class FlowerBusinessServiceImpl implements FlowerBusinessService {
 
     @Autowired
-    FlowerDAO flowerDAO;
+    private FlowerDAO flowerDAO;
 
     private static final Logger LOG = LoggerFactory.getLogger(FlowerBusinessServiceImpl.class);
 
@@ -36,4 +37,18 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
         return flowerDAO.getFlowerByName(name);
     }
 
+    @Override
+    public void update(Flower flower){
+        flowerDAO.update(flower);
+    }
+
+    @Override
+    public void setQuantity(Long idFlower, Long quantity){
+        flowerDAO.setQuantity(idFlower, quantity);
+    }
+
+    @Override
+    public List<Flower> searchFilter(FlowerFilter filter) {
+        return flowerDAO.searchFilter(filter);
+    }
 }

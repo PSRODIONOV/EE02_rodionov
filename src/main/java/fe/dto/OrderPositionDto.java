@@ -5,7 +5,7 @@ public class OrderPositionDto {
     private Long idOrder;
     private FlowerDto flowerDto;
     private Long quantity;
-    private OrderDto orderDto;
+    private Double price;
 
     public OrderPositionDto(){
     }
@@ -34,11 +34,11 @@ public class OrderPositionDto {
         this.idOrder = idOrder;
     }
 
-    public OrderDto getOrderDto() {
-        return orderDto;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setOrderDto(OrderDto orderDto) {
-        this.orderDto = orderDto;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

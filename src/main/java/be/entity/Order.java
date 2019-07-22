@@ -14,13 +14,12 @@ public class Order {
     @SequenceGenerator(name = "cust", sequenceName = "seq_order", allocationSize = 1, initialValue = 1)
     private Long id_order;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_user")
     private User user;
 
     @OneToMany(mappedBy = "order",
-            orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL
-    )
+            orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private List<OrderPosition> orderPositions = new ArrayList<>();
 
     @Column(name = "total_price")

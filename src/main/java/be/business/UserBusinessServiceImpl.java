@@ -2,10 +2,12 @@ package be.business;
 
 import be.access.UserDAO;
 import be.entity.User;
+import be.utils.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserBusinessServiceImpl implements UserBusinessService {
@@ -47,14 +49,15 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    public void logout() {
+    @Transactional
+    public void pay(Long idUser, Double priceOrder) throws ServiceException{
 
-    }
-
-    @Override
-    public void pay(Long id, Double priceOrder){
-
-        Double balance = userDAO.getUserById(id).getWallet_score() - priceOrder;
-        userDAO.setBalance(id, balance);
+        Double balance;
+        if((balance = userDAO.getUserById(idUser).getWallet_score() - priceOrder) > 0.0) {
+            userDAO.setBalance(idUser, balance);
+        }
+        else{
+            throw new ServiceException(ServiceException.ERROR_USER_BALANCE);
+        }
     }
 }

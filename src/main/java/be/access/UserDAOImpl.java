@@ -52,6 +52,7 @@ public class UserDAOImpl implements UserDAO {
         Query q = em.createQuery("update User u set u.wallet_score = :balance where u.id = :id");
         q.setParameter("id", id);
         q.setParameter("balance", balance);
+        q.executeUpdate();
         em.flush();
     }
 

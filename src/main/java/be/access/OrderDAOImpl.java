@@ -34,6 +34,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    @Transactional
     public void updateOrder(Order order) {
         em.merge(order);
         em.flush();
@@ -46,6 +47,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    @Transactional
     public void delOrder(Order order) {
 
         em.remove(order);
@@ -53,6 +55,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    @Transactional
     public void delOrderById(Long id) {
 
         em.remove(em.find(Order.class, id));
