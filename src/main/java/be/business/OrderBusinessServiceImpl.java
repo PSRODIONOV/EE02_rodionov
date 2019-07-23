@@ -53,8 +53,11 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    public List<Order> getAllMyOrders(User user) {
-        return orderDAO.getAllMyOrders(user);
+    public List<Order> getAllOrders(User user) {
+        if(user.getRole().equals("user")){
+            return orderDAO.getAllMyOrders(user.getIdUser());
+        }
+        return orderDAO.getAllOrders();
     }
 
     @Override
@@ -64,8 +67,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
         try {
             if (order.getStatus().equals("not paid")) {
                 userBusinessService.pay(idUser, order.getTotalPrice());//**изменение баланса юзера
-                order.setStatus("paid");        //**изменение статуса заказа
-                orderDAO.updateOrder(order);    //**на оплачено
+                orderDAO.updateStatus(order.getIdOrder(), "paid");    //**изменение статуса заказа на оплачено
                 for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
                     Flower flower = orderPosition.getFlower();
                     flowerBusinessService.setQuantity(flower.getIdFlower(), flower.getQuantity() - orderPosition.getQuantity());
@@ -77,4 +79,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
         }
     }
 
+    @Override
+    public void closeOrder(Long idOrder) {
+        orderDAO.updateStatus(idOrder, "closed");
+    }
 }

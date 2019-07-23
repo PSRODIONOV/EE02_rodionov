@@ -10,9 +10,11 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
-    @SequenceGenerator(name = "cust", sequenceName = "seq_user")
+    @SequenceGenerator(name = "cust", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
     @Column(name = "ID_USER")
     private Long idUser;
+    @Column(name ="ROLE")
+    private String role;
     @Column(name = "LOGIN")
     private String login;
     @Column(name = "PASSWORD")
@@ -48,6 +50,14 @@ public class User implements Serializable {
 
     public void setIdUser(Long idUser) {
         this.idUser = idUser;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getLogin() {

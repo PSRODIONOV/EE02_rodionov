@@ -49,7 +49,7 @@ public class MainPageServlet extends HttpServlet {
         userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
         session.setAttribute("user", userDto);
 
-        List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllMyOrders(Mapper.map(userDto)));
+        List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));
         req.setAttribute("orders", ordersDto);
 
         FlowerFilter filter = (FlowerFilter) req.getAttribute("filter");
@@ -62,6 +62,11 @@ public class MainPageServlet extends HttpServlet {
         }
         req.setAttribute("flowers", flowersDto);
 
-        req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
+        if(userDto.getRole().equals("user")) {
+            req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
+        }
+        else{
+            req.getRequestDispatcher("/adminMainPage.jsp").forward(req, resp);
+        }
     }
 }

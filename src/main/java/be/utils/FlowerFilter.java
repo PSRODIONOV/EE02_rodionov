@@ -29,7 +29,7 @@ public class FlowerFilter {
             if(!criteria.isEmpty()) {
                 criteria += " and ";
             }
-            criteria += "f.name_flower like '"+name+"'";
+            criteria += "f.nameFlower like "+ "'%"+name+"%'";
         }
         if(criteria.isEmpty()){
             return criteria;

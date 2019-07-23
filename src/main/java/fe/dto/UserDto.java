@@ -3,6 +3,7 @@ package fe.dto;
 public class UserDto {
 
     private Long id;
+    private String role;
     private String login;
     private String lastName;
     private String firstName;
@@ -22,6 +23,14 @@ public class UserDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getLogin() {

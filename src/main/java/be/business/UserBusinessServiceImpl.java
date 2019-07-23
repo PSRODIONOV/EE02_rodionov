@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
+
 @Service
 public class UserBusinessServiceImpl implements UserBusinessService {
 
@@ -25,10 +27,15 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Override
     public User login(String login, String password) {
         User user;
-        if((user = userDAO.getUserByLogin(login))!= null) {
-            if(user.getPassword().equals(password)) {
-                return user;
+        try {
+            if ((user = userDAO.getUserByLogin(login)) != null) {
+                if (user.getPassword().equals(password)) {
+                    return user;
+                }
             }
+        }
+        catch (NoResultException e) {
+            return null;
         }
         return null;
     }
@@ -39,6 +46,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             User user = new User(login, password, address);
             user.setDiscount(0);
             user.setWalletScore(2000.0);
+            user.setRole("user");
             userDAO.registrationUser(user);
     }
 

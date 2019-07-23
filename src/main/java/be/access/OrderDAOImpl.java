@@ -1,7 +1,6 @@
 package be.access;
 
 import be.entity.Order;
-import be.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -41,6 +41,16 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    @Transactional
+    public void updateStatus(Long idOrder, String status){
+        Query q = em.createQuery("update Order o set o.status = :status where o.idOrder = :idOrder");
+        q.setParameter("idOrder", idOrder);
+        q.setParameter("status", status);
+        q.executeUpdate();
+        em.flush();
+    }
+
+    @Override
     public Order getOrderById(Long id)
     {
         return em.find(Order.class, id);
@@ -63,17 +73,16 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> getAllOrders() {
+    public List<Order> getAllMyOrders(Long idUser) {
 
-        TypedQuery<Order> q = em.createQuery("select o from Order o", Order.class);
+        TypedQuery<Order> q = em.createQuery("select o from Order o where o.user.idUser = :id", Order.class);
+        q.setParameter("id", idUser);
         return q.getResultList();
     }
 
     @Override
-    public List<Order> getAllMyOrders(User user) {
-
-        TypedQuery<Order> q = em.createQuery("select o from Order o where o.user.idUser = :id", Order.class);
-        q.setParameter("id", user.getIdUser());
+    public List<Order> getAllOrders(){
+        TypedQuery<Order> q = em.createQuery("select o from Order o", Order.class);
         return q.getResultList();
     }
 }

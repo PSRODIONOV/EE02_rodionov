@@ -23,32 +23,38 @@
     <h2>CATALOG</h2>
     <h3>Filter for search</h3>
         <form method="post" action="/flowershop/service/search">
-            <input type="text" name="from" placeholder="from"></input>
-            <input type="text" name="to" placeholder="to"></input>
-            <input type="text" name="name" placeholder="name"></input>
-            <button type="submit"> Search </button>
+            <div class="panel">
+                <input type="text" name="from" placeholder="from"></input>
+                <input type="text" name="to" placeholder="to"></input>
+                <input type="text" name="name" placeholder="name"></input>
+                <button type="submit"> Search </button>
+            </div>
         </form>
     <form method="post" action="/flowershop/service/addToBasket">
-        <table>
-            <tr>
-                <td>Name</td>
-                <td>Price</td>
-                <td>Quantity</td>
-            </tr>
-            <c:forEach items = "${flowers}" var="iterator" varStatus="rowStatus">
-                <tr>
-                    <td>${iterator.nameFlower}</td>
-                    <td>${iterator.price}</td>
-                    <td>${iterator.quantity}</td>
-                    <td><button type="submit" name="idFlower" value="${iterator.idFlower}"> Get</button>
-                    </td>
-                </tr>
-            </c:forEach>
-            <tr>
-                <td><input type="text" name="quantity" placeholder="quantity"></input></td>
-                <td><p id="err">${err}</p></td>
-            </tr>
-        </table>
+        <div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                    </tr>
+                    <c:forEach items = "${flowers}" var="iterator" varStatus="rowStatus">
+                        <tr>
+                            <td>${iterator.nameFlower}</td>
+                            <td>${iterator.price}</td>
+                            <td>${iterator.quantity}</td>
+                            <td><button type="submit" name="idFlower" value="${iterator.idFlower}"> Get</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel">
+            <input type="text" name="quantity" placeholder="quantity"></input>
+            <p id="err" name="err">${err}</p>
+        </div>
     </form>
 
     <h2>BASKET</h2>
@@ -101,10 +107,12 @@
                     <td>${iterator.totalPrice}</td>
                     <td>${iterator.status}</td>
                     <td>
-                    <button type="submit"
-                            name="idOrder"
-                            value="${iterator.idOrder}"
-                            > To pay </button>
+                    <c:if test = "${iterator.status eq 'not paid'}">
+                        <button type="submit"
+                                name="idOrder"
+                                value="${iterator.idOrder}"
+                         > To pay </button>
+                    </c:if>
                     </td>
                 </tr>
             </c:forEach>

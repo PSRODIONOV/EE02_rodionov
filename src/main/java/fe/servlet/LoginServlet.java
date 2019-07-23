@@ -50,12 +50,13 @@ public class LoginServlet extends HttpServlet {
         UserDto currentUser;
         if((currentUser = Mapper.map(userBusinessService.login(login, password))) != null) {
             session.setAttribute("user", currentUser);
+            LOG.info("USER "+ currentUser.getLogin() + " LOGGED IN.");
+            req.getRequestDispatcher("/mainpage").forward(req, resp);
         }
         else {
-            throw new ServletException("You shall not pass!");
+            req.setAttribute("err", "Invalid login or password.");
+            req.getRequestDispatcher("/loginPage.jsp").forward(req, resp);
         }
-        LOG.info("USER "+ session.getAttribute("user") + " LOGGED IN.");
 
-        req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

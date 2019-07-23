@@ -11,6 +11,7 @@ public interface OrderBusinessService {
    void updateOrder(Order order);
    Order getOrderById(Long id);
    void delOrderById(Long id);
-   List<Order> getAllMyOrders(User user);
+   List<Order> getAllOrders(User user);
    void payOrder(Long idOrder, Long idUser);
+   void closeOrder(Long idOrder);
 }

@@ -4,6 +4,7 @@ table{
     border:2px solid grey;
     border-collapse:collapse;
     border-bottom-style:dotted;
+    font-size:20px;
 }
 td{
     background-color:LightGrey;
@@ -11,6 +12,9 @@ td{
     height:50px;
     width:100px;
 }
-#err{
-    color:red;
+
+div.panel{
+    height:50px;
+    margin:20px;
 }
+

@@ -14,6 +14,7 @@ public class Mapper {
         if(user != null) {
             UserDto userDto = new UserDto();
             userDto.setId(user.getIdUser());
+            userDto.setRole(user.getRole());
             userDto.setLogin(user.getLogin());
             userDto.setLastName(user.getLastName());
             userDto.setFirstName(user.getFirstName());
@@ -73,6 +74,7 @@ public class Mapper {
             user.setSecondName(userDto.getSecondName());
             user.setPhone(userDto.getPhone());
             user.setLogin(userDto.getLogin());
+            user.setRole(userDto.getRole());
             return user;
         }
         return null;

@@ -8,7 +8,7 @@ public class Flower {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
-    @SequenceGenerator(name = "cust", sequenceName = "seq_flower")
+    @SequenceGenerator(name = "cust", sequenceName = "seq_flower",allocationSize = 1, initialValue = 1)
     @Column(name = "ID_FLOWER")
     private Long idFlower;
     @Column(name = "NAME_FLOWER")
