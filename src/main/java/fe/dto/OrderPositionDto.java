@@ -1,11 +1,13 @@
 package fe.dto;
 
+import java.math.BigDecimal;
+
 public class OrderPositionDto {
 
     private Long idOrder;
     private FlowerDto flowerDto;
     private Long quantity;
-    private Double price;
+    private BigDecimal price;
 
     public OrderPositionDto(){
     }
@@ -34,11 +36,11 @@ public class OrderPositionDto {
         this.idOrder = idOrder;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

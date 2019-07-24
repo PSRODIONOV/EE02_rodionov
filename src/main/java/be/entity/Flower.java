@@ -1,6 +1,7 @@
 package be.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "FLOWERS")
@@ -14,7 +15,7 @@ public class Flower {
     @Column(name = "NAME_FLOWER")
     private String nameFlower;
     @Column(name = "PRICE")
-    private Double price;
+    private BigDecimal price;
     @Column(name = "QUANTITY")
     private Long quantity;
 
@@ -37,11 +38,11 @@ public class Flower {
         this.nameFlower = nameFlower;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

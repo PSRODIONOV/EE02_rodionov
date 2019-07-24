@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.math.BigDecimal;
 
 @Service
 public class UserBusinessServiceImpl implements UserBusinessService {
@@ -45,7 +46,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
             User user = new User(login, password, address);
             user.setDiscount(0);
-            user.setWalletScore(2000.0);
+            user.setWalletScore(new BigDecimal(2000));
             user.setRole("user");
             userDAO.registrationUser(user);
     }
@@ -58,10 +59,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Override
     @Transactional
-    public void pay(Long idUser, Double priceOrder) throws ServiceException{
+    public void pay(Long idUser, BigDecimal priceOrder) throws ServiceException{
 
-        Double balance;
-        if((balance = userDAO.getUserById(idUser).getWalletScore() - priceOrder) > 0.0) {
+        BigDecimal balance;
+        if((balance = userDAO.getUserById(idUser).getWalletScore().subtract(priceOrder)).compareTo(new BigDecimal(0)) != -1) {
             userDAO.setBalance(idUser, balance);
         }
         else{

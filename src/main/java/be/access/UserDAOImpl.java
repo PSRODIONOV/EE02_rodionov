@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.math.BigDecimal;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -48,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public void setBalance(Long id, Double balance){
+    public void setBalance(Long id, BigDecimal balance){
         Query q = em.createQuery("update User u set u.walletScore = :balance where u.id = :id");
         q.setParameter("id", id);
         q.setParameter("balance", balance);

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet(urlPatterns = "/service/addToBasket")
 public class AddToBasket extends HttpServlet {
@@ -45,7 +46,7 @@ public class AddToBasket extends HttpServlet {
                 OrderPositionDto orderPositionDto = new OrderPositionDto();
                 orderPositionDto.setQuantity(quantity);
                 orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
-                orderPositionDto.setPrice(orderPositionDto.getFlowerDto().getPrice() * orderPositionDto.getQuantity());
+                orderPositionDto.setPrice(orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity())));
 
                 HttpSession session = req.getSession(false);
                 OrderDto orderDto = (OrderDto) session.getAttribute("order");
@@ -57,7 +58,7 @@ public class AddToBasket extends HttpServlet {
 
                 orderDto.setUserDto(userDto);
                 orderDto.addOrderPosition(orderPositionDto);
-                Double totalPrice = ((100.0 - orderDto.getUserDto().getDiscount()) / 100.0) * orderDto.getTotalPrice();
+                BigDecimal totalPrice = orderDto.getTotalPrice().multiply(new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
                 orderDto.setTotalPrice(totalPrice);
                 session.setAttribute("order", orderDto);
                 req.setAttribute("err", "Item is added.");

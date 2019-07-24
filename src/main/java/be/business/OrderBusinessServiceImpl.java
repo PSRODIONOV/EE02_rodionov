@@ -87,7 +87,6 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     public void closeOrder(Long idOrder) {
-        //orderDAO.updateStatus(idOrder, "closed");
         Order order = orderDAO.getOrderById(idOrder);
         order.setStatus("closed");
         order.setDateClose(new Date(Calendar.getInstance().getTime().getTime()));

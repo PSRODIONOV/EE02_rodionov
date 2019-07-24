@@ -1,6 +1,7 @@
 package be.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Order {
     private List<OrderPosition> orderPositions = new ArrayList<>();
 
     @Column(name = "total_price")
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     @Column(name ="status")
     private String status;
@@ -37,7 +38,7 @@ public class Order {
     private Date dateClose;
 
     public Order() {
-        totalPrice = 0.0;
+        totalPrice = new BigDecimal(0);
     }
 
     public User getUser() {
@@ -75,11 +76,11 @@ public class Order {
         }
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

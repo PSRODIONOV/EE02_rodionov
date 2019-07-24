@@ -1,5 +1,7 @@
 package fe.dto;
 
+import java.math.BigDecimal;
+
 public class UserDto {
 
     private Long id;
@@ -10,7 +12,7 @@ public class UserDto {
     private String secondName;
     private String address;
     private String phone;
-    private Double walletScore;
+    private BigDecimal walletScore;
     private Integer discount;
 
     public UserDto(){
@@ -81,11 +83,11 @@ public class UserDto {
         this.phone = phone;
     }
 
-    public Double getWalletScore() {
+    public BigDecimal getWalletScore() {
         return walletScore;
     }
 
-    public void setWalletScore(Double walletScore) {
+    public void setWalletScore(BigDecimal walletScore) {
         this.walletScore = walletScore;
     }
 

@@ -1,14 +1,16 @@
 package fe.dto;
 
+import java.math.BigDecimal;
+
 public class FlowerDto {
 
     private Long idFlower;
     private String nameFlower;
-    private Double price;
+    private BigDecimal price;
     private Long quantity;
 
     public FlowerDto(){
-        this.price = 0.0;
+        this.price = new BigDecimal(0);
     }
 
     public Long getIdFlower() {
@@ -27,11 +29,11 @@ public class FlowerDto {
         this.nameFlower = nameFlower;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

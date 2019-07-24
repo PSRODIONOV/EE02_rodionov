@@ -2,6 +2,7 @@ package be.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,7 @@ public class User implements Serializable {
     @Column (name = "PHONE")
     private String phone;
     @Column (name = "WALLET_SCORE")
-    private Double walletScore;
+    private BigDecimal walletScore;
     @Column (name = "DISCOUNT")
     private Integer discount;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -116,11 +117,11 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Double getWalletScore() {
+    public BigDecimal getWalletScore() {
         return walletScore;
     }
 
-    public void setWalletScore(Double walletScore) {
+    public void setWalletScore(BigDecimal walletScore) {
         this.walletScore = walletScore;
     }
 

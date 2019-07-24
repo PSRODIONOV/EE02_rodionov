@@ -46,6 +46,7 @@ public class MainPageServlet extends HttpServlet {
 
         UserDto userDto = (UserDto)session.getAttribute("user");
 
+        userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
         session.setAttribute("user", userDto);
 
         List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));

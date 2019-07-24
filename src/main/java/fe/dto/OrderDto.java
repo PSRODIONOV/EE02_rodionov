@@ -1,5 +1,6 @@
 package fe.dto;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +10,14 @@ public class OrderDto {
     private Long idOrder;
     private UserDto userDto;
     private List<OrderPositionDto> orderPositions;
-    private Double totalPrice;
+    private BigDecimal totalPrice;
     private String status;
     private String dateCreate;
     private String dateClose;
 
     public OrderDto() {
         this.orderPositions = new ArrayList<>();
-        this.totalPrice = 0.0;
+        this.totalPrice = new BigDecimal(0);
     }
 
     public Long getIdOrder() {
@@ -44,11 +45,11 @@ public class OrderDto {
     }
 
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -94,7 +95,7 @@ public class OrderDto {
             }
         }
         this.orderPositions.add(newOrderPositionDto);
-        this.totalPrice += newOrderPositionDto.getFlowerDto().getPrice()*newOrderPositionDto.getQuantity();
+        this.totalPrice = this.totalPrice.add( newOrderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(newOrderPositionDto.getQuantity())));
     }
 
     public void removeOrderPosition(Long id){
@@ -102,7 +103,7 @@ public class OrderDto {
         for (OrderPositionDto orderPositionDto: this.orderPositions) {
             if(orderPositionDto.getFlowerDto().getIdFlower() == id){
                 this.orderPositions.remove(orderPositionDto);
-                this.totalPrice -= orderPositionDto.getFlowerDto().getPrice()*orderPositionDto.getQuantity();
+                this.totalPrice = this.totalPrice.subtract(orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity())));
                 return;
             }
         }
