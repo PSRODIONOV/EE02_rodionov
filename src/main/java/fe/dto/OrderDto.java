@@ -1,5 +1,6 @@
 package fe.dto;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,12 @@ public class OrderDto {
     private List<OrderPositionDto> orderPositions;
     private Double totalPrice;
     private String status;
+    private String dateCreate;
+    private String dateClose;
 
     public OrderDto() {
         this.orderPositions = new ArrayList<>();
         this.totalPrice = 0.0;
-        this.status = "not paid";
     }
 
     public Long getIdOrder() {
@@ -56,6 +58,32 @@ public class OrderDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        if(dateCreate != null) {
+            this.dateCreate = dateCreate.toString();
+        }
+        else {
+            this.dateCreate = "--.--.----";
+        }
+    }
+
+    public String getDateClose() {
+        return dateClose;
+    }
+
+    public void setDateClose(Date dateClose) {
+        if(dateClose != null) {
+            this.dateClose = dateClose.toString();
+        }
+        else {
+            this.dateClose = "--.--.----";
+        }
     }
 
     public void addOrderPosition(OrderPositionDto newOrderPositionDto){

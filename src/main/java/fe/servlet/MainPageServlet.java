@@ -5,7 +5,7 @@ import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
 import be.utils.FlowerFilter;
 import fe.dto.FlowerDto;
-import fe.dto.Mapper;
+import be.utils.Mapper;
 import fe.dto.OrderDto;
 import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,6 @@ public class MainPageServlet extends HttpServlet {
 
         UserDto userDto = (UserDto)session.getAttribute("user");
 
-        userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
         session.setAttribute("user", userDto);
 
         List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));

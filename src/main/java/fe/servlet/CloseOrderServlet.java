@@ -1,8 +1,6 @@
 package fe.servlet;
 
 import be.business.OrderBusinessService;
-import be.business.UserBusinessService;
-import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -15,13 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/service/payorder")
-public class PayOrder extends HttpServlet {
+@WebServlet(urlPatterns = "/admin/closeorder")
+public class CloseOrderServlet extends HttpServlet {
 
     @Autowired
     private OrderBusinessService orderBusinessService;
-    @Autowired
-    private UserBusinessService userBusinessService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -36,9 +32,7 @@ public class PayOrder extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         String idOrder = req.getParameter("idOrder");
-        UserDto userDto = (UserDto)session.getAttribute("user");
-
-        orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());
+        orderBusinessService.closeOrder(Long.parseLong(idOrder));
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

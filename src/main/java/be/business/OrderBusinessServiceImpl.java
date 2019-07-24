@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -33,6 +35,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     public void addOrder(Order order) {
+        order.setDateCreate(new Date(Calendar.getInstance().getTime().getTime()));
+        order.setStatus("not paid");
         orderDAO.addOrder(order);
     }
 
@@ -67,7 +71,9 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
         try {
             if (order.getStatus().equals("not paid")) {
                 userBusinessService.pay(idUser, order.getTotalPrice());//**изменение баланса юзера
-                orderDAO.updateStatus(order.getIdOrder(), "paid");    //**изменение статуса заказа на оплачено
+                order.setStatus("paid");
+                orderDAO.updateStatus(order.getIdOrder(), "paid");
+                //orderDAO.updateStatus(order.getIdOrder(), "paid");    //**изменение статуса заказа на оплачено
                 for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
                     Flower flower = orderPosition.getFlower();
                     flowerBusinessService.setQuantity(flower.getIdFlower(), flower.getQuantity() - orderPosition.getQuantity());
@@ -81,6 +87,10 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     public void closeOrder(Long idOrder) {
-        orderDAO.updateStatus(idOrder, "closed");
+        //orderDAO.updateStatus(idOrder, "closed");
+        Order order = orderDAO.getOrderById(idOrder);
+        order.setStatus("closed");
+        order.setDateClose(new Date(Calendar.getInstance().getTime().getTime()));
+        orderDAO.updateOrder(order);
     }
 }

@@ -39,7 +39,7 @@ public class RegServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         ubs.registration(login, password, address);
-        LOG.info("USER "+login+" CREATED.");
+        LOG.info("USER " + login + " CREATED.");
         resp.sendRedirect("/flowershop/loginPage.jsp");
     }
 }

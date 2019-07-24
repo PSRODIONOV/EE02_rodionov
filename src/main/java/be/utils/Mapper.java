@@ -1,10 +1,15 @@
-package fe.dto;
+package be.utils;
 
 import be.entity.Flower;
 import be.entity.Order;
 import be.entity.OrderPosition;
 import be.entity.User;
+import fe.dto.FlowerDto;
+import fe.dto.OrderDto;
+import fe.dto.OrderPositionDto;
+import fe.dto.UserDto;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +41,8 @@ public class Mapper {
             orderDto.setOrderPositions(mapOrderPositionsDto(order.getOrderPositions()));
             orderDto.setTotalPrice(order.getTotalPrice());
             orderDto.setStatus(order.getStatus());
+            orderDto.setDateCreate(order.getDateCreate());
+            orderDto.setDateClose(order.getDateClose());
             return orderDto;
         }
         return null;

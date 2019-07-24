@@ -2,7 +2,7 @@ package fe.servlet;
 
 import be.business.FlowerBusinessService;
 import be.utils.FlowerFilter;
-import fe.dto.Mapper;
+import be.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 

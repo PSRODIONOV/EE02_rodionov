@@ -1,6 +1,7 @@
 package be.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,12 @@ public class Order {
 
     @Column(name ="status")
     private String status;
+
+    @Column(name = "date_create")
+    private Date dateCreate;
+
+    @Column(name = "date_close")
+    private Date dateClose;
 
     public Order() {
         totalPrice = 0.0;
@@ -79,5 +86,21 @@ public class Order {
     public void addOrderPosition(OrderPosition orderPosition){
         this.orderPositions.add(orderPosition);
         orderPosition.setOrder(this);
+    }
+
+    public Date getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    public Date getDateClose() {
+        return dateClose;
+    }
+
+    public void setDateClose(Date dateClose) {
+        this.dateClose = dateClose;
     }
 }

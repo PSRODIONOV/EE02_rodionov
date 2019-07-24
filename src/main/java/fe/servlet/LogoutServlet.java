@@ -30,7 +30,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        LOG.info(((UserDto)session.getAttribute("user")).getLogin()+" LOGGED OUT");
+        LOG.info("USER "+ ((UserDto)session.getAttribute("user")).getLogin()+" LOGGED OUT");
         session.invalidate();
         resp.sendRedirect("/flowershop/loginPage.jsp");
     }

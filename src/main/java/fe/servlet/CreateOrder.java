@@ -2,7 +2,7 @@ package fe.servlet;
 
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
-import fe.dto.Mapper;
+import be.utils.Mapper;
 import fe.dto.OrderDto;
 import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
