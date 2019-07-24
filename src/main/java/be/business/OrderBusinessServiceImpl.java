@@ -7,6 +7,7 @@ import be.entity.OrderPosition;
 import be.entity.User;
 import be.utils.ServiceException;
 import be.utils.enums.OrderStatus;
+import be.utils.enums.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     public OrderBusinessServiceImpl() {
 
-        LOG.info(":::::::::"+this.getClass()+" IS CREATED:::::::::");
+        LOG.info(":::::::::" + this.getClass() + " IS CREATED:::::::::");
     }
 
     @Override
@@ -59,7 +60,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     public List<Order> getAllOrders(User user) {
-        if(user.getRole().equals("user")){
+        if (user.getRole() == UserType.USER) {
             return orderDAO.getAllMyOrders(user.getIdUser());
         }
         return orderDAO.getAllOrders();
@@ -67,22 +68,21 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-    public void payOrder(Long idOrder, Long idUser){
+    public void payOrder(Long idOrder, Long idUser) {
         Order order = orderDAO.getOrderById(idOrder);
         try {
-            if (order.getStatus().equals("not paid")) {
-                if(order.getUser().getIdUser() == idUser) {
+            if (order.getStatus() == OrderStatus.CREATED) {
+                if (order.getUser().getIdUser() == idUser) {
                     userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
                 }
                 order.setStatus(OrderStatus.PAID);
-                orderDAO.updateStatus(order.getIdOrder(), "paid");//**изменение статуса заказа на оплачено
+                orderDAO.updateOrder(order);//**изменение статуса заказа на оплачено
                 for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
                     Flower flower = orderPosition.getFlower();
                     flowerBusinessService.setQuantity(flower.getIdFlower(), flower.getQuantity() - orderPosition.getQuantity());
                 }
             }
-        }
-        catch (ServiceException se){
+        } catch (ServiceException se) {
 
         }
     }

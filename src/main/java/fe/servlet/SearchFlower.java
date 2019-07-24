@@ -32,13 +32,12 @@ public class SearchFlower extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
         String from = req.getParameter("from");
         String to = req.getParameter("to");
         String name = req.getParameter("name");
         FlowerFilter filter = new FlowerFilter(from, to, name);
         req.setAttribute(SessionAttribute.FILTER.toString(), filter);
-        req.setAttribute(SessionAttribute.FLOWERS.toString(), Mapper.mapFlowers(flowerBusinessService.searchFilter(filter)));
+        //req.setAttribute(SessionAttribute.FLOWERS.toString(), Mapper.mapFlowers(flowerBusinessService.searchFilter(filter)));
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }
