@@ -3,6 +3,7 @@ package fe.servlet;
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
 import be.utils.Mapper;
+import be.utils.enums.SessionAttribute;
 import fe.dto.OrderDto;
 import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,13 @@ public class CreateOrder extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        OrderDto orderDto = (OrderDto) session.getAttribute("order");
-        UserDto currentUser = (UserDto) session.getAttribute("user");
+        OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
+        UserDto currentUser = (UserDto) session.getAttribute(SessionAttribute.USER.toString());
         if(orderDto == null){
             orderDto = new OrderDto();
         }
         orderBusinessService.addOrder(Mapper.map(orderDto));
-        session.removeAttribute("order");
+        session.removeAttribute(SessionAttribute.BASKET.toString());
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

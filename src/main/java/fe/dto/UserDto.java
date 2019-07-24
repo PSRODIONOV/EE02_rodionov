@@ -1,11 +1,13 @@
 package fe.dto;
 
+import be.utils.enums.UserType;
+
 import java.math.BigDecimal;
 
 public class UserDto {
 
     private Long id;
-    private String role;
+    private UserType role;
     private String login;
     private String lastName;
     private String firstName;
@@ -27,11 +29,11 @@ public class UserDto {
         this.id = id;
     }
 
-    public String getRole() {
+    public UserType getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserType role) {
         this.role = role;
     }
 

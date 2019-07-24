@@ -1,6 +1,7 @@
 package be.business;
 
 import be.entity.Order;
+import be.entity.OrderPosition;
 import be.entity.User;
 
 import java.util.List;

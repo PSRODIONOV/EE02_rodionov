@@ -3,6 +3,7 @@ package be.business;
 import be.access.UserDAO;
 import be.entity.User;
 import be.utils.ServiceException;
+import be.utils.enums.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,9 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     public void registration(String login, String password, String address) {
 
             User user = new User(login, password, address);
-            user.setDiscount(0);
+            user.setDiscount(5);
             user.setWalletScore(new BigDecimal(2000));
-            user.setRole("user");
+            user.setRole(UserType.USER);
             userDAO.registrationUser(user);
     }
 

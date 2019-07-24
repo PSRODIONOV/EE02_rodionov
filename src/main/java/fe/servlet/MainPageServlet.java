@@ -4,8 +4,10 @@ import be.business.FlowerBusinessService;
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
 import be.utils.FlowerFilter;
-import fe.dto.FlowerDto;
 import be.utils.Mapper;
+import be.utils.enums.SessionAttribute;
+import be.utils.enums.UserType;
+import fe.dto.FlowerDto;
 import fe.dto.OrderDto;
 import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,15 +46,15 @@ public class MainPageServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        UserDto userDto = (UserDto)session.getAttribute("user");
+        UserDto userDto = (UserDto)session.getAttribute(SessionAttribute.USER.toString());
 
         userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
-        session.setAttribute("user", userDto);
+        session.setAttribute(SessionAttribute.USER.toString(), userDto);
 
         List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));
-        req.setAttribute("orders", ordersDto);
+        req.setAttribute(SessionAttribute.ORDERS.toString(), ordersDto);
 
-        FlowerFilter filter = (FlowerFilter) req.getAttribute("filter");
+        FlowerFilter filter = (FlowerFilter) req.getAttribute(SessionAttribute.FILTER.toString());
         List<FlowerDto> flowersDto;
         if(filter != null){
             flowersDto = Mapper.mapFlowers(flowerBusinessService.searchFilter(filter));
@@ -60,9 +62,9 @@ public class MainPageServlet extends HttpServlet {
         else {
             flowersDto = Mapper.mapFlowers(flowerBusinessService.getAllFlowers());
         }
-        req.setAttribute("flowers", flowersDto);
+        req.setAttribute(SessionAttribute.FLOWERS.toString(), flowersDto);
 
-        if(userDto.getRole().equals("user")) {
+        if(userDto.getRole() == UserType.USER) {
             req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
         }
         else{

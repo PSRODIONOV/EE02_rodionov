@@ -1,5 +1,6 @@
 package fe.servlet;
 
+import be.utils.enums.SessionAttribute;
 import fe.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        LOG.info("USER "+ ((UserDto)session.getAttribute("user")).getLogin()+" LOGGED OUT");
+        LOG.info("USER "+ ((UserDto)session.getAttribute(SessionAttribute.USER.toString())).getLogin()+" LOGGED OUT");
         session.invalidate();
         resp.sendRedirect("/flowershop/loginPage.jsp");
     }

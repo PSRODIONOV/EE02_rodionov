@@ -2,6 +2,7 @@ package fe.servlet;
 
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
+import be.utils.enums.SessionAttribute;
 import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -36,7 +37,7 @@ public class PayOrder extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         String idOrder = req.getParameter("idOrder");
-        UserDto userDto = (UserDto)session.getAttribute("user");
+        UserDto userDto = (UserDto)session.getAttribute(SessionAttribute.USER.toString());
 
         orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());
         req.getRequestDispatcher("/mainpage").forward(req, resp);

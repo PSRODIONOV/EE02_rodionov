@@ -1,5 +1,7 @@
 package fe.dto;
 
+import be.utils.enums.OrderStatus;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public class OrderDto {
     private UserDto userDto;
     private List<OrderPositionDto> orderPositions;
     private BigDecimal totalPrice;
-    private String status;
+    private OrderStatus status;
     private String dateCreate;
     private String dateClose;
 
@@ -44,7 +46,6 @@ public class OrderDto {
         this.orderPositions = orderPositions;
     }
 
-
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
@@ -53,11 +54,11 @@ public class OrderDto {
         this.totalPrice = totalPrice;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -87,25 +88,5 @@ public class OrderDto {
         }
     }
 
-    public void addOrderPosition(OrderPositionDto newOrderPositionDto){
-        for (OrderPositionDto orderPositionDto: orderPositions) {
-            if(orderPositionDto.getFlowerDto().getIdFlower() == newOrderPositionDto.getFlowerDto().getIdFlower()){
-                orderPositionDto.setQuantity(orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity());
-                return;
-            }
-        }
-        this.orderPositions.add(newOrderPositionDto);
-        this.totalPrice = this.totalPrice.add( newOrderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(newOrderPositionDto.getQuantity())));
-    }
 
-    public void removeOrderPosition(Long id){
-
-        for (OrderPositionDto orderPositionDto: this.orderPositions) {
-            if(orderPositionDto.getFlowerDto().getIdFlower() == id){
-                this.orderPositions.remove(orderPositionDto);
-                this.totalPrice = this.totalPrice.subtract(orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity())));
-                return;
-            }
-        }
-    }
 }

@@ -11,9 +11,9 @@
 <body>
     <form>
         <h1>MAIN PAGE</h1>
-        <p>Name: ${user.login}  </p>
-        <p>Wallet_Score: ${user.walletScore}</p>
-        <p>Discount: ${user.discount}% </p>
+        <p>Name: ${USER.login}  </p>
+        <p>Wallet_Score: ${USER.walletScore}</p>
+        <p>Discount: ${USER.discount}% </p>
     </form>
 
     <form method = "get" action = "/flowershop/user/logout">
@@ -39,7 +39,7 @@
                         <td>Price</td>
                         <td>Quantity</td>
                     </tr>
-                    <c:forEach items = "${flowers}" var="iterator" varStatus="rowStatus">
+                    <c:forEach items = "${FLOWERS}" var="iterator" varStatus="rowStatus">
                         <tr>
                             <td>${iterator.nameFlower}</td>
                             <td>${iterator.price}</td>
@@ -65,11 +65,11 @@
                 <td>Quantity</td>
                 <td>Price</td>
             </tr>
-            <c:forEach items = "${order.orderPositions}" var="iterator" varStatus="rowStatus">
+            <c:forEach items = "${BASKET.orderPositions}" var="iterator" varStatus="rowStatus">
                 <tr>
                     <td>${iterator.flowerDto.nameFlower}</td>
                     <td>${iterator.quantity}</td>
-                    <td> ${iterator.price} </td>
+                    <td>${iterator.price}</td>
                     <td>
                         <button type="submit"
                                 name="idFlower"
@@ -80,7 +80,7 @@
                 </tr>
             </c:forEach>
         </table>
-        <p>Total Price: ${order.totalPrice} </p>
+        <p>Total Price: ${BASKET.totalPrice} </p>
     </form>
 
     <form method="post" action="/flowershop/service/createOrder">
@@ -96,18 +96,18 @@
                 <td>Total Price</td>
                 <td>Status</td>
             </tr>
-            <c:forEach items = "${orders}" var="iterator" varStatus="rowStatus">
+            <c:forEach items = "${ORDERS}" var="iterator" varStatus="rowStatus">
                 <tr>
                     <td>${iterator.idOrder}</td>
                     <td>
                     <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
-                        <p>${it.quantity}x ${it.flowerDto.nameFlower}</p>
+                        <p>${it.quantity}x${it.flowerDto.nameFlower}</p>
                     </c:forEach>
                     </td>
                     <td>${iterator.totalPrice}</td>
                     <td>${iterator.status}</td>
                     <td>
-                    <c:if test = "${iterator.status eq 'not paid'}">
+                    <c:if test = "${iterator.status.toString() eq 'CREATED'}">
                         <button type="submit"
                                 name="idOrder"
                                 value="${iterator.idOrder}"

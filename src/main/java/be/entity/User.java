@@ -1,5 +1,7 @@
 package be.entity;
 
+import be.utils.enums.UserType;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,8 +16,9 @@ public class User implements Serializable {
     @SequenceGenerator(name = "cust", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
     @Column(name = "ID_USER")
     private Long idUser;
+    @Enumerated(EnumType.STRING)
     @Column(name ="ROLE")
-    private String role;
+    private UserType role;
     @Column(name = "LOGIN")
     private String login;
     @Column(name = "PASSWORD")
@@ -53,11 +56,11 @@ public class User implements Serializable {
         this.idUser = idUser;
     }
 
-    public String getRole() {
+    public UserType getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserType role) {
         this.role = role;
     }
 

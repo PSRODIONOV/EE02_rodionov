@@ -1,7 +1,10 @@
 package fe.servlet;
 
+import be.business.OrderBusinessService;
+import be.utils.enums.SessionAttribute;
 import fe.dto.OrderDto;
 import fe.dto.OrderPositionDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletConfig;
@@ -16,6 +19,8 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/service/removeFromBasket")
 public class RemoveFromBasket extends HttpServlet {
 
+    @Autowired
+    private OrderBusinessService orderBusinessService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -29,10 +34,24 @@ public class RemoveFromBasket extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        String id_flower = req.getParameter("idFlower");
-        OrderDto orderDto = (OrderDto) session.getAttribute("order");
-        orderDto.removeOrderPosition(Long.parseLong(id_flower));
-        session.setAttribute("order", orderDto);
+        String idFlower = req.getParameter("idFlower");
+        OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
+        orderDto = delOrderPosition(orderDto, Long.parseLong(idFlower));
+        session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
         req.getRequestDispatcher("/mainpage").forward(req, resp);
+    }
+
+    public OrderDto delOrderPosition(OrderDto orderDto, Long idFlower) {
+
+        if(orderDto != null) {
+            for (OrderPositionDto orderPositionDto : orderDto.getOrderPositions()) {
+                if (orderPositionDto.getFlowerDto().getIdFlower() == idFlower) {
+                    orderDto.getOrderPositions().remove(orderPositionDto);
+                    orderDto.setTotalPrice(orderDto.getTotalPrice().subtract(orderPositionDto.getPrice()));
+                }
+            }
+            return orderDto;
+        }
+        return null;
     }
 }

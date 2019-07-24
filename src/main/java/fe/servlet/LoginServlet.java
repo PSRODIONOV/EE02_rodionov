@@ -4,6 +4,7 @@ import be.business.FlowerBusinessService;
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
 import be.utils.Mapper;
+import be.utils.enums.SessionAttribute;
 import fe.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession(true);
         UserDto currentUser;
         if((currentUser = Mapper.map(userBusinessService.login(login, password))) != null) {
-            session.setAttribute("user", currentUser);
+            session.setAttribute(SessionAttribute.USER.toString(), currentUser);
             LOG.info("USER "+ currentUser.getLogin() + " LOGGED IN.");
             req.getRequestDispatcher("/mainpage").forward(req, resp);
         }

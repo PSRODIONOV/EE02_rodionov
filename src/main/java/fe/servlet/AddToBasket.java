@@ -1,7 +1,10 @@
 package fe.servlet;
 
 import be.business.FlowerBusinessService;
+import be.business.OrderBusinessService;
 import be.utils.Mapper;
+import be.utils.enums.SessionAttribute;
+import be.utils.enums.UserType;
 import fe.dto.OrderDto;
 import fe.dto.OrderPositionDto;
 import fe.dto.UserDto;
@@ -24,6 +27,9 @@ public class AddToBasket extends HttpServlet {
 
     @Autowired
     private FlowerBusinessService flowerBusinessService;
+
+    @Autowired
+    private OrderBusinessService orderBusinessService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -49,18 +55,19 @@ public class AddToBasket extends HttpServlet {
                 orderPositionDto.setPrice(orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity())));
 
                 HttpSession session = req.getSession(false);
-                OrderDto orderDto = (OrderDto) session.getAttribute("order");
+                OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
 
-                UserDto userDto = (UserDto) session.getAttribute("user");
+                UserDto userDto = (UserDto) session.getAttribute(UserType.USER.toString());
                 if (orderDto == null) {
                     orderDto = new OrderDto();
                 }
 
                 orderDto.setUserDto(userDto);
-                orderDto.addOrderPosition(orderPositionDto);
+                orderDto = addOrderPosition(orderDto, orderPositionDto);
+
                 BigDecimal totalPrice = orderDto.getTotalPrice().multiply(new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
-                orderDto.setTotalPrice(totalPrice);
-                session.setAttribute("order", orderDto);
+                orderDto.setTotalPrice(totalPrice.setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
                 req.setAttribute("err", "Item is added.");
             }
         }
@@ -71,4 +78,23 @@ public class AddToBasket extends HttpServlet {
             req.getRequestDispatcher("/mainpage").forward(req, resp);
         }
     }
+
+    public OrderDto addOrderPosition(OrderDto orderDto, OrderPositionDto newOrderPositionDto) {
+        boolean isFind = false;
+        for (OrderPositionDto orderPositionDto: orderDto.getOrderPositions()) {
+            if(orderPositionDto.getFlowerDto().getIdFlower() == newOrderPositionDto.getFlowerDto().getIdFlower()){
+                orderPositionDto.setQuantity(orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity());
+                isFind = true;
+            }
+        }
+        if(!isFind) {
+            orderDto.getOrderPositions().add(newOrderPositionDto);
+        }
+
+        BigDecimal totalPrice = orderDto.getTotalPrice().add( newOrderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(newOrderPositionDto.getQuantity())));
+        orderDto.setTotalPrice(totalPrice);
+        return orderDto;
+    }
+
+
 }

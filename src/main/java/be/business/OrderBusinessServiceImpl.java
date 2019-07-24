@@ -6,6 +6,7 @@ import be.entity.Order;
 import be.entity.OrderPosition;
 import be.entity.User;
 import be.utils.ServiceException;
+import be.utils.enums.OrderStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     public void addOrder(Order order) {
         order.setDateCreate(new Date(Calendar.getInstance().getTime().getTime()));
-        order.setStatus("not paid");
+        order.setStatus(OrderStatus.CREATED);
         orderDAO.addOrder(order);
     }
 
@@ -70,10 +71,11 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
         Order order = orderDAO.getOrderById(idOrder);
         try {
             if (order.getStatus().equals("not paid")) {
-                userBusinessService.pay(idUser, order.getTotalPrice());//**изменение баланса юзера
-                order.setStatus("paid");
-                orderDAO.updateStatus(order.getIdOrder(), "paid");
-                //orderDAO.updateStatus(order.getIdOrder(), "paid");    //**изменение статуса заказа на оплачено
+                if(order.getUser().getIdUser() == idUser) {
+                    userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
+                }
+                order.setStatus(OrderStatus.PAID);
+                orderDAO.updateStatus(order.getIdOrder(), "paid");//**изменение статуса заказа на оплачено
                 for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
                     Flower flower = orderPosition.getFlower();
                     flowerBusinessService.setQuantity(flower.getIdFlower(), flower.getQuantity() - orderPosition.getQuantity());
@@ -88,7 +90,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     public void closeOrder(Long idOrder) {
         Order order = orderDAO.getOrderById(idOrder);
-        order.setStatus("closed");
+        order.setStatus(OrderStatus.CLOSED);
         order.setDateClose(new Date(Calendar.getInstance().getTime().getTime()));
         orderDAO.updateOrder(order);
     }

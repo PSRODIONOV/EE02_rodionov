@@ -1,5 +1,7 @@
 package be.entity;
 
+import be.utils.enums.OrderStatus;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -28,8 +30,9 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
+    @Enumerated(EnumType.STRING)
     @Column(name ="status")
-    private String status;
+    private OrderStatus status;
 
     @Column(name = "date_create")
     private Date dateCreate;
@@ -61,11 +64,11 @@ public class Order {
         return orderPositions;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 

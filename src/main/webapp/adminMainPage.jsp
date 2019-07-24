@@ -11,8 +11,8 @@
 <body>
     <form>
         <h1> ADMIN MAIN PAGE</h1>
-        <p>Name: ${user.login}  </p>
-        <p>Role: ${user.role} </p>
+        <p>Name: ${USER.login}  </p>
+        <p>Role: ${USER.role} </p>
     </form>
 
     <form method = "get" action = "/flowershop/user/logout">
@@ -30,7 +30,7 @@
                 <td>Date Create</td>
                 <td>Date Close</td>
             </tr>
-            <c:forEach items = "${orders}" var="iterator" varStatus="rowStatus">
+            <c:forEach items = "${ORDERS}" var="iterator" varStatus="rowStatus">
                 <tr>
                     <td>${iterator.idOrder}</td>
                     <td>
@@ -43,7 +43,7 @@
                     <td>${iterator.dateCreate}</td>
                     <td>${iterator.dateClose}</td>
                     <td>
-                    <c:if test = "${iterator.status eq 'paid'}">
+                    <c:if test = "${iterator.status.toString() eq 'PAID'}">
                         <button type="submit"
                                 name="idOrder"
                                 value="${iterator.idOrder}"
