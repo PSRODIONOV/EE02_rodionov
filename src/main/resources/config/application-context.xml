@@ -19,13 +19,6 @@
     <context:component-scan base-package="be.business be.access be.entity fe.servlet"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
 
-<!--
-    <bean name = "UserDAO" class = "be.access.UserDAOImpl"/>
-    <bean name = "OrderDAO" class = "be.access.OrderDAOImpl"/>
-    <bean name = "UserBusinessService" class = "be.business.UserBusinessServiceImpl"/>
-    <bean name = "OrderBusinessService" class = "be.business.OrderBusinessServiceImpl"/>
--->
-
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
         <property name="dataSource" ref="dataSource"/>     <!-- reference to datasource bean-->
         <property name="locations">
@@ -68,6 +61,15 @@
     </bean>
 
     <tx:annotation-driven/>
+
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller" >
+        <property name="mappingLocation" value="classpath:mapping.xml" />
+    </bean>
+
+    <bean id="UserMarshgallingServiceImpl" class="be.utils.UserMarshgallingServiceImpl">
+       <property name="Marshaller" ref="castorMarshaller"/>
+       <property name="Unmarshaller" ref="castorMarshaller"/>
+    </bean>
 
 </beans>
 

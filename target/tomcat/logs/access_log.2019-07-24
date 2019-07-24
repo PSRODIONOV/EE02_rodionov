@@ -1,0 +1,5 @@
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:16:13:47 +0300] "GET /flowershop/ HTTP/1.1" 200 191 http-bio-8080-exec-1 1371
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:16:13:48 +0300] "GET /flowershop/loginPage.jsp HTTP/1.1" 200 631 http-bio-8080-exec-3 207
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:16:13:48 +0300] "GET /flowershop/registerPage.jsp? HTTP/1.1" 200 523 http-bio-8080-exec-4 101
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:16:14:02 +0300] "POST /flowershop/user/register HTTP/1.1" 302 - http-bio-8080-exec-5 635
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:16:14:02 +0300] "GET /flowershop/loginPage.jsp HTTP/1.1" 200 631 http-bio-8080-exec-7 3

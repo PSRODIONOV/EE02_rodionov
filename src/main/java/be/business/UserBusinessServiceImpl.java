@@ -3,6 +3,7 @@ package be.business;
 import be.access.UserDAO;
 import be.entity.User;
 import be.utils.ServiceException;
+import be.utils.UserMarshgallingServiceImpl;
 import be.utils.enums.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 @Service
@@ -18,6 +20,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private UserMarshgallingServiceImpl userMarshgallingService;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserBusinessServiceImpl.class);
 
@@ -50,6 +54,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             user.setWalletScore(new BigDecimal(2000));
             user.setRole(UserType.USER);
             userDAO.registrationUser(user);
+            try{
+            userMarshgallingService.doMarshaling("mapping.xml", user);
+            }
+            catch (IOException ex){
+                ex.printStackTrace();
+            }
     }
 
     @Override
