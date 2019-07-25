@@ -2,6 +2,7 @@ package fe.servlet;
 
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
+import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,12 @@ public class PayOrder extends HttpServlet {
         String idOrder = req.getParameter("idOrder");
         UserDto userDto = (UserDto)session.getAttribute(SessionAttribute.USER.toString());
 
-        orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());
+        try {
+            orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());
+        }
+        catch (ServiceException e){
+            req.setAttribute("err", ServiceException.ERROR_USER_BALANCE);
+        }
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

@@ -68,9 +68,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-    public void payOrder(Long idOrder, Long idUser) {
+    public void payOrder(Long idOrder, Long idUser) throws ServiceException{
         Order order = orderDAO.getOrderById(idOrder);
-        try {
             if (order.getStatus() == OrderStatus.CREATED) {
                 if (order.getUser().getIdUser() == idUser) {
                     userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
@@ -82,9 +81,6 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
                     flowerBusinessService.setQuantity(flower.getIdFlower(), flower.getQuantity() - orderPosition.getQuantity());
                 }
             }
-        } catch (ServiceException se) {
-
-        }
     }
 
     @Override

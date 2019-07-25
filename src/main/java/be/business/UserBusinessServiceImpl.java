@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.io.IOException;
 import java.math.BigDecimal;
 
 @Service
@@ -47,19 +46,23 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    public void registration(String login, String password, String address) {
+    public void registration(String login, String password, String address) throws ServiceException{
 
             User user = new User(login, password, address);
             user.setDiscount(5);
             user.setWalletScore(new BigDecimal(2000));
             user.setRole(UserType.USER);
-            userDAO.registrationUser(user);
             try{
-            userMarshgallingService.doMarshaling("mapping.xml", user);
+                if(userDAO.getUserByLogin(user.getLogin()) != null) {
+                    throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
+                }
             }
-            catch (IOException ex){
-                ex.printStackTrace();
+            catch(NoResultException e){
+                userDAO.registrationUser(user);
+                userMarshgallingService.doMarshaling("mapping.xml", user);
             }
+
+
     }
 
     @Override

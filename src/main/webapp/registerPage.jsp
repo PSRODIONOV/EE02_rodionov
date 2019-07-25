@@ -9,11 +9,12 @@
 </head>
 <body>
     <h2>REGISTRATION PAGE</h2>
-    <form method = "post" action = "user/register">
+    <form method = "post" action = "/flowershop/user/register">
         <input type = "text" name = "login" placeholder = "login"></input>
         <input type = "password" name = "password" placeholder = "password"></input>
          <input type = "text" name = "address" placeholder = "address"></input>
         <button type = "submit" >registration</button>
+        <p id="err" name="err">${err}</p>
     </form>
 </body>
 </html>

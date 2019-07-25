@@ -3,6 +3,7 @@ package fe.servlet;
 import be.business.FlowerBusinessService;
 import be.business.OrderBusinessService;
 import be.utils.Mapper;
+import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import be.utils.enums.UserType;
 import fe.dto.OrderDto;
@@ -46,7 +47,7 @@ public class AddToBasket extends HttpServlet {
             Long idFlower = Long.parseLong(req.getParameter("idFlower"));
             Long quantity = Long.parseLong(req.getParameter("quantity"));
             if (quantity > flowerBusinessService.getFlowerById(idFlower).getQuantity()) {
-                req.setAttribute("err", "Invalid value for 'quantity'.");
+                req.setAttribute("err", ServiceException.ERROR_FLOWERSTOCKSERVICE);
             }
             else {
                 OrderPositionDto orderPositionDto = new OrderPositionDto();
@@ -72,7 +73,7 @@ public class AddToBasket extends HttpServlet {
             }
         }
         catch (NumberFormatException e){
-            req.setAttribute("err", "Invalid value for 'quantity'.");
+            req.setAttribute("err", ServiceException.ERROR_FLOWERSTOCKSERVICE);
         }
         finally {
             req.getRequestDispatcher("/mainpage").forward(req, resp);

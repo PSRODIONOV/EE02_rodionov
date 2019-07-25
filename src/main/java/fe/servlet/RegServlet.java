@@ -1,6 +1,7 @@
 package fe.servlet;
 
 import be.business.UserBusinessService;
+import be.utils.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,15 @@ public class RegServlet extends HttpServlet {
         String address = req.getParameter("address");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        ubs.registration(login, password, address);
-        LOG.info("USER " + login + " CREATED.");
-        resp.sendRedirect("/flowershop/loginPage.jsp");
+        try{
+            ubs.registration(login, password, address);
+            LOG.info("USER " + login + " CREATED.");
+            resp.sendRedirect("/flowershop/loginPage.jsp");
+        }
+        catch(ServiceException e){
+            req.setAttribute("err", ServiceException.ERROR_USER_REGISTRATION);
+            req.getRequestDispatcher("/registerPage.jsp").forward(req, resp);
+        }
+
     }
 }

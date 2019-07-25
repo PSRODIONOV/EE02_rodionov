@@ -4,6 +4,7 @@ import be.business.FlowerBusinessService;
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
 import be.utils.Mapper;
+import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import fe.dto.UserDto;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher("/mainpage").forward(req, resp);
         }
         else {
-            req.setAttribute("err", "Invalid login or password.");
+            req.setAttribute("err", ServiceException.ERROR_USER_LOGIN);
             req.getRequestDispatcher("/loginPage.jsp").forward(req, resp);
         }
 

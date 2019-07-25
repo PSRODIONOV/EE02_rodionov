@@ -1,8 +1,8 @@
 package be.business;
 
 import be.entity.Order;
-import be.entity.OrderPosition;
 import be.entity.User;
+import be.utils.ServiceException;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ public interface OrderBusinessService {
    Order getOrderById(Long id);
    void delOrderById(Long id);
    List<Order> getAllOrders(User user);
-   void payOrder(Long idOrder, Long idUser);
+   void payOrder(Long idOrder, Long idUser) throws ServiceException;
    void closeOrder(Long idOrder);
 }

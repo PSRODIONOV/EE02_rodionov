@@ -21,9 +21,9 @@ public class FlowerFilter {
             criteria += "f.price between " + minPrice + " and " + maxPrice;
         }
         else if(!minPrice.isEmpty() && maxPrice.isEmpty()){
-            criteria += "f.price > "+minPrice;
+            criteria += "f.price >= "+minPrice;
         } else if(minPrice.isEmpty() && !maxPrice.isEmpty()){
-            criteria += "f.price < "+maxPrice;
+            criteria += "f.price <= "+maxPrice;
         }
         if(!name.isEmpty()){
             if(!criteria.isEmpty()) {
