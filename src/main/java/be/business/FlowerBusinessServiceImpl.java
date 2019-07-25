@@ -3,10 +3,12 @@ package be.business;
 import be.access.FlowerDAO;
 import be.entity.Flower;
 import be.utils.FlowerFilter;
+import be.utils.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,5 +52,10 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     @Override
     public List<Flower> searchFilter(FlowerFilter filter) {
         return flowerDAO.searchFilter(filter);
+    }
+
+    @Override
+    public void increaseFlowersStockSize(Long count) {
+        flowerDAO.increaseFlowerStockSize(count);
     }
 }

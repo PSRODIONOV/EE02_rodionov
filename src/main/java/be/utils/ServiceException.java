@@ -11,6 +11,7 @@ public class ServiceException extends Exception {
     public static final String ERROR_USER_REGISTRATION = "User with this login already exists";
     public static final String ERROR_USER_LOGIN = "Invalid login or password";
     public static final String ERROR_FLOWERSTOCKSERVICE = "Invalid value for 'quantity'";
+    public static final String ERROR_BASKET = "First add something to the basket";
 
     public ServiceException(String message){
         super(message);

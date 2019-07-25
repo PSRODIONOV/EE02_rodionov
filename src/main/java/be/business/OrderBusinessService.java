@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderBusinessService {
 
-   void addOrder(Order order);
+   void addOrder(Order order) throws ServiceException;
    void updateOrder(Order order);
    Order getOrderById(Long id);
    void delOrderById(Long id);

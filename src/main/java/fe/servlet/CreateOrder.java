@@ -3,6 +3,7 @@ package fe.servlet;
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
 import be.utils.Mapper;
+import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import fe.dto.OrderDto;
 import fe.dto.UserDto;
@@ -39,12 +40,15 @@ public class CreateOrder extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
-        UserDto currentUser = (UserDto) session.getAttribute(SessionAttribute.USER.toString());
-        if(orderDto == null){
-            orderDto = new OrderDto();
+        try {
+            orderBusinessService.addOrder(Mapper.map(orderDto));
+            session.removeAttribute(SessionAttribute.BASKET.toString());
         }
-        orderBusinessService.addOrder(Mapper.map(orderDto));
-        session.removeAttribute(SessionAttribute.BASKET.toString());
-        req.getRequestDispatcher("/mainpage").forward(req, resp);
+        catch(ServiceException e){
+            session.setAttribute("err", ServiceException.ERROR_BASKET);
+        }
+        finally {
+            req.getRequestDispatcher("/mainpage").forward(req, resp);
+        }
     }
 }

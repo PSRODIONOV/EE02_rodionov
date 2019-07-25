@@ -5,6 +5,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
        	http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -13,10 +14,12 @@
         http://www.springframework.org/schema/jee
         http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://cxf.apache.org/jaxws
+        http://cxf.apache.org/schemas/jaxws.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="be.business be.access be.entity fe.servlet"/>
+    <context:component-scan base-package="be.business be.access be.entity fe.servlet fe.*"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
 
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
@@ -62,14 +65,19 @@
 
     <tx:annotation-driven/>
 
-    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller" >
-        <property name="mappingLocation" value="classpath:/mapping.xml"/>
-    </bean>
+    <context:property-placeholder location = "classpath:conf.properties"/>
+
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
 
     <bean id="UserMarshgallingServiceImpl" class="be.utils.UserMarshgallingServiceImpl">
        <property name="Marshaller" ref="castorMarshaller"/>
        <property name="Unmarshaller" ref="castorMarshaller"/>
     </bean>
+
+    <bean id="FlowersStockWebService" class="fe.webservice.FlowersStockWebServiceImpl" />
+
+    <jaxws:endpoint id="FlowersStockWebService1" implementor="#FlowersStockWebService"
+                    address="/FlowersStockWebService"/>
 
 </beans>
 

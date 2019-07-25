@@ -51,6 +51,10 @@ public class MainPageServlet extends HttpServlet {
         userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
         session.setAttribute(SessionAttribute.USER.toString(), userDto);
 
+        OrderDto basket = new OrderDto();
+        basket.setUserDto(userDto);
+        session.setAttribute(SessionAttribute.BASKET.toString(), basket);
+
         List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));
         req.setAttribute(SessionAttribute.ORDERS.toString(), ordersDto);
 

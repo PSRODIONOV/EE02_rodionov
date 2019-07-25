@@ -36,7 +36,10 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(Order order) throws ServiceException {
+        if(order.getOrderPositions().isEmpty()){
+            throw new ServiceException(ServiceException.ERROR_BASKET);
+        }
         order.setDateCreate(new Date(Calendar.getInstance().getTime().getTime()));
         order.setStatus(OrderStatus.CREATED);
         orderDAO.addOrder(order);

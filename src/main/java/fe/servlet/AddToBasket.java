@@ -58,12 +58,6 @@ public class AddToBasket extends HttpServlet {
                 HttpSession session = req.getSession(false);
                 OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
 
-                UserDto userDto = (UserDto) session.getAttribute(UserType.USER.toString());
-                if (orderDto == null) {
-                    orderDto = new OrderDto();
-                }
-
-                orderDto.setUserDto(userDto);
                 orderDto = addOrderPosition(orderDto, orderPositionDto);
 
                 BigDecimal totalPrice = orderDto.getTotalPrice().multiply(new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));

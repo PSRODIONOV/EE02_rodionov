@@ -12,4 +12,5 @@ public interface FlowerDAO {
     void update(Flower flower);
     void setQuantity(Long idFlower, Long quantity);
     List<Flower> searchFilter(FlowerFilter filter);
+    void increaseFlowerStockSize(Long count);
 }

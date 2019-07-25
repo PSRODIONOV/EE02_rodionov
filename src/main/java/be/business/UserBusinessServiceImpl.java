@@ -59,7 +59,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             }
             catch(NoResultException e){
                 userDAO.registrationUser(user);
-                userMarshgallingService.doMarshaling("mapping.xml", user);
+                userMarshgallingService.doMarshaling(login, user);
             }
 
 

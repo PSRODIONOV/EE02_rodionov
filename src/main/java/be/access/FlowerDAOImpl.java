@@ -67,4 +67,12 @@ public class FlowerDAOImpl implements FlowerDAO {
         TypedQuery<Flower> q = em.createQuery("select f from Flower f " + temp, Flower.class);
         return q.getResultList();
     }
+
+    @Override
+    public void increaseFlowerStockSize(Long count) {
+        Query q = em.createQuery("update Flower f set f.quantity = f.quantity + :count");
+        q.setParameter("count", count);
+        q.executeUpdate();
+        em.flush();
+    }
 }
