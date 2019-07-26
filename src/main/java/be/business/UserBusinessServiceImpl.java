@@ -3,7 +3,7 @@ package be.business;
 import be.access.UserDAO;
 import be.entity.User;
 import be.utils.ServiceException;
-import be.utils.UserMarshgallingServiceImpl;
+import be.utils.UserMarshallingServiceImpl;
 import be.utils.enums.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Autowired
     private UserDAO userDAO;
     @Autowired
-    private UserMarshgallingServiceImpl userMarshgallingService;
+    private UserMarshallingServiceImpl userMarshgallingService;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserBusinessServiceImpl.class);
 

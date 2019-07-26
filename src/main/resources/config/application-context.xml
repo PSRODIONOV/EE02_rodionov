@@ -69,7 +69,7 @@
 
     <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
 
-    <bean id="UserMarshgallingServiceImpl" class="be.utils.UserMarshgallingServiceImpl">
+    <bean id="UserMarshgallingServiceImpl" class="be.utils.UserMarshallingServiceImpl">
        <property name="Marshaller" ref="castorMarshaller"/>
        <property name="Unmarshaller" ref="castorMarshaller"/>
     </bean>

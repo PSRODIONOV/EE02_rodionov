@@ -2,6 +2,7 @@ package fe.webservice;
 
 import be.business.FlowerBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
 
@@ -14,6 +15,7 @@ public class FlowersStockWebServiceImpl implements FlowersStockWebService {
     public FlowersStockWebServiceImpl(){}
 
     @Override
+    @Transactional
     public void increaseFlowersStockSize(Long count) {
 
         flowerBusinessService.increaseFlowersStockSize(count);

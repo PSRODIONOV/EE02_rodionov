@@ -8,7 +8,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class UserMarshgallingServiceImpl {
+public class UserMarshallingServiceImpl {
 
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
