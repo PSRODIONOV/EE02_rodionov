@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jws.WebService;
 
-@WebService(endpointInterface = "com.accenture.flowershop.fe.webservice.FlowersStockWebService")
+@WebService(endpointInterface = "fe.webservice.FlowersStockWebService")
 public class FlowersStockWebServiceImpl implements FlowersStockWebService {
 
     @Autowired
@@ -15,6 +15,7 @@ public class FlowersStockWebServiceImpl implements FlowersStockWebService {
 
     @Override
     public void increaseFlowersStockSize(Long count) {
+
         flowerBusinessService.increaseFlowersStockSize(count);
     }
 }
