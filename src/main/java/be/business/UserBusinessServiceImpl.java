@@ -30,6 +30,19 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
+    public Boolean checkLogin(String login){
+        try{
+            if(userDAO.getUserByLogin(login)!= null) {
+                return true;
+            }
+        }
+        catch (NoResultException e){
+            return false;
+        }
+        return false;
+    }
+
+    @Override
     public User login(String login, String password) {
         User user;
         try {

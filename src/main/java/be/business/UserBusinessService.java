@@ -11,4 +11,5 @@ public interface UserBusinessService{
     void registration(String user, String password, String address) throws ServiceException;
     User getUserById(Long id);
     void pay(Long id, BigDecimal priceOrder) throws ServiceException;
+    Boolean checkLogin(String login);
 }

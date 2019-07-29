@@ -12,7 +12,7 @@
 <h2>LOGIN PAGE</h2>
 <form method = "post" action = "/flowershop/user/login">
     <div>
-        <input type = "text" name = "login" placeholder="login"></input>
+        <input type = "text" name = "login" placeholder="login" ></input>
         <input type = "password" name = "password" placeholder="password"></input>
         <button type = "submit">Login</button>
     </div>
