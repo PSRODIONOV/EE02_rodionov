@@ -176,6 +176,12 @@
       <version>3.2.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-client</artifactId>
+      <version>5.15.9</version>
+    </dependency>
+
   </dependencies>
 
   <build>

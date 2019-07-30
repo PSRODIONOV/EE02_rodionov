@@ -43,12 +43,12 @@
                     <td>${iterator.dateCreate}</td>
                     <td>${iterator.dateClose}</td>
                     <td>
-                    <c:if test = "${iterator.status.toString() eq 'PAID'}">
-                        <button type="submit"
-                                name="idOrder"
-                                value="${iterator.idOrder}"
-                         > Close </button>
-                    </c:if>
+                        <c:if test = "${iterator.status.toString() eq 'PAID'}">
+                              <button type="submit"
+                                     name="idOrder"
+                                     value="${iterator.idOrder}"
+                              > Close </button>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>

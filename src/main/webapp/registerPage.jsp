@@ -19,39 +19,34 @@
         <p id="err">${err}</p>
     </form>
 
-<script type="text/javascript">
-    var input2 = document.getElementById("input2");
-    var err = document.getElementById("err");
-   input2.addEventListener(
-   "blur", ()=>{
-        if(input2.value != ""){
-            $.ajax(
-            {
-                type: "GET",
-                dataType: "json",
-                url: "http://localhost:8083/flowershop/rest/user/login/" + input2.value,
-                success: function(data)
-                {
-                console.log(input2.value);
-                console.log(data);
+    <script type="text/javascript">
+        var input2 = document.getElementById("input2");
+        var err = document.getElementById("err");
+        input2.addEventListener(
+        "blur", ()=>{
+             if(input2.value != ""){
+                 $.ajax(
+                 {
+                     type: "GET",
+                     dataType: "json",
+                     url: "http://localhost:8083/flowershop/rest/user/login/" + input2.value,
+                     success: function(data)
+                     {
+                        if(data == false)
+                        {
+                             err.innerHTML = "Login is free";
+                             button.disabled = "";
+                        }
+                        else
+                        {
+                             err.innerHTML = "Login is busy";
+                             button.disabled = "disabled";
+                        }
+                     }
 
-                   if(data == "false")
-                   {
-                        input2.className = "succes";
-                        err.innerText = '<font color="green">Login is free</font>';
-                        button.disabled = "";
-                   }
-                   else
-                   {
-                        input2.className = "error";
-                        err.innerHtml = '<font color="red">Login is huyusy</font>';
-                        button.disabled = "disabled";
-                   }
-                }
-
-            });
-             }
-       } )
-    </script>
+                 });
+                  }
+            } )
+         </script>
 </body>
 </html>

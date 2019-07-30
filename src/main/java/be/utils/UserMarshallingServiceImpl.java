@@ -6,7 +6,6 @@ import org.springframework.oxm.Unmarshaller;
 
 import javax.xml.transform.stream.StreamResult;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class UserMarshallingServiceImpl {
 
@@ -28,8 +27,9 @@ public class UserMarshallingServiceImpl {
             fos = new FileOutputStream(exportPath + fileName);
             marshaller.marshal(object, new StreamResult(fos));
             fos.close();
+            UserSender.sendUserXml(exportPath + fileName);//Send xml of user file in out_queue
         }
-        catch (IOException e) {
+        catch (Exception e) {
            e.printStackTrace();
         }
     }
