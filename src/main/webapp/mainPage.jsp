@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>FlowerShop</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>"/>
 </head>
 <body>
@@ -44,7 +45,15 @@
                             <td>${iterator.nameFlower}</td>
                             <td>${iterator.price}</td>
                             <td>${iterator.quantity}</td>
-                            <td><button type="submit" name="idFlower" value="${iterator.idFlower}"> Get</button>
+                            <td>
+                                <c:choose>
+                                    <c:when  test="${iterator.quantity > 0}">
+                                        <button type="submit" name="idFlower" value="${iterator.idFlower}"> Get</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="submit" name="idFlower" value="${iterator.idFlower}" disabled="disabled"> Get</button>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
                     </c:forEach>
@@ -57,7 +66,7 @@
         </div>
     </form>
 
-    <h2>BASKET</h2>
+    <h2>BASKET1</h2>
     <form method="post" action="/flowershop/service/removeFromBasket">
         <table>
             <tr>
@@ -84,7 +93,14 @@
     </form>
 
     <form method="post" action="/flowershop/service/createOrder">
-        <button type="submit"> Create Order </button>
+          <c:choose>
+            <c:when test="${BASKET.orderPositions.isEmpty()}">
+              <button type="submit" id="buttoncreate" disabled="disabled"> Create Order </button>
+            </c:when>
+            <c:otherwise>
+              <button type="submit" id="buttoncreate"> Create Order </button>
+            </c:otherwise>
+          </c:choose>
     </form>
 
     <h2>MY ORDERS</h2>
@@ -107,12 +123,21 @@
                     <td>${iterator.totalPrice}</td>
                     <td>${iterator.status}</td>
                     <td>
-                    <c:if test = "${iterator.status.toString() eq 'CREATED'}">
-                        <button type="submit"
-                                name="idOrder"
-                                value="${iterator.idOrder}"
-                         > To pay </button>
-                    </c:if>
+                    <c:choose>
+                       <c:when test="${iterator.status.toString() eq 'CREATED'}">
+                           <button type="submit"
+                                   name="idOrder"
+                                   value="${iterator.idOrder}"
+                           > To pay </button>
+                       </c:when>
+                       <c:otherwise>
+                           <button type="submit"
+                                   name="idOrder"
+                                   value="${iterator.idOrder}"
+                                   disabled="disabled"
+                           > To pay </button>
+                       </c:otherwise>
+                    </c:choose>
                     </td>
                 </tr>
             </c:forEach>

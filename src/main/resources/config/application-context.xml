@@ -19,7 +19,7 @@
         http://cxf.apache.org/schemas/jaxws.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="be.business be.access be.entity fe.servlet fe.*"/>
+    <context:component-scan base-package="be.* fe.*"/>
     <jee:jndi-lookup id="dataSource" jndi-name="jdbc/flowerShopDS "/>
 
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
@@ -69,9 +69,9 @@
 
     <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
 
-    <bean id="UserMarshgallingServiceImpl" class="be.utils.UserMarshallingServiceImpl">
-       <property name="Marshaller" ref="castorMarshaller"/>
-       <property name="Unmarshaller" ref="castorMarshaller"/>
+    <bean id="UserMarshallingServiceImpl" class="be.utils.UserMarshallingServiceImpl">
+       <property name="marshaller" ref="castorMarshaller"/>
+       <property name="unmarshaller" ref="castorMarshaller"/>
     </bean>
 
     <bean id="FlowersStockWebService" class="fe.webservice.FlowersStockWebServiceImpl" />

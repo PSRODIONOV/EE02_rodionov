@@ -12,4 +12,5 @@ public interface UserBusinessService{
     User getUserById(Long id);
     void pay(Long id, BigDecimal priceOrder) throws ServiceException;
     Boolean checkLogin(String login);
+    void updateDiscount(Long idUser, Integer newDiscount);
 }

@@ -3,10 +3,13 @@ package be.entity;
 import be.utils.enums.UserType;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+@XmlRootElement
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
@@ -15,28 +18,50 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
     @SequenceGenerator(name = "cust", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
     @Column(name = "ID_USER")
+    @XmlElement(name = "idUser")
     private Long idUser;
+
     @Enumerated(EnumType.STRING)
     @Column(name ="ROLE")
+    @XmlElement(name ="role")
     private UserType role;
+
     @Column(name = "LOGIN")
+    @XmlElement(name ="login")
     private String login;
+
     @Column(name = "PASSWORD")
+    @XmlElement(name ="password")
     private String password;
+
     @Column (name = "LAST_NAME")
+    @XmlElement(name ="lastName")
     private String lastName;
+
     @Column (name = "FIRST_NAME")
+    @XmlElement(name ="firstName")
     private String firstName;
+
     @Column (name = "SECOND_NAME")
+    @XmlElement(name ="secondName")
     private String secondName;
+
     @Column (name = "ADDRESS")
+    @XmlElement(name ="address")
     private String address;
+
     @Column (name = "PHONE")
+    @XmlElement(name ="phone")
     private String phone;
+
     @Column (name = "WALLET_SCORE")
+    @XmlElement(name ="walletScore")
     private BigDecimal walletScore;
+
     @Column (name = "DISCOUNT")
+    @XmlElement(name ="discount")
     private Integer discount;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Order> orders;
 

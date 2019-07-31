@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Iterator;
 
 @WebServlet(urlPatterns = "/service/removeFromBasket")
 public class RemoveFromBasket extends HttpServlet {
@@ -44,9 +46,12 @@ public class RemoveFromBasket extends HttpServlet {
     public OrderDto delOrderPosition(OrderDto orderDto, Long idFlower) {
 
         if(orderDto != null) {
-            for (OrderPositionDto orderPositionDto : orderDto.getOrderPositions()) {
+            Iterator<OrderPositionDto> iter = orderDto.getOrderPositions().iterator();
+            while (iter.hasNext()) {
+                OrderPositionDto orderPositionDto = iter.next();
+
                 if (orderPositionDto.getFlowerDto().getIdFlower() == idFlower) {
-                    orderDto.getOrderPositions().remove(orderPositionDto);
+                    iter.remove();
                     orderDto.setTotalPrice(orderDto.getTotalPrice().subtract(orderPositionDto.getPrice()));
                 }
             }

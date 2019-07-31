@@ -2,6 +2,7 @@ package be.business;
 
 import be.access.UserDAO;
 import be.entity.User;
+import be.utils.MessageService;
 import be.utils.ServiceException;
 import be.utils.UserMarshallingServiceImpl;
 import be.utils.enums.UserType;
@@ -20,7 +21,9 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Autowired
     private UserDAO userDAO;
     @Autowired
-    private UserMarshallingServiceImpl userMarshgallingService;
+    private UserMarshallingServiceImpl userMarshallingService;
+    @Autowired
+    private MessageService messageService;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserBusinessServiceImpl.class);
 
@@ -72,7 +75,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             }
             catch(NoResultException e){
                 userDAO.registrationUser(user);
-                userMarshgallingService.doMarshaling(login, user);
+                userMarshallingService.doMarshaling(login, user);
+                messageService.sendUserXml(login);//Send xml of user file in OUT_QUEUE
             }
 
 
@@ -95,5 +99,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         else{
             throw new ServiceException(ServiceException.ERROR_USER_BALANCE);
         }
+    }
+
+    @Transactional
+    public void updateDiscount(Long idUser, Integer newDiscount){
+        userDAO.setDiscount(idUser, newDiscount);
     }
 }
