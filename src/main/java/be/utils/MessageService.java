@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.jms.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 
 @Service
 public class MessageService {
@@ -20,11 +19,11 @@ public class MessageService {
     @Autowired
     private UserBusinessService userBusinessService;
 
-    ConnectionFactory connectionFactory;
-    Connection connection;
-    Session session;
-    MessageProducer messageProducer;
-    MessageConsumer messageConsumer;
+    private ConnectionFactory connectionFactory = null;
+    private Connection connection = null;
+    private Session session = null;
+    private MessageProducer messageProducer = null;
+    private MessageConsumer messageConsumer = null;
 
     @Value("${exportPath}")
     String exportPath;
@@ -33,7 +32,7 @@ public class MessageService {
     private void postConstruct() {
         try {
             String url = ActiveMQConnectionFactory.DEFAULT_BROKER_URL;
-            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+            connectionFactory = new ActiveMQConnectionFactory(url);
             connection = connectionFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Queue inQueue = session.createQueue("IN_QUEUE");

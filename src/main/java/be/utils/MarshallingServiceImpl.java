@@ -4,11 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
@@ -45,16 +42,6 @@ public class MarshallingServiceImpl {
         try {
             unmarshaller.supports(DiscountRequest.class);
             return unmarshaller.unmarshal(new StreamSource(new StringReader(file)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public Object doUnMarshaling(String file) {
-
-        try {
-            unmarshaller.supports(DiscountRequest.class);
-            return unmarshaller.unmarshal(new StreamSource(exportPath + file));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -55,12 +55,21 @@ public class AddToBasket extends HttpServlet {
                 orderPositionDto.setQuantity(quantity);
                 orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
 
-                BigDecimal totalPrice = orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity()));
-                orderPositionDto.setPrice(totalPrice);
-                BigDecimal totalPriceWithDiscount = totalPrice.multiply(new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
+                BigDecimal totalPriceOP = orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity()));
+                orderPositionDto.setPrice(totalPriceOP);
+                BigDecimal totalPriceWithDiscount = totalPriceOP.multiply(
+                        new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
                 orderPositionDto.setPriceWithDiscount(totalPriceWithDiscount);
 
                 orderDto = addOrderPosition(orderDto, orderPositionDto);
+                BigDecimal totalPriceOrder = new BigDecimal(0);
+                for(OrderPositionDto opd: orderDto.getOrderPositions()) {
+                    totalPriceOrder = totalPriceOrder.add(opd.getPrice());
+                }
+                totalPriceOrder = totalPriceOrder.multiply(
+                        new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
+
+                orderDto.setTotalPrice(totalPriceOrder.setScale(2, BigDecimal.ROUND_HALF_DOWN));
 
                 session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
                 req.setAttribute("err", "Item is added.");
@@ -79,6 +88,8 @@ public class AddToBasket extends HttpServlet {
         for (OrderPositionDto orderPositionDto: orderDto.getOrderPositions()) {
             if(orderPositionDto.getFlowerDto().getIdFlower() == newOrderPositionDto.getFlowerDto().getIdFlower()){
                 orderPositionDto.setQuantity(orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity());
+                orderPositionDto.setPrice(orderPositionDto.getPrice().add(newOrderPositionDto.getPrice()));
+                orderPositionDto.setPriceWithDiscount(orderPositionDto.getPriceWithDiscount().add(newOrderPositionDto.getPriceWithDiscount()));
                 isFind = true;
             }
         }
@@ -86,11 +97,6 @@ public class AddToBasket extends HttpServlet {
             orderDto.getOrderPositions().add(newOrderPositionDto);
         }
 
-        BigDecimal totalPrice = orderDto.getTotalPrice().add(
-                newOrderPositionDto.getFlowerDto().getPrice().multiply(
-                        new BigDecimal(newOrderPositionDto.getQuantity())).multiply(
-                                new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0)));
-        orderDto.setTotalPrice(totalPrice.setScale(2, BigDecimal.ROUND_HALF_DOWN));
         return orderDto;
     }
 

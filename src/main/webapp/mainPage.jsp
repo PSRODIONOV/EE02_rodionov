@@ -66,7 +66,7 @@
         </div>
     </form>
 
-    <h2>BASKET1</h2>
+    <h2>MY BASKET</h2>
     <form method="post" action="/flowershop/service/removeFromBasket">
         <table>
             <tr>
