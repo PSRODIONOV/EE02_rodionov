@@ -55,20 +55,22 @@ public class AddToBasket extends HttpServlet {
                 orderPositionDto.setQuantity(quantity);
                 orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
 
+                /*Устанавливаем общую стоимость для позиции заказа в корзине*/
                 BigDecimal totalPriceOP = orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity()));
                 orderPositionDto.setPrice(totalPriceOP);
-                BigDecimal totalPriceWithDiscount = totalPriceOP.multiply(
+                /*Устанавливаем общую стоимость для позиции заказа в корзине с учетом скидки*/
+                BigDecimal totalPriceWithDiscountOP = totalPriceOP.multiply(
                         new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
-                orderPositionDto.setPriceWithDiscount(totalPriceWithDiscount);
-
+                orderPositionDto.setPriceWithDiscount(totalPriceWithDiscountOP);
+                /*Добавление позиции в корзину*/
                 orderDto = addOrderPosition(orderDto, orderPositionDto);
+                /*Считаем общую стоимость корзины с учетом скидки*/
                 BigDecimal totalPriceOrder = new BigDecimal(0);
                 for(OrderPositionDto opd: orderDto.getOrderPositions()) {
                     totalPriceOrder = totalPriceOrder.add(opd.getPrice());
                 }
                 totalPriceOrder = totalPriceOrder.multiply(
                         new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
-
                 orderDto.setTotalPrice(totalPriceOrder.setScale(2, BigDecimal.ROUND_HALF_DOWN));
 
                 session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
@@ -86,19 +88,16 @@ public class AddToBasket extends HttpServlet {
     public OrderDto addOrderPosition(OrderDto orderDto, OrderPositionDto newOrderPositionDto) {
         boolean isFind = false;
         for (OrderPositionDto orderPositionDto: orderDto.getOrderPositions()) {
+            /*Если позиция уже существует, то увеличиваем её параметры*/
             if(orderPositionDto.getFlowerDto().getIdFlower() == newOrderPositionDto.getFlowerDto().getIdFlower()){
                 orderPositionDto.setQuantity(orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity());
                 orderPositionDto.setPrice(orderPositionDto.getPrice().add(newOrderPositionDto.getPrice()));
                 orderPositionDto.setPriceWithDiscount(orderPositionDto.getPriceWithDiscount().add(newOrderPositionDto.getPriceWithDiscount()));
-                isFind = true;
+                return orderDto;
             }
         }
-        if(!isFind) {
-            orderDto.getOrderPositions().add(newOrderPositionDto);
-        }
-
+        /*Если похожей позиции не было, то добавляем её*/
+        orderDto.getOrderPositions().add(newOrderPositionDto);
         return orderDto;
     }
-
-
 }

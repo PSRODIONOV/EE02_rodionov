@@ -41,6 +41,7 @@ public class MessageService {
             messageProducer = session.createProducer(outQueue);
             messageConsumer = session.createConsumer(inQueue);
             messageConsumer.setMessageListener(new MessageListener() {
+                /*Принимаем все запросы на изменение скидки пользователя*/
                 @Override
                 public void onMessage(Message message){
 
@@ -61,7 +62,7 @@ public class MessageService {
         }
     }
 
-
+    /*Отпавить xml файл юзера в очередь*/
     public void sendUserXml(String file){
 
         try{
