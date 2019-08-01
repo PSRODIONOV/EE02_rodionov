@@ -1,7 +1,6 @@
 package be.utils;
 
 import be.business.UserBusinessService;
-import be.entity.User;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,12 +10,13 @@ import javax.annotation.PostConstruct;
 import javax.jms.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 @Service
 public class MessageService {
 
     @Autowired
-    private UserMarshallingServiceImpl userMarshallingService;
+    private MarshallingServiceImpl marshallingService;
     @Autowired
     private UserBusinessService userBusinessService;
 
@@ -48,7 +48,7 @@ public class MessageService {
                     try {
                         TextMessage textMessage = (TextMessage) message;
                         String body = textMessage.getText();
-                        User request = (User) userMarshallingService.doUnMarshalling(body);
+                        DiscountRequest request = (DiscountRequest) marshallingService.doUnMarshalling(body);
                         userBusinessService.updateDiscount(request.getIdUser(), request.getDiscount());
                     }
                     catch (JMSException e){

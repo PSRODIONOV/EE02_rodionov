@@ -1,16 +1,20 @@
 package be.utils;
 
-import be.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
 
 
-public class UserMarshallingServiceImpl {
+public class MarshallingServiceImpl {
 
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
@@ -18,27 +22,39 @@ public class UserMarshallingServiceImpl {
     @Value("${exportPath}")
     String exportPath;
 
-    public UserMarshallingServiceImpl() {
+    public MarshallingServiceImpl() {
+
     }
 
     //Converts Object to XML file
-    public void doMarshaling(String fileName, Object object) {
+    public void doMarshaling(String fileName, Object object) throws IOException{
 
-
+        FileWriter fileWriter = null;
         try {
-            FileWriter fileWriter = new FileWriter(exportPath + fileName);
+            fileWriter = new FileWriter(exportPath + fileName);
             marshaller.marshal(object, new StreamResult(fileWriter));
+
+        }
+        finally {
             fileWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
-    public Object doUnMarshalling(String text) {
+    public Object doUnMarshalling(String file) {
 
         try {
-            unmarshaller.supports(User.class);
-            return unmarshaller.unmarshal(new StreamSource(text));
+            unmarshaller.supports(DiscountRequest.class);
+            return unmarshaller.unmarshal(new StreamSource(new StringReader(file)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public Object doUnMarshaling(String file) {
+
+        try {
+            unmarshaller.supports(DiscountRequest.class);
+            return unmarshaller.unmarshal(new StreamSource(exportPath + file));
         } catch (Exception e) {
             e.printStackTrace();
         }

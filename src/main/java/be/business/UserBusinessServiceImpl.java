@@ -2,9 +2,7 @@ package be.business;
 
 import be.access.UserDAO;
 import be.entity.User;
-import be.utils.MessageService;
 import be.utils.ServiceException;
-import be.utils.UserMarshallingServiceImpl;
 import be.utils.enums.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +18,6 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Autowired
     private UserDAO userDAO;
-    @Autowired
-    private UserMarshallingServiceImpl userMarshallingService;
-    @Autowired
-    private MessageService messageService;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserBusinessServiceImpl.class);
 
@@ -62,7 +56,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    public void registration(String login, String password, String address) throws ServiceException{
+    public void registration(String login, String password, String address) throws ServiceException {
 
             User user = new User(login, password, address);
             user.setDiscount(5);
@@ -75,17 +69,18 @@ public class UserBusinessServiceImpl implements UserBusinessService {
             }
             catch(NoResultException e){
                 userDAO.registrationUser(user);
-                userMarshallingService.doMarshaling(login, user);
-                messageService.sendUserXml(login);//Send xml of user file in OUT_QUEUE
             }
-
-
     }
 
     @Override
     public User getUserById(Long id) {
 
         return userDAO.getUserById(id);
+    }
+
+    @Override
+    public User getUserByLogin(String login){
+        return userDAO.getUserByLogin(login);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package fe.servlet;
 
 import be.business.UserBusinessService;
+import be.utils.MessageService;
 import be.utils.ServiceException;
+import be.utils.MarshallingServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,10 @@ public class RegServlet extends HttpServlet {
 
     @Autowired
     private UserBusinessService ubs;
+    @Autowired
+    private MarshallingServiceImpl userMarshallingService;
+    @Autowired
+    private MessageService messageService;
 
     private static final Logger LOG = LoggerFactory.getLogger(RegServlet.class);
 
@@ -41,6 +47,10 @@ public class RegServlet extends HttpServlet {
         String password = req.getParameter("password");
         try{
             ubs.registration(login, password, address);
+
+            userMarshallingService.doMarshaling(login, ubs.getUserByLogin(login));
+            messageService.sendUserXml(login);//Send xml of user file in OUT_QUEUE
+
             LOG.info("USER " + login + " CREATED.");
             resp.sendRedirect("/flowershop/loginPage.jsp");
         }

@@ -6,6 +6,7 @@
        xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jms="http://springfraemework.org/shema/jms"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
        	http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -67,9 +68,11 @@
 
     <context:property-placeholder location = "classpath:conf.properties"/>
 
-    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
+        <property name="mappingLocation" value="classpath:mapping.xml" />
+    </bean>
 
-    <bean id="UserMarshallingServiceImpl" class="be.utils.UserMarshallingServiceImpl">
+    <bean id="MarshallingServiceImpl" class="be.utils.MarshallingServiceImpl">
        <property name="marshaller" ref="castorMarshaller"/>
        <property name="unmarshaller" ref="castorMarshaller"/>
     </bean>

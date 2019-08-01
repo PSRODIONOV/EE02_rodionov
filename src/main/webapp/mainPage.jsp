@@ -78,7 +78,7 @@
                 <tr>
                     <td>${iterator.flowerDto.nameFlower}</td>
                     <td>${iterator.quantity}</td>
-                    <td>${iterator.price}</td>
+                    <td> <strike>${iterator.price}</strike> ${iterator.priceWithDiscount}</td>
                     <td>
                         <button type="submit"
                                 name="idFlower"

@@ -8,6 +8,7 @@ public class OrderPositionDto {
     private FlowerDto flowerDto;
     private Long quantity;
     private BigDecimal price;
+    private BigDecimal priceWithDiscount;
 
     public OrderPositionDto(){
     }
@@ -42,5 +43,13 @@ public class OrderPositionDto {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public BigDecimal getPriceWithDiscount() {
+        return priceWithDiscount;
+    }
+
+    public void setPriceWithDiscount(BigDecimal priceWithDiscount) {
+        this.priceWithDiscount = priceWithDiscount;
     }
 }
