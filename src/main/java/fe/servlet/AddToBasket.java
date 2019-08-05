@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @WebServlet(urlPatterns = "/service/addToBasket")
 public class AddToBasket extends HttpServlet {
@@ -54,43 +55,44 @@ public class AddToBasket extends HttpServlet {
 
             /*Устанавливаем общую стоимость для позиции заказа в корзине*/
             BigDecimal totalPriceOP = orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity()));
-            orderPositionDto.setPrice(totalPriceOP.setScale(2, BigDecimal.ROUND_HALF_DOWN));
+            orderPositionDto.setPrice(totalPriceOP.setScale(2, RoundingMode.HALF_DOWN));
             /*Устанавливаем общую стоимость для позиции заказа в корзине с учетом скидки*/
+            //todo
             BigDecimal totalPriceWithDiscountOP = totalPriceOP.multiply(
                     new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
-            orderPositionDto.setPriceWithDiscount(totalPriceWithDiscountOP.setScale(2, BigDecimal.ROUND_HALF_DOWN));
+            orderPositionDto.setPriceWithDiscount(totalPriceWithDiscountOP.setScale(2, RoundingMode.HALF_DOWN));
             /*Добавление позиции в корзину*/
             orderDto = addOrderPosition(orderDto, orderPositionDto);
             /*Считаем общую стоимость корзины с учетом скидки*/
-            BigDecimal totalPriceOrder = new BigDecimal(0);
+            BigDecimal totalPriceOrder = BigDecimal.ZERO;
             for (OrderPositionDto opd : orderDto.getOrderPositions()) {
                 totalPriceOrder = totalPriceOrder.add(opd.getPrice());
             }
             totalPriceOrder = totalPriceOrder.multiply(
                     new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
-            orderDto.setTotalPrice(totalPriceOrder.setScale(2, BigDecimal.ROUND_HALF_DOWN));
+            orderDto.setTotalPrice(totalPriceOrder.setScale(2, RoundingMode.HALF_DOWN));
 
             session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
             req.setAttribute("err", "Item is added.");
 
         } catch (ServiceException e) {
-            req.setAttribute("err", ServiceException.ERROR_FLOWERSTOCKSERVICE);
+            req.setAttribute("err", e.getMessage());
         } finally {
             req.getRequestDispatcher("/mainpage").forward(req, resp);
         }
     }
 
     public OrderDto addOrderPosition(OrderDto orderDto, OrderPositionDto newOrderPositionDto) throws ServiceException {
-        boolean isFind = false;
         if(newOrderPositionDto.getQuantity() > newOrderPositionDto.getFlowerDto().getQuantity()){
-            throw new ServiceException(ServiceException.ERROR_FLOWERSTOCKSERVICE);
+            throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
         }
         for (OrderPositionDto orderPositionDto : orderDto.getOrderPositions()) {
             /*Если позиция уже существует, то увеличиваем её параметры*/
-            if (orderPositionDto.getFlowerDto().getIdFlower() == newOrderPositionDto.getFlowerDto().getIdFlower()) {
+            //todo equals
+            if (orderPositionDto.getFlowerDto().getIdFlower().equals(newOrderPositionDto.getFlowerDto().getIdFlower())) {
                 Long sumQty = orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity();
                 if (sumQty > orderPositionDto.getFlowerDto().getQuantity()) {
-                    throw new ServiceException(ServiceException.ERROR_FLOWERSTOCKSERVICE);
+                    throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
                 }
                 orderPositionDto.setQuantity(sumQty);
                 orderPositionDto.setPrice(orderPositionDto.getPrice().add(newOrderPositionDto.getPrice()));

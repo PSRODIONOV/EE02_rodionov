@@ -104,7 +104,6 @@ public class Mapper {
             order.setOrderPositions(mapOrderPositions(orderDto.getOrderPositions()));
             order.setUser(map(orderDto.getUserDto()));
             order.setTotalPrice(orderDto.getTotalPrice());
-            order.setStatus(orderDto.getStatus());
             return order;
         }
         return null;

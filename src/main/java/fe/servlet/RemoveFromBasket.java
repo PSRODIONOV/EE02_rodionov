@@ -1,6 +1,7 @@
 package fe.servlet;
 
 import be.business.OrderBusinessService;
+import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import fe.dto.OrderDto;
 import fe.dto.OrderPositionDto;
@@ -38,13 +39,22 @@ public class RemoveFromBasket extends HttpServlet {
         HttpSession session = req.getSession(false);
         String idFlower = req.getParameter("idFlower");
         OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
-        orderDto = delOrderPosition(orderDto, Long.parseLong(idFlower));
-        session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
-        req.getRequestDispatcher("/mainpage").forward(req, resp);
+        try {
+            orderDto = delOrderPosition(orderDto, Long.parseLong(idFlower));
+            session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
+        } catch (Exception e) {
+            req.setAttribute("err", ServiceException.ERROR_INVALIDATE_DATA);
+        } finally {
+            req.getRequestDispatcher("/mainpage").forward(req, resp);
+        }
     }
 
-    public OrderDto delOrderPosition(OrderDto orderDto, Long idFlower) {
 
+    public OrderDto delOrderPosition(OrderDto orderDto, Long idFlower) throws ServiceException{
+
+        if(idFlower == null){
+            throw new ServiceException(ServiceException.ERROR_INVALIDATE_DATA);
+        }
         if(orderDto != null) {
             Iterator<OrderPositionDto> iter = orderDto.getOrderPositions().iterator();
             while (iter.hasNext()) {

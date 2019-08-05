@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.Optional;
 
 @Repository
@@ -52,26 +54,6 @@ public class UserDAOImpl implements UserDAO {
     public void registrationUser(User newUser) {
             em.persist(newUser);
             em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void setBalance(Long id, BigDecimal balance){
-        Query q = em.createQuery("update User u set u.walletScore = :balance where u.id = :id");
-        q.setParameter("id", id);
-        q.setParameter("balance", balance);
-        q.executeUpdate();
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void setDiscount(Long id, Integer discount){
-        Query q = em.createQuery("update User u set u.discount = :discount where u.id = :id");
-        q.setParameter("id", id);
-        q.setParameter("discount", discount);
-        q.executeUpdate();
-        em.flush();
     }
 
 }

@@ -53,7 +53,10 @@ public class MessageService {
                         userBusinessService.updateDiscount(request.getIdUser(), request.getDiscount());
                     }
                     catch (JMSException e){
-
+                        throw new RuntimeException("FAIL");
+                    }
+                    catch (ServiceException e){
+                        throw new RuntimeException("FAIL");
                     }
                 }
             });
@@ -72,16 +75,14 @@ public class MessageService {
             messageConsumer.close();
         }
         catch(JMSException e){
-
+            throw new RuntimeException("FAIL");
         }
-
     }
 
     /*Отпавить xml файл юзера в очередь*/
     public void sendUserXml(String file){
-
-        try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(exportPath + file));
+        //try-with-resources Java7
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(exportPath + file))) {
             String line;
             String text = "";
             while ((line = bufferedReader.readLine()) != null) {
@@ -89,9 +90,10 @@ public class MessageService {
             }
             Message msg = session.createTextMessage(text);
             messageProducer.send(msg);
-            bufferedReader.close();
+
         }
         catch(Exception e){
+            throw new RuntimeException("FAIL");
         }
     }
 

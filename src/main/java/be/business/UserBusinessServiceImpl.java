@@ -33,7 +33,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Override
     public User login(String login, String password) throws ServiceException {
         User user = userDAO.getUserByLogin(login)
-                .orElseThrow(() -> new ServiceException(ServiceException.ERROR_USER_LOGIN));
+                .orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
         if (password.equals(user.getPassword())) {
             return user;
         }
@@ -41,6 +41,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
+    @Transactional
     public void registration(String login, String password, String address) throws ServiceException {
 
         User user = new User(login, password, address);
@@ -51,7 +52,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         if (userDAO.getUserByLogin(user.getLogin()).isPresent()) {
             throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
         }
-        userDAO.registrationUser(user);
+        try {
+            userDAO.registrationUser(user);
+        }
+        catch (Exception e){
+            throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
+        }
     }
 
     @Override
@@ -70,15 +76,18 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     public void pay(Long idUser, BigDecimal priceOrder) throws ServiceException {
 
         BigDecimal balance;
-        if ((balance = userDAO.getUserById(idUser).get().getWalletScore().subtract(priceOrder)).compareTo(new BigDecimal(0)) != -1) {
-            userDAO.setBalance(idUser, balance);
+        User user = getUserById(idUser);
+        if ((balance = user.getWalletScore().subtract(priceOrder)).compareTo(BigDecimal.ZERO) != -1) {
+            user.setWalletScore(balance);
         } else {
             throw new ServiceException(ServiceException.ERROR_USER_BALANCE);
         }
     }
 
+    @Override
     @Transactional
-    public void updateDiscount(Long idUser, Integer newDiscount) {
-        userDAO.setDiscount(idUser, newDiscount);
+    public void updateDiscount(Long idUser, Integer newDiscount) throws ServiceException {
+        User user = getUserById(idUser);
+        user.setDiscount(newDiscount);
     }
 }

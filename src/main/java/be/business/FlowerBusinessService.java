@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface FlowerBusinessService {
     List<Flower> getAllFlowers();
-    Flower getFlowerById(Long id);
-    void setQuantity(Long idFlower, Long quantity);
+    Flower getFlowerById(Long id) throws ServiceException;
+    void setQuantity(Long idFlower, Long quantity) throws ServiceException;
     List<Flower> searchFilter(FlowerFilter filter);
     void increaseFlowersStockSize(Long count);
 }

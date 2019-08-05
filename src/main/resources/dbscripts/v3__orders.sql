@@ -5,8 +5,8 @@ id_order number(10, 0),
 id_user number(10, 0),
 total_price decimal(15,2),
 status varchar2 check(status in ('CREATED', 'PAID', 'CLOSED')),
-date_create date,
-date_close date,
+date_create timestamp,
+date_close timestamp,
 primary key (id_order),
 foreign key (id_user) references users(id_user)
 );

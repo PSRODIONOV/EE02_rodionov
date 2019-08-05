@@ -2,15 +2,12 @@ package be.access;
 
 import be.entity.Order;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderDAO {
 
     void addOrder(Order order);
-    void updateOrder(Order order);
-    public void updateStatus(Long idOrder, String status);
-    Order getOrderById(Long id);
-    void delOrder(Order order);
-    void delOrderById(Long id);
+    Optional<Order> getOrderById(Long id);
     List<Order> getAllMyOrders(Long idUser);
     List<Order> getAllOrders();
 }

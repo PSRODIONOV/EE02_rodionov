@@ -37,7 +37,6 @@ public class SearchFlower extends HttpServlet {
         String name = req.getParameter("name");
         FlowerFilter filter = new FlowerFilter(from, to, name);
         req.setAttribute(SessionAttribute.FILTER.toString(), filter);
-        //req.setAttribute(SessionAttribute.FLOWERS.toString(), Mapper.mapFlowers(flowerBusinessService.searchFilter(filter)));
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

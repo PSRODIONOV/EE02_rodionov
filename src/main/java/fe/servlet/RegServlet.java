@@ -55,7 +55,7 @@ public class RegServlet extends HttpServlet {
             resp.sendRedirect("/flowershop/loginPage.jsp");
         }
         catch(ServiceException e){
-            req.setAttribute("err", ServiceException.ERROR_USER_REGISTRATION);
+            req.setAttribute("err", e.getMessage());
             req.getRequestDispatcher("/registerPage.jsp").forward(req, resp);
         }
 

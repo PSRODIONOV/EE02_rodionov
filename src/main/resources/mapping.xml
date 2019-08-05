@@ -1,7 +1,7 @@
 <mapping>
     <class name="be.utils.DiscountRequest">
 
-        <map-to xml="discountRequest" />
+        <map-to xml="discountRequest"/>
 
         <field name="idUser" type="long">
             <bind-xml name="idUser" node="element" />

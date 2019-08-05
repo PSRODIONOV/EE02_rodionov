@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -34,42 +35,12 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    @Transactional
-    public void updateOrder(Order order) {
-        em.merge(order);
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void updateStatus(Long idOrder, String status){
-        Query q = em.createQuery("update Order o set o.status = :status where o.idOrder = :idOrder");
-        q.setParameter("idOrder", idOrder);
-        q.setParameter("status", status);
-        q.executeUpdate();
-        em.flush();
-    }
-
-    @Override
-    public Order getOrderById(Long id)
-    {
-        return em.find(Order.class, id);
-    }
-
-    @Override
-    @Transactional
-    public void delOrder(Order order) {
-
-        em.remove(order);
-        em.flush();
-    }
-
-    @Override
-    @Transactional
-    public void delOrderById(Long id) {
-
-        em.remove(em.find(Order.class, id));
-        em.flush();
+    public Optional<Order> getOrderById(Long id) {
+        try {
+            return Optional.of(em.find(Order.class, id));
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

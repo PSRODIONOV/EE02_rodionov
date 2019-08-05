@@ -30,13 +30,16 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
-    public Flower getFlowerById(Long id){
-        return flowerDAO.getFlowerById(id);
+    public Flower getFlowerById(Long id) throws ServiceException{
+
+        return flowerDAO.getFlowerById(id).orElseThrow(()->new ServiceException(ServiceException.ERROR_FIND_FLOWER));
     }
 
     @Override
-    public void setQuantity(Long idFlower, Long quantity){
-        flowerDAO.setQuantity(idFlower, quantity);
+    @Transactional
+    public void setQuantity(Long idFlower, Long quantity) throws ServiceException{
+        Flower flower = getFlowerById(idFlower);
+        flower.setQuantity(quantity);
     }
 
     @Override
@@ -45,7 +48,9 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
+    @Transactional
     public void increaseFlowersStockSize(Long count) {
+        //todo change method
         flowerDAO.increaseFlowerStockSize(count);
     }
 }

@@ -45,7 +45,7 @@ public class CreateOrder extends HttpServlet {
             session.removeAttribute(SessionAttribute.BASKET.toString());
         }
         catch(ServiceException e){
-            session.setAttribute("err", ServiceException.ERROR_BASKET);
+            session.setAttribute("err", e.getMessage());
         }
         finally {
             req.getRequestDispatcher("/mainpage").forward(req, resp);

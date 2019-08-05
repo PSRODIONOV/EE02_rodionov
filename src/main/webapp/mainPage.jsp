@@ -117,7 +117,7 @@
                     <td>${iterator.idOrder}</td>
                     <td>
                     <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
-                        <p>${it.quantity}x${it.flowerDto.nameFlower}</p>
+                        <p>${it.quantity}-${it.flowerDto.nameFlower}</p>
                     </c:forEach>
                     </td>
                     <td>${iterator.totalPrice}</td>

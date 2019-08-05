@@ -37,6 +37,7 @@ public class PayOrder extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
+
         String idOrder = req.getParameter("idOrder");
         UserDto userDto = (UserDto)session.getAttribute(SessionAttribute.USER.toString());
 
@@ -44,7 +45,7 @@ public class PayOrder extends HttpServlet {
             orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());
         }
         catch (ServiceException e){
-            req.setAttribute("err", ServiceException.ERROR_USER_BALANCE);
+            req.setAttribute("err", e.getMessage());
         }
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }

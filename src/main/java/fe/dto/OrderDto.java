@@ -3,7 +3,7 @@ package fe.dto;
 import be.utils.enums.OrderStatus;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class OrderDto {
         return dateCreate;
     }
 
-    public void setDateCreate(Date dateCreate) {
+    public void setDateCreate(LocalDateTime dateCreate) {
         if(dateCreate != null) {
             this.dateCreate = dateCreate.toString();
         }
@@ -79,7 +79,7 @@ public class OrderDto {
         return dateClose;
     }
 
-    public void setDateClose(Date dateClose) {
+    public void setDateClose(LocalDateTime dateClose) {
         if(dateClose != null) {
             this.dateClose = dateClose.toString();
         }

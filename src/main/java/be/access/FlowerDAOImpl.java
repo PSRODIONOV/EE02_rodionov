@@ -7,11 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class FlowerDAOImpl implements FlowerDAO {
@@ -27,8 +25,13 @@ public class FlowerDAOImpl implements FlowerDAO {
     }
 
     @Override
-    public Flower getFlowerById(Long id) {
-        return em.find(Flower.class, id);
+    public Optional<Flower> getFlowerById(Long id) {
+        try {
+            return Optional.of(em.find(Flower.class, id));
+        }
+        catch (NoResultException e){
+            return Optional.empty();
+        }
     }
 
 
@@ -59,6 +62,7 @@ public class FlowerDAOImpl implements FlowerDAO {
 
     @Override
     public void increaseFlowerStockSize(Long count) {
+        //todo move business
         Query q = em.createQuery("update Flower f set f.quantity = f.quantity + :count");
         q.setParameter("count", count);
         q.executeUpdate();

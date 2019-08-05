@@ -1,6 +1,8 @@
 package fe.servlet;
 
 import be.business.OrderBusinessService;
+import be.utils.ServiceException;
+import be.utils.enums.SessionAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -32,7 +34,12 @@ public class CloseOrderServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         String idOrder = req.getParameter("idOrder");
-        orderBusinessService.closeOrder(Long.parseLong(idOrder));
+        try {
+            orderBusinessService.closeOrder(Long.parseLong(idOrder));
+        }
+        catch (ServiceException e){
+            req.setAttribute("err", e.getMessage());
+        }
         req.getRequestDispatcher("/mainpage").forward(req, resp);
     }
 }

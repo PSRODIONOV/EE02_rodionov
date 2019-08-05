@@ -23,7 +23,8 @@
     <form method="post" action="/flowershop/admin/closeorder">
         <table>
             <tr>
-                <td>Id</td>
+                <td>Id Order</td>
+                <td>Id User</td>
                 <td>Description</td>
                 <td>Total Price</td>
                 <td>Status</td>
@@ -33,6 +34,7 @@
             <c:forEach items = "${ORDERS}" var="iterator" varStatus="rowStatus">
                 <tr>
                     <td>${iterator.idOrder}</td>
+                    <td>${iterator.userDto.id}</td>
                     <td>
                     <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
                         <p>${it.quantity}x ${it.flowerDto.nameFlower}</p>

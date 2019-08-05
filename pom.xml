@@ -33,13 +33,6 @@
     </dependency>
 
     <dependency>
-      <!-- plugin -->
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.4.195</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
@@ -49,13 +42,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
-    </dependency>
-
-    <dependency>
-      <!-- лишнее slf4j-over-jcl -->
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
     </dependency>
 
     <dependency>
@@ -187,6 +173,12 @@
       <version>5.15.9</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-core</artifactId>
+      <version>5.7.0</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -235,6 +227,11 @@
                 </systemProperties>
             </configuration>
             <dependencies>
+              <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.195</version>
+              </dependency>
 
             </dependencies>
         </plugin>
@@ -244,6 +241,7 @@
           <artifactId>jaxws-maven-plugin</artifactId>
           <version>2.6</version>
         </plugin>
+
       </plugins>
     </pluginManagement>
   </build>

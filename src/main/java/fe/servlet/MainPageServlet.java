@@ -51,33 +51,34 @@ public class MainPageServlet extends HttpServlet {
 
         try {
             userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
+
+            session.setAttribute(SessionAttribute.USER.toString(), userDto);
+
+            if (session.getAttribute(SessionAttribute.BASKET.toString()) == null) {
+                OrderDto basket = new OrderDto();
+                basket.setUserDto(userDto);
+                session.setAttribute(SessionAttribute.BASKET.toString(), basket);
+            }
+
+            List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));
+            req.setAttribute(SessionAttribute.ORDERS.toString(), ordersDto);
+
+            FlowerFilter filter = (FlowerFilter) req.getAttribute(SessionAttribute.FILTER.toString());
+            List<FlowerDto> flowersDto;
+            if (filter != null) {
+                flowersDto = Mapper.mapFlowers(flowerBusinessService.searchFilter(filter));
+            } else {
+                flowersDto = Mapper.mapFlowers(flowerBusinessService.getAllFlowers());
+            }
+            req.setAttribute(SessionAttribute.FLOWERS.toString(), flowersDto);
+
+            if (userDto.getRole() == UserType.USER) {
+                req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("/adminMainPage.jsp").forward(req, resp);
+            }
         } catch (ServiceException e) {
-
-        }
-        session.setAttribute(SessionAttribute.USER.toString(), userDto);
-
-        if (session.getAttribute(SessionAttribute.BASKET.toString()) == null) {
-            OrderDto basket = new OrderDto();
-            basket.setUserDto(userDto);
-            session.setAttribute(SessionAttribute.BASKET.toString(), basket);
-        }
-
-        List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));
-        req.setAttribute(SessionAttribute.ORDERS.toString(), ordersDto);
-
-        FlowerFilter filter = (FlowerFilter) req.getAttribute(SessionAttribute.FILTER.toString());
-        List<FlowerDto> flowersDto;
-        if (filter != null) {
-            flowersDto = Mapper.mapFlowers(flowerBusinessService.searchFilter(filter));
-        } else {
-            flowersDto = Mapper.mapFlowers(flowerBusinessService.getAllFlowers());
-        }
-        req.setAttribute(SessionAttribute.FLOWERS.toString(), flowersDto);
-
-        if (userDto.getRole() == UserType.USER) {
-            req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
-        } else {
-            req.getRequestDispatcher("/adminMainPage.jsp").forward(req, resp);
+            req.setAttribute("err", e.getMessage());
         }
     }
 }

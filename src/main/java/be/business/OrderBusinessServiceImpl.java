@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -36,30 +34,20 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    @Transactional
     public void addOrder(Order order) throws ServiceException {
         if(order.getOrderPositions().isEmpty()){
             throw new ServiceException(ServiceException.ERROR_BASKET);
         }
-        order.setDateCreate(new Date(Calendar.getInstance().getTime().getTime()));
-        order.setStatus(OrderStatus.CREATED);
-        orderDAO.addOrder(order);
+        try {
+            orderDAO.addOrder(order);
+        }
+        catch(Exception e){
+            throw new ServiceException(ServiceException.ERROR_INSERT);
+        }
+
     }
 
-    @Override
-    public void updateOrder(Order order) {
-        orderDAO.updateOrder(order);
-    }
-
-    @Override
-    public Order getOrderById(Long id) {
-
-        return orderDAO.getOrderById(id);
-    }
-
-    @Override
-    public void delOrderById(Long id) {
-        orderDAO.delOrderById(id);
-    }
 
     @Override
     public List<Order> getAllOrders(User user) {
@@ -71,26 +59,37 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-    public void payOrder(Long idOrder, Long idUser) throws ServiceException{
-        Order order = orderDAO.getOrderById(idOrder);
-            if (order.getStatus() == OrderStatus.CREATED) {
-                if (order.getUser().getIdUser() == idUser) {
-                    userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
-                }
-                order.setStatus(OrderStatus.PAID);
-                orderDAO.updateOrder(order);//**изменение статуса заказа на оплачено
-                for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
-                    Flower flower = orderPosition.getFlower();
-                    flowerBusinessService.setQuantity(flower.getIdFlower(), flower.getQuantity() - orderPosition.getQuantity());
-                }
+    public void payOrder(Long idOrder, Long idUser) throws ServiceException {
+        Order order = orderDAO.getOrderById(idOrder)
+                .orElseThrow(() -> new RuntimeException());
+        if(idUser == null){
+            throw new RuntimeException("Invalidate data");
+        }
+        if (!order.getUser().getIdUser().equals(idUser)) {
+            throw new RuntimeException("Order not found for user");
+        }
+
+        if (order.getStatus() != OrderStatus.CREATED) {
+            throw new ServiceException(ServiceException.ERROR_FIND_ORDER);
+        }
+
+        userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
+        order.setStatus(OrderStatus.PAID);
+
+        for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
+            Flower flower = orderPosition.getFlower();
+            if(flower.getQuantity() < orderPosition.getQuantity()){
+                throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
             }
+            flower.setQuantity(flower.getQuantity()-orderPosition.getQuantity());
+        }
+
     }
 
     @Override
-    public void closeOrder(Long idOrder) {
-        Order order = orderDAO.getOrderById(idOrder);
-        order.setStatus(OrderStatus.CLOSED);
-        order.setDateClose(new Date(Calendar.getInstance().getTime().getTime()));
-        orderDAO.updateOrder(order);
+    public void closeOrder(Long idOrder) throws ServiceException{
+        Order order = orderDAO.getOrderById(idOrder).
+                orElseThrow(()-> new ServiceException(ServiceException.ERROR_FIND_ORDER));
+        order.close();
     }
 }
