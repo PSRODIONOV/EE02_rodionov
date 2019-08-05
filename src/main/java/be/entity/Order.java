@@ -36,11 +36,9 @@ public class Order {
 
 
     @Column(name = "date_create")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateCreate;
 
     @Column(name = "date_close")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateClose;
 
     public Order() {

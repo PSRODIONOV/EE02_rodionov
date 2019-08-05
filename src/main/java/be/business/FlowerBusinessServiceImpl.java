@@ -36,7 +36,7 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=ServiceException.class)
     public void setQuantity(Long idFlower, Long quantity) throws ServiceException{
         Flower flower = getFlowerById(idFlower);
         flower.setQuantity(quantity);
@@ -48,7 +48,7 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=ServiceException.class)
     public void increaseFlowersStockSize(Long count) {
         //todo change method
         flowerDAO.increaseFlowerStockSize(count);

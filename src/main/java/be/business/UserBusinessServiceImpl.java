@@ -41,7 +41,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=ServiceException.class)
     public void registration(String login, String password, String address) throws ServiceException {
 
         User user = new User(login, password, address);
@@ -72,7 +72,6 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    @Transactional
     public void pay(Long idUser, BigDecimal priceOrder) throws ServiceException {
 
         BigDecimal balance;
@@ -85,7 +84,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=ServiceException.class)
     public void updateDiscount(Long idUser, Integer newDiscount) throws ServiceException {
         User user = getUserById(idUser);
         user.setDiscount(newDiscount);

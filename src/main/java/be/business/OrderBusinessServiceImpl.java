@@ -34,7 +34,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=ServiceException.class)
     public void addOrder(Order order) throws ServiceException {
         if(order.getOrderPositions().isEmpty()){
             throw new ServiceException(ServiceException.ERROR_BASKET);
@@ -58,7 +58,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=ServiceException.class)
     public void payOrder(Long idOrder, Long idUser) throws ServiceException {
         Order order = orderDAO.getOrderById(idOrder)
                 .orElseThrow(() -> new RuntimeException());
@@ -73,15 +73,20 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
             throw new ServiceException(ServiceException.ERROR_FIND_ORDER);
         }
 
-        userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
-        order.setStatus(OrderStatus.PAID);
+        try {
+            userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
+            order.setStatus(OrderStatus.PAID);
 
-        for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
-            Flower flower = orderPosition.getFlower();
-            if(flower.getQuantity() < orderPosition.getQuantity()){
-                throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
+            for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
+                Flower flower = orderPosition.getFlower();
+                if (flower.getQuantity() < orderPosition.getQuantity()) {
+                    throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
+                }
+                flower.setQuantity(flower.getQuantity() - orderPosition.getQuantity());
             }
-            flower.setQuantity(flower.getQuantity()-orderPosition.getQuantity());
+        }
+        catch (ServiceException e){
+            throw e;
         }
 
     }

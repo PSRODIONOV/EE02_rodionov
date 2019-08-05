@@ -28,7 +28,6 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    @Transactional
     public void addOrder(Order order) {
         em.persist(order);
         em.flush();

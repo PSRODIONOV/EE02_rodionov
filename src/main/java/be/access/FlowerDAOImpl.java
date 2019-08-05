@@ -42,7 +42,6 @@ public class FlowerDAOImpl implements FlowerDAO {
     }
 
     @Override
-    @Transactional
     public void setQuantity(Long idFlower, Long quantity){
 
         Query q = em.createQuery("update Flower f set f.quantity = :quantity where f.idFlower = :idFlower");
@@ -53,7 +52,6 @@ public class FlowerDAOImpl implements FlowerDAO {
     }
 
     @Override
-    @Transactional
     public List<Flower> searchFilter(FlowerFilter filter) {
         String temp = filter.toString();
         TypedQuery<Flower> q = em.createQuery("select f from Flower f " + temp, Flower.class);

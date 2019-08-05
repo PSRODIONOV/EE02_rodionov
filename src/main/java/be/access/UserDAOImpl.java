@@ -4,7 +4,6 @@ import be.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -26,7 +25,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public Optional<User> getUserByLogin(String login) {
         try {
             TypedQuery<User> q = em.createQuery("Select u from User u where u.login = :login", User.class);
@@ -39,7 +37,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public Optional<User> getUserById(Long id) {
         try {
             return Optional.of(em.find(User.class, id));
@@ -50,7 +47,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public void registrationUser(User newUser) {
             em.persist(newUser);
             em.flush();
