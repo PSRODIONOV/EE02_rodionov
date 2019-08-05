@@ -15,8 +15,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <spring.version>4.2.0.RELEASE</spring.version>
     <hibernate.version>5.0.12.FINAL</hibernate.version>
     <cxf.version>3.0.8</cxf.version>
@@ -33,6 +33,7 @@
     </dependency>
 
     <dependency>
+      <!-- plugin -->
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>1.4.195</version>
@@ -51,6 +52,7 @@
     </dependency>
 
     <dependency>
+      <!-- лишнее slf4j-over-jcl -->
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.1.1</version>
@@ -63,6 +65,7 @@
     </dependency>
 
     <dependency>
+      <!-- logback -->
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>1.7.13</version>
@@ -174,9 +177,11 @@
       <groupId>org.webjars.bower</groupId>
       <artifactId>jquery</artifactId>
       <version>3.2.1</version>
+
     </dependency>
 
     <dependency>
+      <!-- plugin -->
       <groupId>org.apache.activemq</groupId>
       <artifactId>activemq-client</artifactId>
       <version>5.15.9</version>
@@ -229,6 +234,9 @@
                     </JAVA_OPTS>
                 </systemProperties>
             </configuration>
+            <dependencies>
+
+            </dependencies>
         </plugin>
 
         <plugin>
@@ -236,7 +244,6 @@
           <artifactId>jaxws-maven-plugin</artifactId>
           <version>2.6</version>
         </plugin>
-
       </plugins>
     </pluginManagement>
   </build>

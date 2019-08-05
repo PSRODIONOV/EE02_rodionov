@@ -80,7 +80,7 @@
     <bean id="FlowersStockWebService" class="fe.webservice.FlowersStockWebServiceImpl" />
 
     <jaxws:endpoint id="FlowersStockWebService1" implementor="#FlowersStockWebService"
-                    address="/FlowersStockWebService"/>
+                                                                       address="/FlowersStockWebService"/>
 
 </beans>
 

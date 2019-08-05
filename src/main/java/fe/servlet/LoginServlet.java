@@ -49,14 +49,15 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
-        UserDto currentUser;
-        if((currentUser = Mapper.map(userBusinessService.login(login, password))) != null) {
+        try
+        {
+            UserDto currentUser = Mapper.map(userBusinessService.login(login, password));
             session.setAttribute(SessionAttribute.USER.toString(), currentUser);
             LOG.info("USER "+ currentUser.getLogin() + " LOGGED IN.");
             req.getRequestDispatcher("/mainpage").forward(req, resp);
         }
-        else {
-            req.setAttribute("err", ServiceException.ERROR_USER_LOGIN);
+        catch(ServiceException e) {
+            req.setAttribute("err", e.getMessage());
             req.getRequestDispatcher("/loginPage.jsp").forward(req, resp);
         }
 

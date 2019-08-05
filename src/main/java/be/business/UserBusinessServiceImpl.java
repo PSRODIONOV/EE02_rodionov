@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NoResultException;
 import java.math.BigDecimal;
 
 @Service
@@ -21,83 +20,65 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserBusinessServiceImpl.class);
 
-    public UserBusinessServiceImpl(){
+    public UserBusinessServiceImpl() {
 
         LOG.info(":::::::::" + this.getClass() + " IS CREATED:::::::::");
     }
 
     @Override
-    public Boolean checkLogin(String login){
-        try{
-            if(userDAO.getUserByLogin(login)!= null) {
-                return true;
-            }
-        }
-        catch (NoResultException e){
-            return false;
-        }
-        return false;
+    public Boolean checkLogin(String login) {
+        return userDAO.getUserByLogin(login).isPresent();
     }
 
     @Override
-    public User login(String login, String password) {
-        User user;
-        try {
-            if ((user = userDAO.getUserByLogin(login)) != null) {
-                if (user.getPassword().equals(password)) {
-                    return user;
-                }
-            }
+    public User login(String login, String password) throws ServiceException {
+        User user = userDAO.getUserByLogin(login)
+                .orElseThrow(() -> new ServiceException(ServiceException.ERROR_USER_LOGIN));
+        if (password.equals(user.getPassword())) {
+            return user;
         }
-        catch (NoResultException e) {
-            return null;
-        }
-        return null;
+        throw new ServiceException(ServiceException.ERROR_USER_LOGIN);
     }
 
     @Override
     public void registration(String login, String password, String address) throws ServiceException {
 
-            User user = new User(login, password, address);
-            user.setDiscount(5);
-            user.setWalletScore(new BigDecimal(2000));
-            user.setRole(UserType.USER);
-            try{
-                if(userDAO.getUserByLogin(user.getLogin()) != null) {
-                    throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
-                }
-            }
-            catch(NoResultException e){
-                userDAO.registrationUser(user);
-            }
+        User user = new User(login, password, address);
+        user.setDiscount(5);
+        user.setWalletScore(new BigDecimal(2000));
+        user.setRole(UserType.USER);
+
+        if (userDAO.getUserByLogin(user.getLogin()).isPresent()) {
+            throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
+        }
+        userDAO.registrationUser(user);
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User getUserById(Long id) throws ServiceException {
 
-        return userDAO.getUserById(id);
+        return userDAO.getUserById(id).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
     }
 
     @Override
-    public User getUserByLogin(String login){
-        return userDAO.getUserByLogin(login);
+    public User getUserByLogin(String login) throws ServiceException {
+        return userDAO.getUserByLogin(login).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
     }
 
     @Override
     @Transactional
-    public void pay(Long idUser, BigDecimal priceOrder) throws ServiceException{
+    public void pay(Long idUser, BigDecimal priceOrder) throws ServiceException {
 
         BigDecimal balance;
-        if((balance = userDAO.getUserById(idUser).getWalletScore().subtract(priceOrder)).compareTo(new BigDecimal(0)) != -1) {
+        if ((balance = userDAO.getUserById(idUser).get().getWalletScore().subtract(priceOrder)).compareTo(new BigDecimal(0)) != -1) {
             userDAO.setBalance(idUser, balance);
-        }
-        else{
+        } else {
             throw new ServiceException(ServiceException.ERROR_USER_BALANCE);
         }
     }
 
     @Transactional
-    public void updateDiscount(Long idUser, Integer newDiscount){
+    public void updateDiscount(Long idUser, Integer newDiscount) {
         userDAO.setDiscount(idUser, newDiscount);
     }
 }

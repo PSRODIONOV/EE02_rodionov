@@ -18,3 +18,8 @@ div.panel{
     margin:20px;
 }
 
+p.err{
+    color:red;
+    fon-size:1.3em;
+}
+

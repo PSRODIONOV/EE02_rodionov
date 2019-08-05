@@ -1,6 +1,7 @@
 package be.utils;
 
 public class FlowerFilter {
+
     private String minPrice;
     private String maxPrice;
     private String name;

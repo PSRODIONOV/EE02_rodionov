@@ -31,12 +31,6 @@ public class FlowerDAOImpl implements FlowerDAO {
         return em.find(Flower.class, id);
     }
 
-    @Override
-    public Flower getFlowerByName(String name) {
-        TypedQuery<Flower> q = em.createQuery("select f from Flower where f.nameFlower = :name", Flower.class);
-        q.setParameter("name", name);
-        return q.getSingleResult();
-    }
 
     @Override
     public List<Flower> getAllFlowers() {
@@ -46,14 +40,8 @@ public class FlowerDAOImpl implements FlowerDAO {
 
     @Override
     @Transactional
-    public void update(Flower flower){
-        em.merge(flower);
-        em.flush();
-    }
-
-    @Override
-    @Transactional
     public void setQuantity(Long idFlower, Long quantity){
+
         Query q = em.createQuery("update Flower f set f.quantity = :quantity where f.idFlower = :idFlower");
         q.setParameter("quantity", quantity);
         q.setParameter("idFlower", idFlower);

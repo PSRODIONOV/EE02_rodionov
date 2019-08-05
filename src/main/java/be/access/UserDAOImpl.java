@@ -6,11 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -27,17 +25,26 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public User getUserByLogin(String login) {
-
-        TypedQuery<User> q = em.createQuery("Select u from User u where u.login = :login", User.class);
-        q.setParameter("login", login);
-        return q.getSingleResult();
+    public Optional<User> getUserByLogin(String login) {
+        try {
+            TypedQuery<User> q = em.createQuery("Select u from User u where u.login = :login", User.class);
+            q.setParameter("login", login);
+            return Optional.of(q.getSingleResult());
+        }
+        catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     @Transactional
-    public User getUserById(Long id) {
-        return em.find(User.class, id);
+    public Optional<User> getUserById(Long id) {
+        try {
+            return Optional.of(em.find(User.class, id));
+        }
+        catch(NoResultException e){
+            return Optional.empty();
+        }
     }
 
     @Override

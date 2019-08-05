@@ -5,6 +5,7 @@ import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
 import be.utils.FlowerFilter;
 import be.utils.Mapper;
+import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import be.utils.enums.UserType;
 import fe.dto.FlowerDto;
@@ -46,12 +47,16 @@ public class MainPageServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        UserDto userDto = (UserDto)session.getAttribute(SessionAttribute.USER.toString());
+        UserDto userDto = (UserDto) session.getAttribute(SessionAttribute.USER.toString());
 
-        userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
+        try {
+            userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
+        } catch (ServiceException e) {
+
+        }
         session.setAttribute(SessionAttribute.USER.toString(), userDto);
 
-        if(session.getAttribute(SessionAttribute.BASKET.toString()) == null) {
+        if (session.getAttribute(SessionAttribute.BASKET.toString()) == null) {
             OrderDto basket = new OrderDto();
             basket.setUserDto(userDto);
             session.setAttribute(SessionAttribute.BASKET.toString(), basket);
@@ -62,18 +67,16 @@ public class MainPageServlet extends HttpServlet {
 
         FlowerFilter filter = (FlowerFilter) req.getAttribute(SessionAttribute.FILTER.toString());
         List<FlowerDto> flowersDto;
-        if(filter != null){
+        if (filter != null) {
             flowersDto = Mapper.mapFlowers(flowerBusinessService.searchFilter(filter));
-        }
-        else {
+        } else {
             flowersDto = Mapper.mapFlowers(flowerBusinessService.getAllFlowers());
         }
         req.setAttribute(SessionAttribute.FLOWERS.toString(), flowersDto);
 
-        if(userDto.getRole() == UserType.USER) {
+        if (userDto.getRole() == UserType.USER) {
             req.getRequestDispatcher("/mainPage.jsp").forward(req, resp);
-        }
-        else{
+        } else {
             req.getRequestDispatcher("/adminMainPage.jsp").forward(req, resp);
         }
     }

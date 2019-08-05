@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.jms.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -58,8 +59,22 @@ public class MessageService {
             });
         }
         catch (JMSException e){
+            preDestroy();
+        }
+    }
+
+    @PreDestroy
+    private void preDestroy(){
+        try {
+            connection.close();
+            session.close();
+            messageProducer.close();
+            messageConsumer.close();
+        }
+        catch(JMSException e){
 
         }
+
     }
 
     /*Отпавить xml файл юзера в очередь*/

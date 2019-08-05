@@ -35,16 +35,6 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
-    public Flower getFlowerByName(String name){
-        return flowerDAO.getFlowerByName(name);
-    }
-
-    @Override
-    public void update(Flower flower){
-        flowerDAO.update(flower);
-    }
-
-    @Override
     public void setQuantity(Long idFlower, Long quantity){
         flowerDAO.setQuantity(idFlower, quantity);
     }
