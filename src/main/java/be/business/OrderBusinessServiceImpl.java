@@ -34,15 +34,14 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    @Transactional(rollbackFor=ServiceException.class)
+    @Transactional(rollbackFor = ServiceException.class)
     public void addOrder(Order order) throws ServiceException {
-        if(order.getOrderPositions().isEmpty()){
+        if (order.getOrderPositions().isEmpty()) {
             throw new ServiceException(ServiceException.ERROR_BASKET);
         }
         try {
             orderDAO.addOrder(order);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new ServiceException(ServiceException.ERROR_INSERT);
         }
 
@@ -58,12 +57,12 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    @Transactional(rollbackFor=ServiceException.class)
+    @Transactional(rollbackFor = ServiceException.class)
     public void payOrder(Long idOrder, Long idUser) throws ServiceException {
         Order order = orderDAO.getOrderById(idOrder)
                 .orElseThrow(() -> new RuntimeException());
-        if(idUser == null){
-            throw new RuntimeException("Invalidate data");
+        if (idUser == null) {
+            throw new ServiceException(ServiceException.ERROR_INVALIDATE_DATA);
         }
         if (!order.getUser().getIdUser().equals(idUser)) {
             throw new RuntimeException("Order not found for user");
@@ -73,28 +72,24 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
             throw new ServiceException(ServiceException.ERROR_FIND_ORDER);
         }
 
-        try {
-            userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
-            order.setStatus(OrderStatus.PAID);
 
-            for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
-                Flower flower = orderPosition.getFlower();
-                if (flower.getQuantity() < orderPosition.getQuantity()) {
-                    throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
-                }
-                flower.setQuantity(flower.getQuantity() - orderPosition.getQuantity());
+        userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
+        order.setStatus(OrderStatus.PAID);
+        for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
+            Flower flower = orderPosition.getFlower();
+            if (flower.getQuantity() < orderPosition.getQuantity()) {
+                throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
             }
-        }
-        catch (ServiceException e){
-            throw e;
+            flower.setQuantity(flower.getQuantity() - orderPosition.getQuantity());
         }
 
     }
 
     @Override
-    public void closeOrder(Long idOrder) throws ServiceException{
+    @Transactional(rollbackFor = ServiceException.class)
+    public void closeOrder(Long idOrder) throws ServiceException {
         Order order = orderDAO.getOrderById(idOrder).
-                orElseThrow(()-> new ServiceException(ServiceException.ERROR_FIND_ORDER));
+                orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_ORDER));
         order.close();
     }
 }

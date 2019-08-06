@@ -40,6 +40,6 @@ public class CloseOrderServlet extends HttpServlet {
         catch (ServiceException e){
             req.setAttribute("err", e.getMessage());
         }
-        req.getRequestDispatcher("/mainpage").forward(req, resp);
+        req.getRequestDispatcher("/service/mainpage").forward(req, resp);
     }
 }

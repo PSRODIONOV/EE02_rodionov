@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
             UserDto currentUser = Mapper.map(userBusinessService.login(login, password));
             session.setAttribute(SessionAttribute.USER.toString(), currentUser);
             LOG.info("USER "+ currentUser.getLogin() + " LOGGED IN.");
-            req.getRequestDispatcher("/mainpage").forward(req, resp);
+            req.getRequestDispatcher("/service/mainpage").forward(req, resp);
         }
         catch(ServiceException e) {
             req.setAttribute("err", e.getMessage());

@@ -10,32 +10,26 @@ public class FlowerFilter {
     }
 
     public FlowerFilter(String minPrice, String maxPrice, String name){
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
+
+        if(minPrice.isEmpty()){
+            this.minPrice = "0";
+        }
+        else{
+            this.minPrice = minPrice;
+        }
+        if(maxPrice.isEmpty()){
+            this.maxPrice = "10000";
+        }
+        else {
+            this.maxPrice = maxPrice;
+        }
         this.name = name;
     }
 
-    @Override
+
     public String toString() {
         String criteria = "";
-        if(!minPrice.isEmpty() && !maxPrice.isEmpty()){
-            criteria += "f.price between " + minPrice + " and " + maxPrice;
-        }
-        else if(!minPrice.isEmpty() && maxPrice.isEmpty()){
-            criteria += "f.price >= "+minPrice;
-        } else if(minPrice.isEmpty() && !maxPrice.isEmpty()){
-            criteria += "f.price <= "+maxPrice;
-        }
-        if(!name.isEmpty()){
-            if(!criteria.isEmpty()) {
-                criteria += " and ";
-            }
-            criteria += "f.nameFlower like "+ "'%"+name+"%'";
-        }
-        if(criteria.isEmpty()){
-            return criteria;
-        }
-        return "where " + criteria;
+       return "f.price between :minprice and :maxprice and f.nameFlower like CONCAT('%',:name,'%')";
     }
 
     public String getMinPrice() {

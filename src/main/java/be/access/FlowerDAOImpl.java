@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,19 +43,12 @@ public class FlowerDAOImpl implements FlowerDAO {
     }
 
     @Override
-    public void setQuantity(Long idFlower, Long quantity){
-
-        Query q = em.createQuery("update Flower f set f.quantity = :quantity where f.idFlower = :idFlower");
-        q.setParameter("quantity", quantity);
-        q.setParameter("idFlower", idFlower);
-        q.executeUpdate();
-        em.flush();
-    }
-
-    @Override
     public List<Flower> searchFilter(FlowerFilter filter) {
         String temp = filter.toString();
-        TypedQuery<Flower> q = em.createQuery("select f from Flower f " + temp, Flower.class);
+        TypedQuery<Flower> q = em.createQuery("select f from Flower f where " + temp, Flower.class);
+        q.setParameter("minprice", new BigDecimal(filter.getMinPrice()));
+        q.setParameter("maxprice", new BigDecimal(filter.getMaxPrice()));
+        q.setParameter("name", filter.getName());
         return q.getResultList();
     }
 

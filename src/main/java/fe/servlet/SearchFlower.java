@@ -2,7 +2,6 @@ package fe.servlet;
 
 import be.business.FlowerBusinessService;
 import be.utils.FlowerFilter;
-import be.utils.Mapper;
 import be.utils.enums.SessionAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -37,6 +36,6 @@ public class SearchFlower extends HttpServlet {
         String name = req.getParameter("name");
         FlowerFilter filter = new FlowerFilter(from, to, name);
         req.setAttribute(SessionAttribute.FILTER.toString(), filter);
-        req.getRequestDispatcher("/mainpage").forward(req, resp);
+        req.getRequestDispatcher("/service/mainpage").forward(req, resp);
     }
 }

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/mainpage")
+@WebServlet(urlPatterns = "/service/mainpage")
 public class MainPageServlet extends HttpServlet {
 
     @Autowired

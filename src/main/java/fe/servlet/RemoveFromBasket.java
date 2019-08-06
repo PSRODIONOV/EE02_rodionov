@@ -45,7 +45,7 @@ public class RemoveFromBasket extends HttpServlet {
         } catch (Exception e) {
             req.setAttribute("err", ServiceException.ERROR_INVALIDATE_DATA);
         } finally {
-            req.getRequestDispatcher("/mainpage").forward(req, resp);
+            req.getRequestDispatcher("/service/mainpage").forward(req, resp);
         }
     }
 

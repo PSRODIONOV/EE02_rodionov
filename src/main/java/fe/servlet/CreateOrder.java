@@ -48,7 +48,7 @@ public class CreateOrder extends HttpServlet {
             session.setAttribute("err", e.getMessage());
         }
         finally {
-            req.getRequestDispatcher("/mainpage").forward(req, resp);
+            req.getRequestDispatcher("/service/mainpage").forward(req, resp);
         }
     }
 }

@@ -34,7 +34,6 @@ public class Order {
     @Column(name ="status")
     private OrderStatus status;
 
-
     @Column(name = "date_create")
     private LocalDateTime dateCreate;
 
@@ -42,7 +41,7 @@ public class Order {
     private LocalDateTime dateClose;
 
     public Order() {
-        totalPrice = new BigDecimal(0);
+        this.totalPrice = new BigDecimal(0);
         this.dateCreate = LocalDateTime.now();
         this.status = OrderStatus.CREATED;
     }

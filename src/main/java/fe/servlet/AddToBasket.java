@@ -78,7 +78,7 @@ public class AddToBasket extends HttpServlet {
         } catch (ServiceException e) {
             req.setAttribute("err", e.getMessage());
         } finally {
-            req.getRequestDispatcher("/mainpage").forward(req, resp);
+            req.getRequestDispatcher("/service/mainpage").forward(req, resp);
         }
     }
 
