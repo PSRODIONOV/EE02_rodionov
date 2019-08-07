@@ -1,6 +1,9 @@
 package fe.dto;
 
+import be.utils.Mapper;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class OrderPositionDto {
 
@@ -8,9 +11,15 @@ public class OrderPositionDto {
     private FlowerDto flowerDto;
     private Long quantity;
     private BigDecimal price;
-    private BigDecimal priceWithDiscount;
 
     public OrderPositionDto(){
+    }
+
+    public OrderPositionDto(Long idOrder, FlowerDto flower, Long quantity){
+        this.quantity = quantity;
+        this.idOrder = idOrder;
+        this.flowerDto = flower;
+        computePrice();
     }
 
     public FlowerDto getFlowerDto() {
@@ -45,11 +54,8 @@ public class OrderPositionDto {
         this.price = price;
     }
 
-    public BigDecimal getPriceWithDiscount() {
-        return priceWithDiscount;
-    }
-
-    public void setPriceWithDiscount(BigDecimal priceWithDiscount) {
-        this.priceWithDiscount = priceWithDiscount;
+    public void computePrice(){
+        BigDecimal price = flowerDto.getPrice().multiply(new BigDecimal(quantity));
+        this.setPrice(price.setScale(2, RoundingMode.HALF_DOWN));
     }
 }

@@ -52,12 +52,4 @@ public class FlowerDAOImpl implements FlowerDAO {
         return q.getResultList();
     }
 
-    @Override
-    public void increaseFlowerStockSize(Long count) {
-        //todo move business
-        Query q = em.createQuery("update Flower f set f.quantity = f.quantity + :count");
-        q.setParameter("count", count);
-        q.executeUpdate();
-        em.flush();
-    }
 }

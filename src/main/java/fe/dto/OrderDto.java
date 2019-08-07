@@ -3,6 +3,7 @@ package fe.dto;
 import be.utils.enums.OrderStatus;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,13 @@ public class OrderDto {
             this.dateClose = "--.--.----";
         }
     }
-
+    public void computePrice(){
+        BigDecimal price = BigDecimal.ZERO;
+        for(OrderPositionDto orderPositionDto: orderPositions) {
+            price = price.add(orderPositionDto.getPrice());
+        }
+        this.totalPrice = price.multiply(new BigDecimal(100).subtract(new BigDecimal(userDto.getDiscount()))
+                .divide(new BigDecimal(100))).setScale(2, RoundingMode.HALF_DOWN);
+    }
 
 }

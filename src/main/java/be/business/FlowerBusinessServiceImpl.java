@@ -50,7 +50,10 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     @Override
     @Transactional(rollbackFor=ServiceException.class)
     public void increaseFlowersStockSize(Long count) {
-        //todo change method
-        flowerDAO.increaseFlowerStockSize(count);
+
+        List<Flower> flowerList = flowerDAO.getAllFlowers();
+        for(Flower flower: flowerList){
+            flower.setQuantity(flower.getQuantity() + count);
+        }
     }
 }

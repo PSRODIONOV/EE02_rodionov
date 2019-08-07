@@ -62,7 +62,7 @@ public class RemoveFromBasket extends HttpServlet {
 
                 if (orderPositionDto.getFlowerDto().getIdFlower() == idFlower) {
                     iter.remove();
-                    orderDto.setTotalPrice(orderDto.getTotalPrice().subtract(orderPositionDto.getPriceWithDiscount()));
+                    orderDto.computePrice();
                 }
             }
             return orderDto;

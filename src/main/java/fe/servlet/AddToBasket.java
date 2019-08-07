@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 @WebServlet(urlPatterns = "/service/addToBasket")
@@ -27,9 +28,6 @@ public class AddToBasket extends HttpServlet {
 
     @Autowired
     private FlowerBusinessService flowerBusinessService;
-
-    @Autowired
-    private OrderBusinessService orderBusinessService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -53,24 +51,9 @@ public class AddToBasket extends HttpServlet {
             orderPositionDto.setQuantity(quantity);
             orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
 
-            /*Устанавливаем общую стоимость для позиции заказа в корзине*/
-            BigDecimal totalPriceOP = orderPositionDto.getFlowerDto().getPrice().multiply(new BigDecimal(orderPositionDto.getQuantity()));
-            orderPositionDto.setPrice(totalPriceOP.setScale(2, RoundingMode.HALF_DOWN));
-            /*Устанавливаем общую стоимость для позиции заказа в корзине с учетом скидки*/
-            //todo
-            BigDecimal totalPriceWithDiscountOP = totalPriceOP.multiply(
-                    new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
-            orderPositionDto.setPriceWithDiscount(totalPriceWithDiscountOP.setScale(2, RoundingMode.HALF_DOWN));
-            /*Добавление позиции в корзину*/
-            orderDto = addOrderPosition(orderDto, orderPositionDto);
+            orderDto = addOrderPosition(orderDto, idFlower, quantity);
             /*Считаем общую стоимость корзины с учетом скидки*/
-            BigDecimal totalPriceOrder = BigDecimal.ZERO;
-            for (OrderPositionDto opd : orderDto.getOrderPositions()) {
-                totalPriceOrder = totalPriceOrder.add(opd.getPrice());
-            }
-            totalPriceOrder = totalPriceOrder.multiply(
-                    new BigDecimal((100.0 - orderDto.getUserDto().getDiscount()) / 100.0));
-            orderDto.setTotalPrice(totalPriceOrder.setScale(2, RoundingMode.HALF_DOWN));
+            orderDto.computePrice();
 
             session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
             req.setAttribute("err", "Item is added.");
@@ -82,25 +65,25 @@ public class AddToBasket extends HttpServlet {
         }
     }
 
-    public OrderDto addOrderPosition(OrderDto orderDto, OrderPositionDto newOrderPositionDto) throws ServiceException {
-        if(newOrderPositionDto.getQuantity() > newOrderPositionDto.getFlowerDto().getQuantity()){
+    public OrderDto addOrderPosition(OrderDto orderDto, Long idFlower, Long quantity) throws ServiceException {
+        if (quantity > flowerBusinessService.getFlowerById(idFlower).getQuantity()) {
             throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
         }
         for (OrderPositionDto orderPositionDto : orderDto.getOrderPositions()) {
             /*Если позиция уже существует, то увеличиваем её параметры*/
-            //todo equals
-            if (orderPositionDto.getFlowerDto().getIdFlower().equals(newOrderPositionDto.getFlowerDto().getIdFlower())) {
-                Long sumQty = orderPositionDto.getQuantity() + newOrderPositionDto.getQuantity();
+            if (idFlower.equals(orderPositionDto.getFlowerDto().getIdFlower())) {
+                Long sumQty = orderPositionDto.getQuantity() + quantity;
                 if (sumQty > orderPositionDto.getFlowerDto().getQuantity()) {
                     throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
                 }
                 orderPositionDto.setQuantity(sumQty);
-                orderPositionDto.setPrice(orderPositionDto.getPrice().add(newOrderPositionDto.getPrice()));
-                orderPositionDto.setPriceWithDiscount(orderPositionDto.getPriceWithDiscount().add(newOrderPositionDto.getPriceWithDiscount()));
+                orderPositionDto.computePrice();
                 return orderDto;
             }
         }
         /*Если похожей позиции не было, то добавляем её*/
+        OrderPositionDto newOrderPositionDto = new OrderPositionDto(
+                orderDto.getIdOrder(), Mapper.map(flowerBusinessService.getFlowerById(idFlower)), quantity);
         orderDto.getOrderPositions().add(newOrderPositionDto);
         return orderDto;
     }

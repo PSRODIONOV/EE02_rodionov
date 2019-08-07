@@ -10,5 +10,4 @@ public interface FlowerDAO {
     Optional<Flower> getFlowerById(Long id);
     List<Flower> getAllFlowers();
     List<Flower> searchFilter(FlowerFilter filter);
-    void increaseFlowerStockSize(Long count);
 }
