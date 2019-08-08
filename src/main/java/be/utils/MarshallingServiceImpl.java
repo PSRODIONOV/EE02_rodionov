@@ -24,15 +24,14 @@ public class MarshallingServiceImpl {
     }
 
     //Converts Object to XML file
-    public void doMarshaling(String fileName, Object object) throws IOException{
+    public void doMarshaling(String fileName, Object object) throws IOException {
 
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(exportPath + fileName);
             marshaller.marshal(object, new StreamResult(fileWriter));
 
-        }
-        finally {
+        } finally {
             fileWriter.close();
         }
     }

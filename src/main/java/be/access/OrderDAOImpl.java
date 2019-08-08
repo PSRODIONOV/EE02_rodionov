@@ -4,7 +4,6 @@ import be.entity.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -24,7 +23,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     public OrderDAOImpl() {
 
-        LOG.info(":::::::::"+this.getClass()+" IS CREATED::::::::: ");
+        LOG.info(":::::::::" + this.getClass() + " IS CREATED::::::::: ");
     }
 
     @Override
@@ -51,7 +50,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> getAllOrders(){
+    public List<Order> getAllOrders() {
         TypedQuery<Order> q = em.createQuery("select o from Order o order by (o.dateCreate, o.status)", Order.class);
         return q.getResultList();
     }

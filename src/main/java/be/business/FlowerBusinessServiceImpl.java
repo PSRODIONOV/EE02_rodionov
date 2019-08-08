@@ -22,22 +22,23 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
 
     public FlowerBusinessServiceImpl() {
 
-        LOG.info(":::::::::"+this.getClass()+" IS CREATED:::::::::");
+        LOG.info(":::::::::" + this.getClass() + " IS CREATED:::::::::");
     }
+
     @Override
     public List<Flower> getAllFlowers() {
         return flowerDAO.getAllFlowers();
     }
 
     @Override
-    public Flower getFlowerById(Long id) throws ServiceException{
+    public Flower getFlowerById(Long id) throws ServiceException {
 
-        return flowerDAO.getFlowerById(id).orElseThrow(()->new ServiceException(ServiceException.ERROR_FIND_FLOWER));
+        return flowerDAO.getFlowerById(id).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_FLOWER));
     }
 
     @Override
-    @Transactional(rollbackFor=ServiceException.class)
-    public void setQuantity(Long idFlower, Long quantity) throws ServiceException{
+    @Transactional(rollbackFor = ServiceException.class)
+    public void setQuantity(Long idFlower, Long quantity) throws ServiceException {
         Flower flower = getFlowerById(idFlower);
         flower.setQuantity(quantity);
     }
@@ -48,11 +49,11 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
-    @Transactional(rollbackFor=ServiceException.class)
+    @Transactional(rollbackFor = ServiceException.class)
     public void increaseFlowersStockSize(Long count) {
 
         List<Flower> flowerList = flowerDAO.getAllFlowers();
-        for(Flower flower: flowerList){
+        for (Flower flower : flowerList) {
             flower.setQuantity(flower.getQuantity() + count);
         }
     }

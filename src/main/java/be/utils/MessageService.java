@@ -44,43 +44,39 @@ public class MessageService {
             messageConsumer.setMessageListener(new MessageListener() {
                 /*Принимаем все запросы на изменение скидки пользователя*/
                 @Override
-                public void onMessage(Message message){
+                public void onMessage(Message message) {
 
                     try {
                         TextMessage textMessage = (TextMessage) message;
                         String body = textMessage.getText();
                         DiscountRequest request = (DiscountRequest) marshallingService.doUnMarshalling(body);
                         userBusinessService.updateDiscount(request.getIdUser(), request.getDiscount());
-                    }
-                    catch (JMSException e){
+                    } catch (JMSException e) {
                         throw new RuntimeException("FAIL");
-                    }
-                    catch (ServiceException e){
+                    } catch (ServiceException e) {
                         throw new RuntimeException("FAIL");
                     }
                 }
             });
-        }
-        catch (JMSException e){
+        } catch (JMSException e) {
             preDestroy();
         }
     }
 
     @PreDestroy
-    private void preDestroy(){
+    private void preDestroy() {
         try {
             connection.close();
             session.close();
             messageProducer.close();
             messageConsumer.close();
-        }
-        catch(JMSException e){
+        } catch (JMSException e) {
             throw new RuntimeException("FAIL");
         }
     }
 
     /*Отпавить xml файл юзера в очередь*/
-    public void sendUserXml(String file){
+    public void sendUserXml(String file) {
         //try-with-resources Java7
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(exportPath + file))) {
             String line;
@@ -91,8 +87,7 @@ public class MessageService {
             Message msg = session.createTextMessage(text);
             messageProducer.send(msg);
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("FAIL");
         }
     }

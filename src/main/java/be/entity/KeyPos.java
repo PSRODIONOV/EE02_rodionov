@@ -8,14 +8,14 @@ import java.io.Serializable;
 public class KeyPos implements Serializable {
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name="id_order")
+    @JoinColumn(name = "id_order")
     private Order order;
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_flower")
     private Flower flower;
 
 
-    public KeyPos(){
+    public KeyPos() {
 
     }
 

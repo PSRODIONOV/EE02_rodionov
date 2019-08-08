@@ -30,8 +30,7 @@ public class UserDAOImpl implements UserDAO {
             TypedQuery<User> q = em.createQuery("Select u from User u where u.login = :login", User.class);
             q.setParameter("login", login);
             return Optional.of(q.getSingleResult());
-        }
-        catch (NoResultException e) {
+        } catch (NoResultException e) {
             return Optional.empty();
         }
     }
@@ -40,16 +39,15 @@ public class UserDAOImpl implements UserDAO {
     public Optional<User> getUserById(Long id) {
         try {
             return Optional.of(em.find(User.class, id));
-        }
-        catch(NoResultException e){
+        } catch (NoResultException e) {
             return Optional.empty();
         }
     }
 
     @Override
     public void registrationUser(User newUser) {
-            em.persist(newUser);
-            em.flush();
+        em.persist(newUser);
+        em.flush();
     }
 
 }

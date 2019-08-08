@@ -68,10 +68,9 @@ public class OrderDto {
     }
 
     public void setDateCreate(LocalDateTime dateCreate) {
-        if(dateCreate != null) {
+        if (dateCreate != null) {
             this.dateCreate = dateCreate.toString();
-        }
-        else {
+        } else {
             this.dateCreate = "--.--.----";
         }
     }
@@ -81,16 +80,16 @@ public class OrderDto {
     }
 
     public void setDateClose(LocalDateTime dateClose) {
-        if(dateClose != null) {
+        if (dateClose != null) {
             this.dateClose = dateClose.toString();
-        }
-        else {
+        } else {
             this.dateClose = "--.--.----";
         }
     }
-    public void computePrice(){
+
+    public void computePrice() {
         BigDecimal price = BigDecimal.ZERO;
-        for(OrderPositionDto orderPositionDto: orderPositions) {
+        for (OrderPositionDto orderPositionDto : orderPositions) {
             price = price.add(orderPositionDto.getPrice());
         }
         this.totalPrice = price.multiply(new BigDecimal(100).subtract(new BigDecimal(userDto.getDiscount()))

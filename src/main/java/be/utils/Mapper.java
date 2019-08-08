@@ -14,8 +14,8 @@ import java.util.List;
 
 public class Mapper {
 
-    public static UserDto map(User user){
-        if(user != null) {
+    public static UserDto map(User user) {
+        if (user != null) {
             UserDto userDto = new UserDto();
             userDto.setId(user.getIdUser());
             userDto.setRole(user.getRole());
@@ -32,8 +32,8 @@ public class Mapper {
         return null;
     }
 
-    public static OrderDto map(Order order){
-        if(order != null) {
+    public static OrderDto map(Order order) {
+        if (order != null) {
             OrderDto orderDto = new OrderDto();
             orderDto.setIdOrder(order.getIdOrder());
             orderDto.setUserDto(map(order.getUser()));
@@ -47,8 +47,8 @@ public class Mapper {
         return null;
     }
 
-    public static FlowerDto map(Flower flower){
-        if(flower != null) {
+    public static FlowerDto map(Flower flower) {
+        if (flower != null) {
             FlowerDto flowerDto = new FlowerDto();
             flowerDto.setIdFlower(flower.getIdFlower());
             flowerDto.setNameFlower(flower.getNameFlower());
@@ -59,8 +59,8 @@ public class Mapper {
         return null;
     }
 
-    public static OrderPositionDto map(OrderPosition orderPosition){
-        if(orderPosition != null) {
+    public static OrderPositionDto map(OrderPosition orderPosition) {
+        if (orderPosition != null) {
             OrderPositionDto orderPositionDto = new OrderPositionDto();
             orderPositionDto.setFlowerDto(map(orderPosition.getFlower()));
             orderPositionDto.setQuantity(orderPosition.getQuantity());
@@ -69,8 +69,8 @@ public class Mapper {
         return null;
     }
 
-    public static User map(UserDto userDto){
-        if(userDto != null){
+    public static User map(UserDto userDto) {
+        if (userDto != null) {
             User user = new User();
             user.setIdUser(userDto.getId());
             user.setWalletScore(userDto.getWalletScore());
@@ -86,8 +86,8 @@ public class Mapper {
         return null;
     }
 
-    public static Flower map(FlowerDto flowerDto){
-        if(flowerDto != null){
+    public static Flower map(FlowerDto flowerDto) {
+        if (flowerDto != null) {
             Flower flower = new Flower();
             flower.setIdFlower(flowerDto.getIdFlower());
             flower.setNameFlower(flowerDto.getNameFlower());
@@ -97,8 +97,8 @@ public class Mapper {
         return null;
     }
 
-    public static Order map(OrderDto orderDto){
-        if(orderDto != null){
+    public static Order map(OrderDto orderDto) {
+        if (orderDto != null) {
             Order order = new Order();
             order.setIdOrder(orderDto.getIdOrder());
             order.setOrderPositions(mapOrderPositions(orderDto.getOrderPositions()));
@@ -109,8 +109,8 @@ public class Mapper {
         return null;
     }
 
-    public static OrderPosition map(OrderPositionDto orderPositionDto){
-        if(orderPositionDto != null){
+    public static OrderPosition map(OrderPositionDto orderPositionDto) {
+        if (orderPositionDto != null) {
             OrderPosition orderPosition = new OrderPosition();
             orderPosition.setFlower(map(orderPositionDto.getFlowerDto()));
             orderPosition.setQuantity(orderPositionDto.getQuantity());
@@ -119,10 +119,10 @@ public class Mapper {
         return null;
     }
 
-    public static List<OrderPosition> mapOrderPositions(List<OrderPositionDto> orderPositionDtoList){
-        if(orderPositionDtoList != null){
+    public static List<OrderPosition> mapOrderPositions(List<OrderPositionDto> orderPositionDtoList) {
+        if (orderPositionDtoList != null) {
             List<OrderPosition> orderPositions = new ArrayList<>();
-            for(OrderPositionDto orderPositionDto: orderPositionDtoList){
+            for (OrderPositionDto orderPositionDto : orderPositionDtoList) {
                 orderPositions.add(map(orderPositionDto));
             }
             return orderPositions;
@@ -130,10 +130,10 @@ public class Mapper {
         return null;
     }
 
-    public static List<OrderPositionDto> mapOrderPositionsDto(List<OrderPosition> orderPositionList){
-        if(orderPositionList != null){
+    public static List<OrderPositionDto> mapOrderPositionsDto(List<OrderPosition> orderPositionList) {
+        if (orderPositionList != null) {
             List<OrderPositionDto> orderPositionsDto = new ArrayList<>();
-            for(OrderPosition orderPosition: orderPositionList){
+            for (OrderPosition orderPosition : orderPositionList) {
                 orderPositionsDto.add(map(orderPosition));
             }
             return orderPositionsDto;
@@ -141,20 +141,21 @@ public class Mapper {
         return null;
     }
 
-    public static List<FlowerDto> mapFlowers(List<Flower> flowers){
-        if(flowers != null){
+    public static List<FlowerDto> mapFlowers(List<Flower> flowers) {
+        if (flowers != null) {
             List<FlowerDto> flowerDtoList = new ArrayList<>();
-            for(Flower flower: flowers){
+            for (Flower flower : flowers) {
                 flowerDtoList.add(Mapper.map(flower));
             }
             return flowerDtoList;
         }
         return null;
     }
-    public static List<OrderDto> mapOrders(List<Order> orders){
-        if(orders != null){
+
+    public static List<OrderDto> mapOrders(List<Order> orders) {
+        if (orders != null) {
             List<OrderDto> orderDtoList = new ArrayList<>();
-            for(Order order: orders){
+            for (Order order : orders) {
                 orderDtoList.add(Mapper.map(order));
             }
             return orderDtoList;

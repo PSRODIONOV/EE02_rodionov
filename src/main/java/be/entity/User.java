@@ -22,52 +22,53 @@ public class User implements Serializable {
     private Long idUser;
 
     @Enumerated(EnumType.STRING)
-    @Column(name ="ROLE")
-    @XmlElement(name ="role")
+    @Column(name = "ROLE")
+    @XmlElement(name = "role")
     private UserType role;
 
     @Column(name = "LOGIN")
-    @XmlElement(name ="login")
+    @XmlElement(name = "login")
     private String login;
 
     @Column(name = "PASSWORD")
-    @XmlElement(name ="password")
+    @XmlElement(name = "password")
     private String password;
 
-    @Column (name = "LAST_NAME")
-    @XmlElement(name ="lastName")
+    @Column(name = "LAST_NAME")
+    @XmlElement(name = "lastName")
     private String lastName;
 
-    @Column (name = "FIRST_NAME")
-    @XmlElement(name ="firstName")
+    @Column(name = "FIRST_NAME")
+    @XmlElement(name = "firstName")
     private String firstName;
 
-    @Column (name = "SECOND_NAME")
-    @XmlElement(name ="secondName")
+    @Column(name = "SECOND_NAME")
+    @XmlElement(name = "secondName")
     private String secondName;
 
-    @Column (name = "ADDRESS")
-    @XmlElement(name ="address")
+    @Column(name = "ADDRESS")
+    @XmlElement(name = "address")
     private String address;
 
-    @Column (name = "PHONE")
-    @XmlElement(name ="phone")
+    @Column(name = "PHONE")
+    @XmlElement(name = "phone")
     private String phone;
 
-    @Column (name = "WALLET_SCORE")
-    @XmlElement(name ="walletScore")
+    @Column(name = "WALLET_SCORE")
+    @XmlElement(name = "walletScore")
     private BigDecimal walletScore;
 
-    @Column (name = "DISCOUNT")
-    @XmlElement(name ="discount")
+    @Column(name = "DISCOUNT")
+    @XmlElement(name = "discount")
     private Integer discount;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Order> orders;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String login, String password, String address){
+    public User(String login, String password, String address) {
         this.login = login;
         this.password = password;
         this.address = address;

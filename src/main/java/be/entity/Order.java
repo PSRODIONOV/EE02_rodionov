@@ -31,7 +31,7 @@ public class Order {
     private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(name ="status")
+    @Column(name = "status")
     private OrderStatus status;
 
     @Column(name = "date_create")
@@ -76,7 +76,7 @@ public class Order {
 
     public void setOrderPositions(List<OrderPosition> orderPositions) {
 
-        for(OrderPosition orderPosition: orderPositions) {
+        for (OrderPosition orderPosition : orderPositions) {
             addOrderPosition(orderPosition);
         }
     }
@@ -89,7 +89,7 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public void addOrderPosition(OrderPosition orderPosition){
+    public void addOrderPosition(OrderPosition orderPosition) {
         this.orderPositions.add(orderPosition);
         orderPosition.setOrder(this);
     }
@@ -102,7 +102,7 @@ public class Order {
         return dateClose;
     }
 
-    public void close(){
+    public void close() {
         this.status = OrderStatus.CLOSED;
         this.dateClose = LocalDateTime.now();
     }

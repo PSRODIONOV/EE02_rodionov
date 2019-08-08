@@ -5,9 +5,11 @@ import be.utils.FlowerFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +24,14 @@ public class FlowerDAOImpl implements FlowerDAO {
 
     public FlowerDAOImpl() {
 
-        LOG.info(":::::::::"+this.getClass()+" IS CREATED::::::::: ");
+        LOG.info(":::::::::" + this.getClass() + " IS CREATED::::::::: ");
     }
 
     @Override
     public Optional<Flower> getFlowerById(Long id) {
         try {
             return Optional.of(em.find(Flower.class, id));
-        }
-        catch (NoResultException e){
+        } catch (NoResultException e) {
             return Optional.empty();
         }
     }

@@ -1,9 +1,9 @@
 package fe.servlet;
 
 import be.business.UserBusinessService;
+import be.utils.MarshallingServiceImpl;
 import be.utils.MessageService;
 import be.utils.ServiceException;
-import be.utils.MarshallingServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "registerServlet",urlPatterns = "/user/register")
+@WebServlet(name = "registerServlet", urlPatterns = "/user/register")
 public class RegServlet extends HttpServlet {
 
     @Autowired
@@ -38,14 +38,14 @@ public class RegServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
 
         String address = req.getParameter("address");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        try{
+        try {
             ubs.registration(login, password, address);
 
             userMarshallingService.doMarshaling(login, ubs.getUserByLogin(login));
@@ -53,8 +53,7 @@ public class RegServlet extends HttpServlet {
 
             LOG.info("USER " + login + " CREATED.");
             resp.sendRedirect("/flowershop/loginPage.jsp");
-        }
-        catch(ServiceException e){
+        } catch (ServiceException e) {
             req.setAttribute("err", e.getMessage());
             req.getRequestDispatcher("/registerPage.jsp").forward(req, resp);
         }

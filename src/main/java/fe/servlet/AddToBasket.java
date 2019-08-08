@@ -1,7 +1,6 @@
 package fe.servlet;
 
 import be.business.FlowerBusinessService;
-import be.business.OrderBusinessService;
 import be.utils.Mapper;
 import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
@@ -18,9 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
 
 @WebServlet(urlPatterns = "/service/addToBasket")
 public class AddToBasket extends HttpServlet {
@@ -46,10 +42,6 @@ public class AddToBasket extends HttpServlet {
 
             Long idFlower = Long.parseLong(req.getParameter("idFlower"));
             Long quantity = Long.parseLong(req.getParameter("quantity"));
-
-            OrderPositionDto orderPositionDto = new OrderPositionDto();
-            orderPositionDto.setQuantity(quantity);
-            orderPositionDto.setFlowerDto(Mapper.map(flowerBusinessService.getFlowerById(idFlower)));
 
             orderDto = addOrderPosition(orderDto, idFlower, quantity);
             /*Считаем общую стоимость корзины с учетом скидки*/

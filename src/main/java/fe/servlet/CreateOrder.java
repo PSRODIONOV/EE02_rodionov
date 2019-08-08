@@ -6,7 +6,6 @@ import be.utils.Mapper;
 import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import fe.dto.OrderDto;
-import fe.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -43,11 +42,9 @@ public class CreateOrder extends HttpServlet {
         try {
             orderBusinessService.addOrder(Mapper.map(orderDto));
             session.removeAttribute(SessionAttribute.BASKET.toString());
-        }
-        catch(ServiceException e){
+        } catch (ServiceException e) {
             session.setAttribute("err", e.getMessage());
-        }
-        finally {
+        } finally {
             req.getRequestDispatcher("/service/mainpage").forward(req, resp);
         }
     }

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "loginServlet",urlPatterns = "/user/login")
+@WebServlet(name = "loginServlet", urlPatterns = "/user/login")
 public class LoginServlet extends HttpServlet {
 
     @Autowired
@@ -42,21 +42,19 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
-        try
-        {
+        try {
             UserDto currentUser = Mapper.map(userBusinessService.login(login, password));
             session.setAttribute(SessionAttribute.USER.toString(), currentUser);
-            LOG.info("USER "+ currentUser.getLogin() + " LOGGED IN.");
+            LOG.info("USER " + currentUser.getLogin() + " LOGGED IN.");
             req.getRequestDispatcher("/service/mainpage").forward(req, resp);
-        }
-        catch(ServiceException e) {
+        } catch (ServiceException e) {
             req.setAttribute("err", e.getMessage());
             req.getRequestDispatcher("/loginPage.jsp").forward(req, resp);
         }

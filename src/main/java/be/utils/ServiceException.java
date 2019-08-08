@@ -21,13 +21,13 @@ public class ServiceException extends Exception {
 
     private String message;
 
-    public ServiceException(String message){
+    public ServiceException(String message) {
         super(message);
         this.message = message;
         LOG.error(message);
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 }

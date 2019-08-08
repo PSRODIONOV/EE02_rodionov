@@ -41,7 +41,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    @Transactional(rollbackFor=ServiceException.class)
+    @Transactional(rollbackFor = ServiceException.class)
     public void registration(String login, String password, String address) throws ServiceException {
 
         User user = new User(login, password, address);
@@ -54,8 +54,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         }
         try {
             userDAO.registrationUser(user);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
         }
     }
@@ -84,7 +83,7 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     }
 
     @Override
-    @Transactional(rollbackFor=ServiceException.class)
+    @Transactional(rollbackFor = ServiceException.class)
     public void updateDiscount(Long idUser, Integer newDiscount) throws ServiceException {
         User user = getUserById(idUser);
         user.setDiscount(newDiscount);

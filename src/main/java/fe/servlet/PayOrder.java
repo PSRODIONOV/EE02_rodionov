@@ -39,12 +39,11 @@ public class PayOrder extends HttpServlet {
         HttpSession session = req.getSession(false);
 
         String idOrder = req.getParameter("idOrder");
-        UserDto userDto = (UserDto)session.getAttribute(SessionAttribute.USER.toString());
+        UserDto userDto = (UserDto) session.getAttribute(SessionAttribute.USER.toString());
 
         try {
             orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getId());
-        }
-        catch (ServiceException e){
+        } catch (ServiceException e) {
             req.setAttribute("err", e.getMessage());
         }
         req.getRequestDispatcher("/service/mainpage").forward(req, resp);
