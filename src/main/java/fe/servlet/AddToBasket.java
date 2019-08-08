@@ -1,11 +1,12 @@
 package fe.servlet;
 
 import be.business.FlowerBusinessService;
-import be.utils.Mapper;
 import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
+import fe.dto.FlowerDto;
 import fe.dto.OrderDto;
 import fe.dto.OrderPositionDto;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -21,7 +22,8 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/service/addToBasket")
 public class AddToBasket extends HttpServlet {
 
-
+    @Autowired
+    Mapper mapper;
     @Autowired
     private FlowerBusinessService flowerBusinessService;
 
@@ -63,9 +65,9 @@ public class AddToBasket extends HttpServlet {
         }
         for (OrderPositionDto orderPositionDto : orderDto.getOrderPositions()) {
             /*Если позиция уже существует, то увеличиваем её параметры*/
-            if (idFlower.equals(orderPositionDto.getFlowerDto().getIdFlower())) {
+            if (idFlower.equals(orderPositionDto.getFlower().getIdFlower())) {
                 Long sumQty = orderPositionDto.getQuantity() + quantity;
-                if (sumQty > orderPositionDto.getFlowerDto().getQuantity()) {
+                if (sumQty > orderPositionDto.getFlower().getQuantity()) {
                     throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
                 }
                 orderPositionDto.setQuantity(sumQty);
@@ -75,7 +77,7 @@ public class AddToBasket extends HttpServlet {
         }
         /*Если похожей позиции не было, то добавляем её*/
         OrderPositionDto newOrderPositionDto = new OrderPositionDto(
-                orderDto.getIdOrder(), Mapper.map(flowerBusinessService.getFlowerById(idFlower)), quantity);
+                orderDto.getIdOrder(), mapper.map(flowerBusinessService.getFlowerById(idFlower), FlowerDto.class), quantity);
         orderDto.getOrderPositions().add(newOrderPositionDto);
         return orderDto;
     }

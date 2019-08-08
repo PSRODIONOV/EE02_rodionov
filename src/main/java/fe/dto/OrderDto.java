@@ -11,7 +11,7 @@ import java.util.List;
 public class OrderDto {
 
     private Long idOrder;
-    private UserDto userDto;
+    private UserDto user;
     private List<OrderPositionDto> orderPositions;
     private BigDecimal totalPrice;
     private OrderStatus status;
@@ -31,12 +31,12 @@ public class OrderDto {
         this.idOrder = idOrder;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
     public List<OrderPositionDto> getOrderPositions() {
@@ -92,7 +92,7 @@ public class OrderDto {
         for (OrderPositionDto orderPositionDto : orderPositions) {
             price = price.add(orderPositionDto.getPrice());
         }
-        this.totalPrice = price.multiply(new BigDecimal(100).subtract(new BigDecimal(userDto.getDiscount()))
+        this.totalPrice = price.multiply(new BigDecimal(100).subtract(new BigDecimal(user.getDiscount()))
                 .divide(new BigDecimal(100))).setScale(2, RoundingMode.HALF_DOWN);
     }
 

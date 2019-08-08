@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<user><id-user>2</id-user><wallet-score>2000.00</wallet-score><role>USER</role><login>user4</login><address>sobaka@mail.com</address><password>1234</password><discount>5</discount></user>
+<user><idUser-user>2</idUser-user><wallet-score>2000.00</wallet-score><role>USER</role><login>user4</login><address>sobaka@mail.com</address><password>1234</password><discount>5</discount></user>

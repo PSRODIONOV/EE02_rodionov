@@ -3,7 +3,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app
-        id="Your_WebApp_ID"
+        idUser="Your_WebApp_ID"
         version="3.0">
   <!-- Here you go. -->
   <display-name>Archetype Created Web Application</display-name>

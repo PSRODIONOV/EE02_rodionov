@@ -63,6 +63,11 @@
 
     <context:property-placeholder location = "classpath:conf.properties"/>
 
+    <bean id="mapper" class="org.dozer.DozerBeanMapper"/>
+    <bean id="mapperService" class="be.utils.MapperService">
+        <property name="baseMapper" ref="mapper" />
+    </bean>
+
     <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
         <property name="mappingLocation" value="classpath:mapping.xml" />
     </bean>

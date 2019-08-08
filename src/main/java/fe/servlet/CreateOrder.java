@@ -2,10 +2,11 @@ package fe.servlet;
 
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
-import be.utils.Mapper;
+import be.entity.Order;
 import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import fe.dto.OrderDto;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -21,6 +22,8 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/service/createOrder")
 public class CreateOrder extends HttpServlet {
 
+    @Autowired
+    Mapper mapper;
     @Autowired
     private OrderBusinessService orderBusinessService;
     @Autowired
@@ -40,7 +43,7 @@ public class CreateOrder extends HttpServlet {
         HttpSession session = req.getSession(false);
         OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
         try {
-            orderBusinessService.addOrder(Mapper.map(orderDto));
+            orderBusinessService.addOrder(mapper.map(orderDto, Order.class));
             session.removeAttribute(SessionAttribute.BASKET.toString());
         } catch (ServiceException e) {
             session.setAttribute("err", e.getMessage());

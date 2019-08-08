@@ -34,10 +34,10 @@
             <c:forEach items = "${ORDERS}" var="iterator" varStatus="rowStatus">
                 <tr>
                     <td>${iterator.idOrder}</td>
-                    <td>${iterator.userDto.id}</td>
+                    <td>${iterator.user.idUser}</td>
                     <td>
                     <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
-                        <p>${it.quantity}x ${it.flowerDto.nameFlower}</p>
+                        <p>${it.quantity}x ${it.flower.nameFlower}</p>
                     </c:forEach>
                     </td>
                     <td>${iterator.totalPrice}</td>

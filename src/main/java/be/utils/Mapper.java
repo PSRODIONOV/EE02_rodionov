@@ -17,7 +17,7 @@ public class Mapper {
     public static UserDto map(User user) {
         if (user != null) {
             UserDto userDto = new UserDto();
-            userDto.setId(user.getIdUser());
+            userDto.setIdUser(user.getIdUser());
             userDto.setRole(user.getRole());
             userDto.setLogin(user.getLogin());
             userDto.setLastName(user.getLastName());
@@ -36,7 +36,7 @@ public class Mapper {
         if (order != null) {
             OrderDto orderDto = new OrderDto();
             orderDto.setIdOrder(order.getIdOrder());
-            orderDto.setUserDto(map(order.getUser()));
+            orderDto.setUser(map(order.getUser()));
             orderDto.setOrderPositions(mapOrderPositionsDto(order.getOrderPositions()));
             orderDto.setTotalPrice(order.getTotalPrice());
             orderDto.setStatus(order.getStatus());
@@ -62,7 +62,7 @@ public class Mapper {
     public static OrderPositionDto map(OrderPosition orderPosition) {
         if (orderPosition != null) {
             OrderPositionDto orderPositionDto = new OrderPositionDto();
-            orderPositionDto.setFlowerDto(map(orderPosition.getFlower()));
+            orderPositionDto.setFlower(map(orderPosition.getFlower()));
             orderPositionDto.setQuantity(orderPosition.getQuantity());
             return orderPositionDto;
         }
@@ -72,7 +72,7 @@ public class Mapper {
     public static User map(UserDto userDto) {
         if (userDto != null) {
             User user = new User();
-            user.setIdUser(userDto.getId());
+            user.setIdUser(userDto.getIdUser());
             user.setWalletScore(userDto.getWalletScore());
             user.setDiscount(userDto.getDiscount());
             user.setAddress(userDto.getAddress());
@@ -102,7 +102,7 @@ public class Mapper {
             Order order = new Order();
             order.setIdOrder(orderDto.getIdOrder());
             order.setOrderPositions(mapOrderPositions(orderDto.getOrderPositions()));
-            order.setUser(map(orderDto.getUserDto()));
+            order.setUser(map(orderDto.getUser()));
             order.setTotalPrice(orderDto.getTotalPrice());
             return order;
         }
@@ -112,7 +112,7 @@ public class Mapper {
     public static OrderPosition map(OrderPositionDto orderPositionDto) {
         if (orderPositionDto != null) {
             OrderPosition orderPosition = new OrderPosition();
-            orderPosition.setFlower(map(orderPositionDto.getFlowerDto()));
+            orderPosition.setFlower(map(orderPositionDto.getFlower()));
             orderPosition.setQuantity(orderPositionDto.getQuantity());
             return orderPosition;
         }

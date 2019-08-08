@@ -3,8 +3,9 @@ package fe.servlet;
 import be.business.FlowerBusinessService;
 import be.business.OrderBusinessService;
 import be.business.UserBusinessService;
+import be.entity.User;
 import be.utils.FlowerFilter;
-import be.utils.Mapper;
+import be.utils.MapperService;
 import be.utils.ServiceException;
 import be.utils.enums.SessionAttribute;
 import be.utils.enums.UserType;
@@ -28,6 +29,8 @@ import java.util.List;
 public class MainPageServlet extends HttpServlet {
 
     @Autowired
+    MapperService mapper;
+    @Autowired
     private UserBusinessService userBusinessService;
     @Autowired
     private FlowerBusinessService flowerBusinessService;
@@ -50,26 +53,26 @@ public class MainPageServlet extends HttpServlet {
         UserDto userDto = (UserDto) session.getAttribute(SessionAttribute.USER.toString());
 
         try {
-            userDto = Mapper.map(userBusinessService.getUserById(userDto.getId()));
+            userDto = mapper.map(userBusinessService.getUserById(userDto.getIdUser()), UserDto.class);
 
             session.setAttribute(SessionAttribute.USER.toString(), userDto);
 
             if (session.getAttribute(SessionAttribute.BASKET.toString()) == null) {
                 OrderDto basket = new OrderDto();
-                basket.setUserDto(userDto);
+                basket.setUser(userDto);
                 session.setAttribute(SessionAttribute.BASKET.toString(), basket);
             }
 
-            List<OrderDto> ordersDto = Mapper.mapOrders(orderBusinessService.getAllOrders(Mapper.map(userDto)));
+            List<OrderDto> ordersDto = mapper.mapCollection(orderBusinessService.getAllOrders(mapper.map(userDto, User.class)), OrderDto.class);
             req.setAttribute(SessionAttribute.ORDERS.toString(), ordersDto);
 
             FlowerFilter filter = (FlowerFilter) req.getAttribute(SessionAttribute.FILTER.toString());
             List<FlowerDto> flowersDto;
-            if (filter != null) {
-                flowersDto = Mapper.mapFlowers(flowerBusinessService.searchFilter(filter));
-            } else {
-                flowersDto = Mapper.mapFlowers(flowerBusinessService.getAllFlowers());
+            if (filter == null) {
+                filter = new FlowerFilter("", "", "");
+                req.setAttribute(SessionAttribute.FILTER.toString(), filter);
             }
+            flowersDto = mapper.mapCollection(flowerBusinessService.searchFilter(filter), FlowerDto.class);
             req.setAttribute(SessionAttribute.FLOWERS.toString(), flowersDto);
 
             if (userDto.getRole() == UserType.USER) {

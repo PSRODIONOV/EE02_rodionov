@@ -76,13 +76,13 @@
             </tr>
             <c:forEach items = "${BASKET.orderPositions}" var="iterator" varStatus="rowStatus">
                 <tr>
-                    <td>${iterator.flowerDto.nameFlower}</td>
+                    <td>${iterator.flower.nameFlower}</td>
                     <td>${iterator.quantity}</td>
                     <td>${iterator.price}</td>
                     <td>
                         <button type="submit"
                                 name="idFlower"
-                                value="${iterator.flowerDto.idFlower}"
+                                value="${iterator.flower.idFlower}"
                                 > Remove
                         </button>
                     </td>
@@ -117,7 +117,7 @@
                     <td>${iterator.idOrder}</td>
                     <td>
                     <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
-                        <p>${it.quantity}-${it.flowerDto.nameFlower}</p>
+                        <p>${it.quantity}-${it.flower.nameFlower}</p>
                     </c:forEach>
                     </td>
                     <td>${iterator.totalPrice}</td>

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class UserDto {
 
-    private Long id;
+    private Long idUser;
     private UserType role;
     private String login;
     private String lastName;
@@ -18,15 +18,14 @@ public class UserDto {
     private Integer discount;
 
     public UserDto(){
-
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public UserType getRole() {

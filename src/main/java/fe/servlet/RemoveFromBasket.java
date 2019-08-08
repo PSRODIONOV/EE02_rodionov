@@ -59,7 +59,7 @@ public class RemoveFromBasket extends HttpServlet {
             while (iter.hasNext()) {
                 OrderPositionDto orderPositionDto = iter.next();
 
-                if (orderPositionDto.getFlowerDto().getIdFlower() == idFlower) {
+                if (orderPositionDto.getFlower().getIdFlower() == idFlower) {
                     iter.remove();
                     orderDto.computePrice();
                 }
