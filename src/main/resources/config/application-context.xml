@@ -64,6 +64,7 @@
     <context:property-placeholder location = "classpath:conf.properties"/>
 
     <bean id="mapper" class="org.dozer.DozerBeanMapper"/>
+    
     <bean id="mapperService" class="be.utils.MapperService">
         <property name="baseMapper" ref="mapper" />
     </bean>

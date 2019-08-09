@@ -4,7 +4,6 @@ import be.utils.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,7 @@ public class OrderDto {
     public OrderDto() {
         this.orderPositions = new ArrayList<>();
         this.totalPrice = new BigDecimal(0);
+        this.status = OrderStatus.CREATED;
     }
 
     public Long getIdOrder() {
@@ -64,27 +64,25 @@ public class OrderDto {
     }
 
     public String getDateCreate() {
+        if(dateCreate == null){
+            return "YY-MM-DD";
+        }
         return dateCreate;
     }
 
-    public void setDateCreate(LocalDateTime dateCreate) {
-        if (dateCreate != null) {
-            this.dateCreate = dateCreate.toString();
-        } else {
-            this.dateCreate = "--.--.----";
-        }
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
     public String getDateClose() {
+        if(dateClose == null){
+            return "YY-MM-DD";
+        }
         return dateClose;
     }
 
-    public void setDateClose(LocalDateTime dateClose) {
-        if (dateClose != null) {
-            this.dateClose = dateClose.toString();
-        } else {
-            this.dateClose = "--.--.----";
-        }
+    public void setDateClose(String dateClose) {
+        this.dateClose = dateClose;
     }
 
     public void computePrice() {

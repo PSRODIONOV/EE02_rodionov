@@ -40,8 +40,8 @@ public class Mapper {
             orderDto.setOrderPositions(mapOrderPositionsDto(order.getOrderPositions()));
             orderDto.setTotalPrice(order.getTotalPrice());
             orderDto.setStatus(order.getStatus());
-            orderDto.setDateCreate(order.getDateCreate());
-            orderDto.setDateClose(order.getDateClose());
+            orderDto.setDateCreate(order.getDateCreate().toString());
+            orderDto.setDateClose(order.getDateClose().toString()   );
             return orderDto;
         }
         return null;

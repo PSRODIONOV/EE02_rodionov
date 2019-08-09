@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 
 public class OrderPositionDto {
 
-    private Long idOrder;
+    private OrderDto order;
     private FlowerDto flower;
     private Long quantity;
     private BigDecimal price;
@@ -13,9 +13,9 @@ public class OrderPositionDto {
     public OrderPositionDto(){
     }
 
-    public OrderPositionDto(Long idOrder, FlowerDto flower, Long quantity){
+    public OrderPositionDto(OrderDto order, FlowerDto flower, Long quantity){
         this.quantity = quantity;
-        this.idOrder = idOrder;
+        this.order = order;
         this.flower = flower;
         computePrice();
     }
@@ -36,12 +36,12 @@ public class OrderPositionDto {
         this.quantity = quantity;
     }
 
-    public Long getIdOrder() {
-        return idOrder;
+    public OrderDto getOrder() {
+        return order;
     }
 
-    public void setIdOrder(Long idOrder) {
-        this.idOrder = idOrder;
+    public void setOrder(OrderDto order) {
+        this.order = order;
     }
 
     public BigDecimal getPrice() {

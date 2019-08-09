@@ -38,21 +38,24 @@ public class AddToBasket extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+
+        HttpSession session = req.getSession(false);
+        OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
+        String idFlower = req.getParameter("idFlower");
+        String quantity = req.getParameter("quantity");
         try {
-            HttpSession session = req.getSession(false);
-            OrderDto orderDto = (OrderDto) session.getAttribute(SessionAttribute.BASKET.toString());
 
-            Long idFlower = Long.parseLong(req.getParameter("idFlower"));
-            Long quantity = Long.parseLong(req.getParameter("quantity"));
-
-            orderDto = addOrderPosition(orderDto, idFlower, quantity);
+            orderDto = addOrderPosition(orderDto, Long.parseLong(idFlower), Long.parseLong(quantity));
             /*Считаем общую стоимость корзины с учетом скидки*/
             orderDto.computePrice();
 
             session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
             req.setAttribute("err", "Item is added.");
 
-        } catch (ServiceException e) {
+        }catch (NumberFormatException e){
+            req.setAttribute("err", ServiceException.ERROR_INVALIDATE_DATA);
+        }
+        catch (ServiceException e) {
             req.setAttribute("err", e.getMessage());
         } finally {
             req.getRequestDispatcher("/service/mainpage").forward(req, resp);
@@ -70,15 +73,17 @@ public class AddToBasket extends HttpServlet {
                 if (sumQty > orderPositionDto.getFlower().getQuantity()) {
                     throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
                 }
+                orderPositionDto.setOrder(orderDto);
                 orderPositionDto.setQuantity(sumQty);
                 orderPositionDto.computePrice();
                 return orderDto;
             }
         }
         /*Если похожей позиции не было, то добавляем её*/
-        OrderPositionDto newOrderPositionDto = new OrderPositionDto(
-                orderDto.getIdOrder(), mapper.map(flowerBusinessService.getFlowerById(idFlower), FlowerDto.class), quantity);
+       OrderPositionDto newOrderPositionDto = new OrderPositionDto(
+                orderDto, mapper.map(flowerBusinessService.getFlowerById(idFlower), FlowerDto.class), quantity);
         orderDto.getOrderPositions().add(newOrderPositionDto);
+
         return orderDto;
     }
 

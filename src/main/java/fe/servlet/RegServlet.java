@@ -21,7 +21,7 @@ import java.io.IOException;
 public class RegServlet extends HttpServlet {
 
     @Autowired
-    private UserBusinessService ubs;
+    private UserBusinessService userBusinessService;
     @Autowired
     private MarshallingServiceImpl userMarshallingService;
     @Autowired
@@ -46,9 +46,9 @@ public class RegServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         try {
-            ubs.registration(login, password, address);
+            userBusinessService.registration(login, password, address);
 
-            userMarshallingService.doMarshaling(login, ubs.getUserByLogin(login));
+            userMarshallingService.doMarshaling(login, userBusinessService.getUserByLogin(login));
             messageService.sendUserXml(login);//Send xml of user file in OUT_QUEUE
 
             LOG.info("USER " + login + " CREATED.");

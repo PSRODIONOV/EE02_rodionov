@@ -63,7 +63,7 @@ public class MainPageServlet extends HttpServlet {
                 session.setAttribute(SessionAttribute.BASKET.toString(), basket);
             }
 
-            List<OrderDto> ordersDto = mapper.mapCollection(orderBusinessService.getAllOrders(mapper.map(userDto, User.class)), OrderDto.class);
+            List<OrderDto> ordersDto = mapper.mapList(orderBusinessService.getAllOrders(mapper.map(userDto, User.class)), OrderDto.class);
             req.setAttribute(SessionAttribute.ORDERS.toString(), ordersDto);
 
             FlowerFilter filter = (FlowerFilter) req.getAttribute(SessionAttribute.FILTER.toString());
@@ -72,7 +72,7 @@ public class MainPageServlet extends HttpServlet {
                 filter = new FlowerFilter("", "", "");
                 req.setAttribute(SessionAttribute.FILTER.toString(), filter);
             }
-            flowersDto = mapper.mapCollection(flowerBusinessService.searchFilter(filter), FlowerDto.class);
+            flowersDto = mapper.mapList(flowerBusinessService.searchFilter(filter), FlowerDto.class);
             req.setAttribute(SessionAttribute.FLOWERS.toString(), flowersDto);
 
             if (userDto.getRole() == UserType.USER) {

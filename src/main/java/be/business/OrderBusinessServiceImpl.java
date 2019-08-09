@@ -36,6 +36,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     @Transactional(rollbackFor = ServiceException.class)
     public void addOrder(Order order) throws ServiceException {
+        order.setStatus(OrderStatus.CREATED);
         if (order.getOrderPositions().isEmpty()) {
             throw new ServiceException(ServiceException.ERROR_BASKET);
         }
@@ -71,7 +72,6 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
         if (order.getStatus() != OrderStatus.CREATED) {
             throw new ServiceException(ServiceException.ERROR_FIND_ORDER);
         }
-
 
         userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
         order.setStatus(OrderStatus.PAID);

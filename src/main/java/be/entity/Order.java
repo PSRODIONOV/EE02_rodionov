@@ -4,7 +4,7 @@ import be.utils.enums.OrderStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,14 +35,14 @@ public class Order {
     private OrderStatus status;
 
     @Column(name = "date_create")
-    private LocalDateTime dateCreate;
+    private LocalDate dateCreate;
 
     @Column(name = "date_close")
-    private LocalDateTime dateClose;
+    private LocalDate dateClose;
 
     public Order() {
         this.totalPrice = new BigDecimal(0);
-        this.dateCreate = LocalDateTime.now();
+        this.dateCreate = LocalDate.now();
         this.status = OrderStatus.CREATED;
     }
 
@@ -94,16 +94,16 @@ public class Order {
         orderPosition.setOrder(this);
     }
 
-    public LocalDateTime getDateCreate() {
+    public LocalDate getDateCreate() {
         return dateCreate;
     }
 
-    public LocalDateTime getDateClose() {
+    public LocalDate getDateClose() {
         return dateClose;
     }
 
     public void close() {
         this.status = OrderStatus.CLOSED;
-        this.dateClose = LocalDateTime.now();
+        this.dateClose = LocalDate.now();
     }
 }
