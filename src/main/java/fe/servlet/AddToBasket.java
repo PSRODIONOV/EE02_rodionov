@@ -63,7 +63,7 @@ public class AddToBasket extends HttpServlet {
     }
 
     public OrderDto addOrderPosition(OrderDto orderDto, Long idFlower, Long quantity) throws ServiceException {
-        if (quantity > flowerBusinessService.getFlowerById(idFlower).getQuantity()) {
+        if (quantity < 0 && quantity > flowerBusinessService.getFlowerById(idFlower).getQuantity()) {
             throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
         }
         for (OrderPositionDto orderPositionDto : orderDto.getOrderPositions()) {

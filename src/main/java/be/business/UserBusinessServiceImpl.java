@@ -85,6 +85,9 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Override
     @Transactional(rollbackFor = ServiceException.class)
     public void updateDiscount(Long idUser, Integer newDiscount) throws ServiceException {
+        if(newDiscount < 0){
+            throw new ServiceException(ServiceException.ERROR_INVALIDATE_DATA);
+        }
         User user = getUserById(idUser);
         user.setDiscount(newDiscount);
     }

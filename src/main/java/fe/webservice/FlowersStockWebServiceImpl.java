@@ -18,6 +18,9 @@ public class FlowersStockWebServiceImpl implements FlowersStockWebService {
     @Transactional
     public void increaseFlowersStockSize(Long count) {
 
+        if(count < 0){
+            return;
+        }
         flowerBusinessService.increaseFlowersStockSize(count);
     }
 }

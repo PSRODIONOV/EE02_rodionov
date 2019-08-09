@@ -22,6 +22,7 @@ public class RegServlet extends HttpServlet {
 
     @Autowired
     private UserBusinessService userBusinessService;
+
     @Autowired
     private MarshallingServiceImpl userMarshallingService;
     @Autowired
