@@ -22,7 +22,6 @@ public class RegServlet extends HttpServlet {
 
     @Autowired
     private UserBusinessService userBusinessService;
-
     @Autowired
     private MarshallingServiceImpl userMarshallingService;
     @Autowired
@@ -48,7 +47,6 @@ public class RegServlet extends HttpServlet {
         String password = req.getParameter("password");
         try {
             userBusinessService.registration(login, password, address);
-
             userMarshallingService.doMarshaling(login, userBusinessService.getUserByLogin(login));
             messageService.sendUserXml(login);//Send xml of user file in OUT_QUEUE
 

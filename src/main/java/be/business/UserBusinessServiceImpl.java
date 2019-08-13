@@ -54,7 +54,8 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         }
         try {
             userDAO.registrationUser(user);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
         }
     }

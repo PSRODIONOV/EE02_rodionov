@@ -41,8 +41,9 @@ public class RemoveFromBasket extends HttpServlet {
         try {
             orderDto = delOrderPosition(orderDto, Long.parseLong(idFlower));
             session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
+            req.setAttribute("bskt_msg", "Item is removed");
         } catch (Exception e) {
-            req.setAttribute("err", ServiceException.ERROR_INVALIDATE_DATA);
+            req.setAttribute("bskt_err", ServiceException.ERROR_INVALIDATE_DATA);
         } finally {
             req.getRequestDispatcher("/service/mainpage").forward(req, resp);
         }

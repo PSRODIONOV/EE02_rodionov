@@ -50,20 +50,23 @@ public class AddToBasket extends HttpServlet {
             orderDto.computePrice();
 
             session.setAttribute(SessionAttribute.BASKET.toString(), orderDto);
-            req.setAttribute("err", "Item is added.");
+            req.setAttribute("bskt_msg", "Item is added.");
 
         }catch (NumberFormatException e){
-            req.setAttribute("err", ServiceException.ERROR_INVALIDATE_DATA);
+            req.setAttribute("ctlg_err", ServiceException.ERROR_INVALIDATE_DATA);
         }
         catch (ServiceException e) {
-            req.setAttribute("err", e.getMessage());
+            req.setAttribute("ctlg_err", e.getMessage());
         } finally {
             req.getRequestDispatcher("/service/mainpage").forward(req, resp);
         }
     }
 
     public OrderDto addOrderPosition(OrderDto orderDto, Long idFlower, Long quantity) throws ServiceException {
-        if (quantity < 0 && quantity > flowerBusinessService.getFlowerById(idFlower).getQuantity()) {
+        if(quantity <= 0){
+            throw new ServiceException(ServiceException.ERROR_INVALIDATE_DATA);
+        }
+        if (quantity > flowerBusinessService.getFlowerById(idFlower).getQuantity()) {
             throw new ServiceException(ServiceException.ERROR_FLOWERSTOCK);
         }
         for (OrderPositionDto orderPositionDto : orderDto.getOrderPositions()) {

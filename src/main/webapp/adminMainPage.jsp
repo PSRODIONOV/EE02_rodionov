@@ -21,49 +21,51 @@
 
     <h2>ALL ORDERS</h2>
     <form method="post" action="/flowershop/admin/closeorder">
-        <table>
-            <tr>
-                <td>Id Order</td>
-                <td>Id User</td>
-                <td>Description</td>
-                <td>Total Price</td>
-                <td>Status</td>
-                <td>Date Create</td>
-                <td>Date Close</td>
-            </tr>
-            <c:forEach items = "${ORDERS}" var="iterator" varStatus="rowStatus">
+        <div>
+            <table>
                 <tr>
-                    <td>${iterator.idOrder}</td>
-                    <td>${iterator.user.idUser}</td>
-                    <td>
-                    <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
-                        <p>${it.quantity}x ${it.flower.nameFlower}</p>
-                    </c:forEach>
-                    </td>
-                    <td>${iterator.totalPrice}</td>
-                    <td>${iterator.status}</td>
-                    <td>${iterator.dateCreate}</td>
-                    <td>${iterator.dateClose}</td>
-                    <td>
-                    <c:choose>
-                        <c:when test="${iterator.status.toString() eq 'PAID'}">
-                          <button type="submit"
-                                  name="idOrder"
-                                  value="${iterator.idOrder}"
-                           > Close </button>
-                        </c:when>
-                        <c:otherwise>
-                          <button type="submit"
-                                 name="idOrder"
-                                 value="${iterator.idOrder}"
-                                 disabled="disabled"
-                          > Close </button>
-                        </c:otherwise>
-                    </c:choose>
-                    </td>
+                    <td>Id Order</td>
+                    <td>Id User</td>
+                    <td>Description</td>
+                    <td>Total Price</td>
+                    <td>Status</td>
+                    <td>Date Create</td>
+                    <td>Date Close</td>
                 </tr>
-            </c:forEach>
-        </table>
+                <c:forEach items = "${ORDERS}" var="iterator" varStatus="rowStatus">
+                    <tr>
+                        <td>${iterator.idOrder}</td>
+                        <td>${iterator.user.idUser}</td>
+                        <td>
+                        <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
+                            <p>${it.quantity}x ${it.flower.nameFlower}</p>
+                        </c:forEach>
+                        </td>
+                        <td>${iterator.totalPrice}</td>
+                        <td>${iterator.status}</td>
+                        <td>${iterator.dateCreate}</td>
+                        <td>${iterator.dateClose}</td>
+                        <td>
+                        <c:choose>
+                            <c:when test="${iterator.status.toString() eq 'PAID'}">
+                              <button type="submit"
+                                      name="idOrder"
+                                      value="${iterator.idOrder}"
+                               > Close </button>
+                            </c:when>
+                            <c:otherwise>
+                              <button type="submit"
+                                     name="idOrder"
+                                     value="${iterator.idOrder}"
+                                     disabled="disabled"
+                              > Close </button>
+                            </c:otherwise>
+                        </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </form>
 
 </body>
