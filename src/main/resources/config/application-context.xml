@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans
-       xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:jaxws="http://cxf.apache.org/jaxws"
-       xsi:schemaLocation="
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:jaxws="http://cxf.apache.org/jaxws"
+        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
        	http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -13,7 +14,9 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
         http://cxf.apache.org/jaxws
-        http://cxf.apache.org/schemas/jaxws.xsd">
+        http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/data/jpa
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:annotation-config/>
     <context:component-scan base-package="be.* fe.*"/>
@@ -82,7 +85,7 @@
 
     <jaxws:endpoint id="FlowersStockWebService1" implementor="#FlowersStockWebService"
                                                                        address="/FlowersStockWebService"/>
-
+    <jpa:repositories base-package="be.access.repositories"/>
 </beans>
 
 

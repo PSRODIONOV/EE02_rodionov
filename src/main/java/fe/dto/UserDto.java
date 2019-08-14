@@ -1,6 +1,7 @@
 package fe.dto;
 
 import be.utils.enums.UserType;
+import org.dozer.Mapping;
 
 import java.math.BigDecimal;
 
@@ -20,6 +21,7 @@ public class UserDto {
     public UserDto(){
     }
 
+    @Mapping("id")
     public Long getIdUser() {
         return idUser;
     }

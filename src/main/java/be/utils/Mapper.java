@@ -17,7 +17,7 @@ public class Mapper {
     public static UserDto map(User user) {
         if (user != null) {
             UserDto userDto = new UserDto();
-            userDto.setIdUser(user.getIdUser());
+            userDto.setIdUser(user.getId());
             userDto.setRole(user.getRole());
             userDto.setLogin(user.getLogin());
             userDto.setLastName(user.getLastName());
@@ -35,7 +35,7 @@ public class Mapper {
     public static OrderDto map(Order order) {
         if (order != null) {
             OrderDto orderDto = new OrderDto();
-            orderDto.setIdOrder(order.getIdOrder());
+            orderDto.setIdOrder(order.getId());
             orderDto.setUser(map(order.getUser()));
             orderDto.setOrderPositions(mapOrderPositionsDto(order.getOrderPositions()));
             orderDto.setTotalPrice(order.getTotalPrice());
@@ -50,7 +50,7 @@ public class Mapper {
     public static FlowerDto map(Flower flower) {
         if (flower != null) {
             FlowerDto flowerDto = new FlowerDto();
-            flowerDto.setIdFlower(flower.getIdFlower());
+            flowerDto.setIdFlower(flower.getId());
             flowerDto.setNameFlower(flower.getNameFlower());
             flowerDto.setPrice(flower.getPrice());
             flowerDto.setQuantity(flower.getQuantity());
@@ -72,7 +72,7 @@ public class Mapper {
     public static User map(UserDto userDto) {
         if (userDto != null) {
             User user = new User();
-            user.setIdUser(userDto.getIdUser());
+            user.setId(userDto.getIdUser());
             user.setWalletScore(userDto.getWalletScore());
             user.setDiscount(userDto.getDiscount());
             user.setAddress(userDto.getAddress());
@@ -89,7 +89,7 @@ public class Mapper {
     public static Flower map(FlowerDto flowerDto) {
         if (flowerDto != null) {
             Flower flower = new Flower();
-            flower.setIdFlower(flowerDto.getIdFlower());
+            flower.setId(flowerDto.getIdFlower());
             flower.setNameFlower(flowerDto.getNameFlower());
             flower.setPrice(flowerDto.getPrice());
             return flower;
@@ -100,7 +100,7 @@ public class Mapper {
     public static Order map(OrderDto orderDto) {
         if (orderDto != null) {
             Order order = new Order();
-            order.setIdOrder(orderDto.getIdOrder());
+            order.setId(orderDto.getIdOrder());
             order.setOrderPositions(mapOrderPositions(orderDto.getOrderPositions()));
             order.setUser(map(orderDto.getUser()));
             order.setTotalPrice(orderDto.getTotalPrice());

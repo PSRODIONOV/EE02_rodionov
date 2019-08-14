@@ -1,6 +1,7 @@
 package be.business;
 
 import be.access.OrderDAO;
+import be.access.repositories.OrderRepository;
 import be.entity.Flower;
 import be.entity.Order;
 import be.entity.OrderPosition;
@@ -20,7 +21,7 @@ import java.util.List;
 public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Autowired
-    private OrderDAO orderDAO;
+    private OrderRepository orderRepository;
     @Autowired
     private UserBusinessService userBusinessService;
     @Autowired
@@ -41,7 +42,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
             throw new ServiceException(ServiceException.ERROR_BASKET);
         }
         try {
-            orderDAO.addOrder(order);
+            orderRepository.saveAndFlush(order);
         } catch (Exception e) {
             throw new ServiceException(ServiceException.ERROR_INSERT);
         }
@@ -52,20 +53,20 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     public List<Order> getAllOrders(User user) {
         if (user.getRole() == UserType.USER) {
-            return orderDAO.getAllMyOrders(user.getIdUser());
+            return orderRepository.getOrdersByUser(user);
         }
-        return orderDAO.getAllOrders();
+        return orderRepository.findAll();
     }
 
     @Override
     @Transactional(rollbackFor = ServiceException.class)
     public void payOrder(Long idOrder, Long idUser) throws ServiceException {
-        Order order = orderDAO.getOrderById(idOrder)
-                .orElseThrow(() -> new RuntimeException());
+        Order order = orderRepository.findById(idOrder)
+                .orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_ORDER));
         if (idUser == null) {
             throw new ServiceException(ServiceException.ERROR_INVALIDATE_DATA);
         }
-        if (!order.getUser().getIdUser().equals(idUser)) {
+        if (!order.getUser().getId().equals(idUser)) {
             throw new RuntimeException("Order not found for user");
         }
 
@@ -88,7 +89,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     @Transactional(rollbackFor = ServiceException.class)
     public void closeOrder(Long idOrder) throws ServiceException {
-        Order order = orderDAO.getOrderById(idOrder).
+        Order order = orderRepository.findById(idOrder).
                 orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_ORDER));
         order.close();
     }

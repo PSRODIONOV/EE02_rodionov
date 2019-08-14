@@ -18,8 +18,8 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
     @SequenceGenerator(name = "cust", sequenceName = "seq_user", allocationSize = 1, initialValue = 1)
     @Column(name = "ID_USER")
-    @XmlElement(name = "idUser")
-    private Long idUser;
+    @XmlElement(name = "id")
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE")
@@ -74,12 +74,12 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public UserType getRole() {

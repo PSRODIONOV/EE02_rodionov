@@ -1,5 +1,7 @@
 package fe.dto;
 
+import org.dozer.Mapping;
+
 import java.math.BigDecimal;
 
 public class FlowerDto {
@@ -13,6 +15,7 @@ public class FlowerDto {
         this.price = new BigDecimal(0);
     }
 
+    @Mapping("id")
     public Long getIdFlower() {
         return idFlower;
     }

@@ -1,6 +1,7 @@
 package fe.dto;
 
 import be.utils.enums.OrderStatus;
+import org.dozer.Mapping;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,6 +24,7 @@ public class OrderDto {
         this.status = OrderStatus.CREATED;
     }
 
+    @Mapping("id")
     public Long getIdOrder() {
         return idOrder;
     }

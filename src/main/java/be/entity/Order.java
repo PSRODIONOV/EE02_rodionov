@@ -17,7 +17,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust")
     @SequenceGenerator(name = "cust", sequenceName = "seq_order", allocationSize = 1, initialValue = 1)
     @Column(name = "id_order")
-    private Long idOrder;
+    private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
@@ -54,12 +54,12 @@ public class Order {
         this.user = user;
     }
 
-    public Long getIdOrder() {
-        return idOrder;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdOrder(Long idOrder) {
-        this.idOrder = idOrder;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<OrderPosition> getOrderPositions() {

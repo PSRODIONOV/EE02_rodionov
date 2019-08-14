@@ -1,6 +1,7 @@
 package be.business;
 
 import be.access.UserDAO;
+import be.access.repositories.UserRepository;
 import be.entity.User;
 import be.utils.ServiceException;
 import be.utils.enums.UserType;
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserBusinessServiceImpl.class);
 
@@ -27,12 +28,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
     @Override
     public Boolean checkLogin(String login) {
-        return userDAO.getUserByLogin(login).isPresent();
+        return userRepository.getUserByLogin(login).isPresent();
     }
 
     @Override
     public User login(String login, String password) throws ServiceException {
-        User user = userDAO.getUserByLogin(login)
+        User user = userRepository.getUserByLogin(login)
                 .orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
         if (password.equals(user.getPassword())) {
             return user;
@@ -49,11 +50,11 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         user.setWalletScore(new BigDecimal(2000));
         user.setRole(UserType.USER);
 
-        if (userDAO.getUserByLogin(user.getLogin()).isPresent()) {
+        if (userRepository.getUserByLogin(user.getLogin()).isPresent()) {
             throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
         }
         try {
-            userDAO.registrationUser(user);
+            userRepository.saveAndFlush(user);
         }
         catch (Exception e) {
             throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
@@ -63,12 +64,12 @@ public class UserBusinessServiceImpl implements UserBusinessService {
     @Override
     public User getUserById(Long id) throws ServiceException {
 
-        return userDAO.getUserById(id).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
+        return userRepository.findById(id).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
     }
 
     @Override
     public User getUserByLogin(String login) throws ServiceException {
-        return userDAO.getUserByLogin(login).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
+        return userRepository.getUserByLogin(login).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_USER));
     }
 
     @Override
