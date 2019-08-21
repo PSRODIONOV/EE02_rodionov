@@ -1,6 +1,5 @@
 package be.business;
 
-import be.access.UserDAO;
 import be.access.repositories.UserRepository;
 import be.entity.User;
 import be.utils.ServiceException;

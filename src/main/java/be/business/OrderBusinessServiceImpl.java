@@ -1,17 +1,19 @@
 package be.business;
 
-import be.access.OrderDAO;
 import be.access.repositories.OrderRepository;
 import be.entity.Flower;
 import be.entity.Order;
 import be.entity.OrderPosition;
 import be.entity.User;
 import be.utils.ServiceException;
+import be.utils.annotation.Secured;
+import be.utils.annotation.SessionId;
 import be.utils.enums.OrderStatus;
 import be.utils.enums.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,11 +53,12 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
 
     @Override
-    public List<Order> getAllOrders(User user) {
+    @Secured
+    public List<Order> getAllOrders(@SessionId User user) {
         if (user.getRole() == UserType.USER) {
             return orderRepository.getOrdersByUser(user);
         }
-        return orderRepository.findAll();
+        return orderRepository.findAll(Sort.by("dateCreate").and(Sort.by("status")));
     }
 
     @Override
