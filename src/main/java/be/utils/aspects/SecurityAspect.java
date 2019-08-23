@@ -1,16 +1,23 @@
 package be.utils.aspects;
 
 import be.access.repositories.UserRepository;
+import be.utils.ServiceException;
 import be.utils.annotation.Secured;
-import be.utils.annotation.SessionId;
+import be.utils.enums.SessionAttribute;
+import be.utils.enums.UserType;
+import fe.dto.UserDto;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.lang.reflect.Method;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Aspect
 @Component
@@ -20,16 +27,24 @@ public class SecurityAspect {
 
     @Before("@annotation(be.utils.annotation.Secured) && @annotation(securedAnnotation)")
     public void secure(final JoinPoint jp, Secured securedAnnotation) throws Throwable{
-        MethodSignature methodSignature = (MethodSignature) jp.getSignature();
-        Class<?> clazz = methodSignature.getDeclaringType();
-        Method method = clazz.getDeclaredMethod(methodSignature.getName(), methodSignature.getParameterTypes());
-        String sessionId = null;
-        for(int i = 0; i < method.getParameterCount(); i++){
-            if(method.getParameters()[i].getAnnotation(SessionId.class) != null){
-                sessionId = (String)jp.getArgs()[i];
-                break;
+
+        RequestAttributes requestAttributes = RequestContextHolder
+                .currentRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        HttpServletRequest request = attributes.getRequest();
+        HttpSession session = request.getSession(false);
+        Optional<UserDto> userO = Optional.ofNullable((UserDto)session.getAttribute(SessionAttribute.USER.toString()));
+        if(userO.isPresent()){
+            UserDto userDto = userO.get();
+            if(securedAnnotation.onlyAdmin() && userDto.getRole() != UserType.ADMIN){
+                throw new ServiceException("Access error.");
+            }
+            if(!userDto.getIdUser().equals(jp.getArgs()) && userDto.getRole() != UserType.ADMIN){
+                throw new ServiceException("Access error.");
             }
         }
-
+        else {
+            throw new ServiceException("Access error.");
+        }
     }
 }

@@ -51,13 +51,21 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     }
 
+    @Override
+    public List<Order> getUserOrders(Long idUser) {
+        return null;
+    }
 
     @Override
-    @Secured
-    public List<Order> getAllOrders(@SessionId User user) {
-        if (user.getRole() == UserType.USER) {
-            return orderRepository.getOrdersByUser(user);
+    public List<Order> getAllOrders(User user) {
+        if(user.getRole() != UserType.ADMIN){
+           return orderRepository.getOrdersByUser(user);
         }
+        return orderRepository.findAll(Sort.by("dateCreate").and(Sort.by("status")));
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
         return orderRepository.findAll(Sort.by("dateCreate").and(Sort.by("status")));
     }
 

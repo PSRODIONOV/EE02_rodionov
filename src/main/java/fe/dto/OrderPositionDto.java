@@ -1,10 +1,13 @@
 package fe.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class OrderPositionDto {
 
+    @JsonIgnore
     private OrderDto order;
     private FlowerDto flower;
     private Long quantity;
@@ -41,7 +44,7 @@ public class OrderPositionDto {
     }
 
     public void setOrder(OrderDto order) {
-        this.order = order;
+        this.order= order;
     }
 
     public BigDecimal getPrice() {

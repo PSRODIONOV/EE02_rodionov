@@ -69,7 +69,13 @@
 
     <context:property-placeholder location = "classpath:conf.properties"/>
 
-    <bean id="mapper" class="org.dozer.DozerBeanMapper"/>
+    <bean id="mapper" class="org.dozer.DozerBeanMapper">
+        <property name="mappingFiles">
+            <list>
+                <value>dozer_mapping.xml</value>
+            </list>
+        </property>
+    </bean>
     
     <bean id="mapperService" class="be.utils.MapperService">
         <property name="baseMapper" ref="mapper" />
