@@ -37,14 +37,14 @@ public class SecurityAspect {
         if(userO.isPresent()){
             UserDto userDto = userO.get();
             if(securedAnnotation.onlyAdmin() && userDto.getRole() != UserType.ADMIN){
-                throw new ServiceException("Access error.");
+                throw new ServiceException("Access error 1.");
             }
-            if(!userDto.getIdUser().equals(jp.getArgs()) && userDto.getRole() != UserType.ADMIN){
-                throw new ServiceException("Access error.");
+            if(!userDto.getIdUser().equals(jp.getArgs()[0]) && userDto.getRole() != UserType.ADMIN){
+                throw new ServiceException("Access error 2.");
             }
         }
         else {
-            throw new ServiceException("Access error.");
+            throw new ServiceException("Access error 3.");
         }
     }
 }

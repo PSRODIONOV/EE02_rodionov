@@ -52,8 +52,9 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
-    public List<Order> getUserOrders(Long idUser) {
-        return null;
+    public List<Order> getUserOrders(Long idUser) throws ServiceException{
+        User user = userBusinessService.getUserById(idUser);
+        return orderRepository.getOrdersByUser(user);
     }
 
     @Override
