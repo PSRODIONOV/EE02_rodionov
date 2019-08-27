@@ -39,7 +39,7 @@ public class SecurityAspect {
             if(securedAnnotation.onlyAdmin() && userDto.getRole() != UserType.ADMIN){
                 throw new ServiceException("Access error 1.");
             }
-            if(!userDto.getIdUser().equals(jp.getArgs()[0]) && userDto.getRole() != UserType.ADMIN){
+            if(userDto.getRole() != UserType.ADMIN && !userDto.getIdUser().equals(jp.getArgs()[0])){
                 throw new ServiceException("Access error 2.");
             }
         }

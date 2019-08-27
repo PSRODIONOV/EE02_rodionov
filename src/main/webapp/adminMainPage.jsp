@@ -35,7 +35,8 @@
                 <c:forEach items = "${ORDERS}" var="iterator" varStatus="rowStatus">
                     <tr>
                         <td>${iterator.idOrder}</td>
-                        <td>${iterator.user.idUser}</td>
+
+                        <td><a onclick='javascript:window.open("http://localhost:8083/flowershop/modalWindow.jsp", "_blank", "scrollbars=1,resizable=1,height=300,width=450");'>${iterator.user.idUser} </a></td>
                         <td>
                         <c:forEach items = "${iterator.orderPositions}" var="it" varStatus="rowStatus">
                             <p>${it.quantity}x ${it.flower.nameFlower}</p>
@@ -67,6 +68,5 @@
             </table>
         </div>
     </form>
-
 </body>
 </html>

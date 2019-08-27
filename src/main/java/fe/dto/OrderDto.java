@@ -1,6 +1,7 @@
 package fe.dto;
 
 import be.utils.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.dozer.Mapping;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.util.List;
 public class OrderDto {
 
     private Long idOrder;
+    @JsonIgnore
     private UserDto user;
     private List<OrderPositionDto> orderPositions;
     private BigDecimal totalPrice;
