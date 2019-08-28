@@ -7,6 +7,7 @@
         xmlns:jaxws="http://cxf.apache.org/jaxws"
         xmlns:jpa="http://www.springframework.org/schema/data/jpa"
         xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
         xsi:schemaLocation="
         http://www.springframework.org/schema/beans
        	http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -19,11 +20,15 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
     <context:annotation-config/>
 
     <context:component-scan base-package="be.* fe.*"/>
+
+    <mvc:annotation-driven/>
 
     <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
         <property name="dataSource" ref="dataSource"/>     <!-- reference to datasource bean-->

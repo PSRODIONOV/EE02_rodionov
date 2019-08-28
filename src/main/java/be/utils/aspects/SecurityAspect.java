@@ -33,6 +33,9 @@ public class SecurityAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession(false);
+        if(session == null){
+            throw new ServiceException("Session is null");
+        }
         Optional<UserDto> userO = Optional.ofNullable((UserDto)session.getAttribute(SessionAttribute.USER.toString()));
         if(userO.isPresent()){
             UserDto userDto = userO.get();
