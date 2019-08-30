@@ -5,11 +5,12 @@ import be.entity.Flower;
 import be.entity.Order;
 import be.entity.OrderPosition;
 import be.entity.User;
+import be.utils.CustomSessionFactory;
 import be.utils.ServiceException;
-import be.utils.annotation.Secured;
-import be.utils.annotation.SessionId;
 import be.utils.enums.OrderStatus;
+import be.utils.enums.SessionAttribute;
 import be.utils.enums.UserType;
+import fe.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    public Order getOrderById(Long id) throws ServiceException {
+        return orderRepository.findById(id).orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_FLOWER));
+    }
+
+    @Override
     public List<Order> getUserOrders(Long idUser) throws ServiceException{
         User user = userBusinessService.getUserById(idUser);
         return orderRepository.getOrdersByUser(user);
@@ -72,13 +78,15 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional(rollbackFor = ServiceException.class)
-    public void payOrder(Long idOrder, Long idUser) throws ServiceException {
+    public void payOrder(Long idOrder) throws ServiceException {
+
+        UserDto userDto = (UserDto) CustomSessionFactory.getSession(false).getAttribute(SessionAttribute.USER.toString());
         Order order = orderRepository.findById(idOrder)
                 .orElseThrow(() -> new ServiceException(ServiceException.ERROR_FIND_ORDER));
-        if (idUser == null) {
+        if (userDto == null) {
             throw new ServiceException(ServiceException.ERROR_INVALIDATE_DATA);
         }
-        if (!order.getUser().getId().equals(idUser)) {
+        if (!order.getUser().getId().equals(userDto.getIdUser())) {
             throw new RuntimeException("Order not found for user");
         }
 
@@ -86,7 +94,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
             throw new ServiceException(ServiceException.ERROR_FIND_ORDER);
         }
 
-        userBusinessService.pay(idUser, order.getTotalPrice());//**вычет стоимости покупки
+        userBusinessService.pay(userDto.getIdUser(), order.getTotalPrice());//**вычет стоимости покупки
         order.setStatus(OrderStatus.PAID);
         for (OrderPosition orderPosition : order.getOrderPositions()) {   //**изменение кол-ва цветов на складе
             Flower flower = orderPosition.getFlower();

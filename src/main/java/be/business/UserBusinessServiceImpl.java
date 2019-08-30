@@ -49,9 +49,22 @@ public class UserBusinessServiceImpl implements UserBusinessService {
         user.setWalletScore(new BigDecimal(2000));
         user.setRole(UserType.USER);
 
-        if (userRepository.getUserByLogin(user.getLogin()).isPresent()) {
+        try {
+            userRepository.saveAndFlush(user);
+        }
+        catch (Exception e) {
             throw new ServiceException(ServiceException.ERROR_USER_REGISTRATION);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = ServiceException.class)
+    public void registration(User user) throws ServiceException {
+
+        user.setDiscount(5);
+        user.setWalletScore(new BigDecimal(2000));
+        user.setRole(UserType.USER);
+
         try {
             userRepository.saveAndFlush(user);
         }

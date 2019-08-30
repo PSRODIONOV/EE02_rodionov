@@ -1,6 +1,5 @@
 package be.business;
 
-import be.access.FlowerDAO;
 import be.access.repositories.FlowerRepository;
 import be.entity.Flower;
 import be.utils.FlowerFilter;

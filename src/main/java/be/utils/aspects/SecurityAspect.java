@@ -1,6 +1,7 @@
 package be.utils.aspects;
 
 import be.access.repositories.UserRepository;
+import be.utils.CustomSessionFactory;
 import be.utils.ServiceException;
 import be.utils.annotation.Secured;
 import be.utils.enums.SessionAttribute;
@@ -28,11 +29,7 @@ public class SecurityAspect {
     @Before("@annotation(be.utils.annotation.Secured) && @annotation(securedAnnotation)")
     public void secure(final JoinPoint jp, Secured securedAnnotation) throws Throwable{
 
-        RequestAttributes requestAttributes = RequestContextHolder
-                .currentRequestAttributes();
-        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
-        HttpServletRequest request = attributes.getRequest();
-        HttpSession session = request.getSession(false);
+        HttpSession session = CustomSessionFactory.getSession(false);
         if(session == null){
             throw new ServiceException("Session is null");
         }

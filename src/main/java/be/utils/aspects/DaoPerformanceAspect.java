@@ -16,6 +16,7 @@ import java.util.Random;
 @Aspect
 public class DaoPerformanceAspect {
     Logger LOG = LoggerFactory.getLogger(DaoPerformanceAspect.class);
+
     @Around("execution(public * be.access..*(..))")
     public Object measureAccessSpeed(final ProceedingJoinPoint jp) throws Throwable {
         Date executionStart = new Date();

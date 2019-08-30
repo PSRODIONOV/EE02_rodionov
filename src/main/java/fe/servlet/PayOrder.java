@@ -42,7 +42,7 @@ public class PayOrder extends HttpServlet {
         UserDto userDto = (UserDto) session.getAttribute(SessionAttribute.USER.toString());
 
         try {
-            orderBusinessService.payOrder(Long.parseLong(idOrder), userDto.getIdUser());
+            orderBusinessService.payOrder(Long.parseLong(idOrder));
             req.setAttribute("order_msg", "Order is paid");
         } catch (ServiceException e) {
             req.setAttribute("order_err", e.getMessage());
